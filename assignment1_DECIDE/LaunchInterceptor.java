@@ -6,14 +6,14 @@ enum operator {
   NOTUSED
 }
 
-public class LaunchIntercepter {
+public class LaunchInterceptor {
   private int numpoints;
   private Point[] points;
   private LaunchParameters params;
   private operator[][] lcm;
   private boolean[] puv;
 
-  public LaunchIntercepter(int numpoints, Point[] points, LaunchParameters params, operator[][] lcm, boolean[] puv) {
+  public LaunchInterceptor(int numpoints, Point[] points, LaunchParameters params, operator[][] lcm, boolean[] puv) {
     this.numpoints = numpoints;
     this.points = points;
     this.params = params;
@@ -91,7 +91,7 @@ public class LaunchIntercepter {
 
 }
 
-public class LaunchParameters {
+class LaunchParameters {
   public double LENGTH1; // Length in LICs 0, 7, 12
   public double RADIUS1; // Radius in LICs 1, 8, 13
   public double EPSILON; // Deviation from PI in LICs 2, 9
