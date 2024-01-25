@@ -11,3 +11,10 @@
 - every commit is an atomic bug fix or feature, with a clear commit message. A prefix convention is appropriate, e.g., commit messages starting with "feat", "fix", "doc", "refactor").
 - the commit contents reflect the commit message, every bug fix or feature commit contains a test (i.e., adds at least one test or modifies at least one existing test).
 
+## How to run
+### assignment1_DECIDE
+```
+cd assignment1_DECIDE
+javac src/*.java
+java src.LaunchInterceptor
+```
