@@ -2,6 +2,7 @@ package src;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
+import java.lang.Math.*;
 
 enum operator {
   ANDD,
@@ -46,7 +47,27 @@ public class LaunchInterceptor {
   }
 
   public boolean checkLIC_3() {
-    return true;
+    double enclosedArea;
+
+    for (int i = 0; i < POINTS.length-2; i++) {
+      Point2D p1 = POINTS[i];
+      double x1 = p1.getX();
+      double y1 = p1.getY();
+
+      Point2D p2 = POINTS[i+1];
+      double x2 = p2.getX();
+      double y2 = p2.getY();
+
+      Point2D p3 = POINTS[i+2];
+      double x3 = p3.getX();
+      double y3 = p3.getY();
+
+      enclosedArea = Math.abs(x1*(y2-y3) + x2*(y3-y1) + x3*(y1-y2))/2;
+      if (enclosedArea > PARAMETERS.AREA1) {
+        return true;
+      }
+    }
+    return false;
   }
 
   public boolean checkLIC_4() {
