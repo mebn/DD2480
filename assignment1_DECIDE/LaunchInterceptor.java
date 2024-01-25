@@ -7,18 +7,18 @@ enum operator {
 }
 
 public class LaunchInterceptor {
-  private int numpoints;
-  private Point[] points;
-  private LaunchParameters params;
-  private operator[][] lcm;
-  private boolean[] puv;
+  private final int NUMPOINTS;
+  private final Point[] POINTS;
+  private final LaunchParameters PARAMETERS;
+  private final operator[][] LCM;
+  private final boolean[] PUV;
 
   public LaunchInterceptor(int numpoints, Point[] points, LaunchParameters params, operator[][] lcm, boolean[] puv) {
-    this.numpoints = numpoints;
-    this.points = points;
-    this.params = params;
-    this.lcm = lcm;
-    this.puv = puv;
+    this.NUMPOINTS = numpoints;
+    this.POINTS = points;
+    this.PARAMETERS = params;
+    this.LCM = lcm;
+    this.PUV = puv;
   }
 
   public boolean decide() {
