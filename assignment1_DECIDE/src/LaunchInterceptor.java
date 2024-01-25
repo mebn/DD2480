@@ -50,7 +50,10 @@ public class LaunchInterceptor {
   }
 
   private boolean checkLIC_0() {
-    return true;
+    for (int i = 1; i < POINTS.length; i++) {
+      if (POINTS[i].distance(POINTS[i-1] > LENGTH1)) return true;
+    }
+    return false;
   }
 
   private boolean checkLIC_1() {
