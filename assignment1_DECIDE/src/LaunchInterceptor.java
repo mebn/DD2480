@@ -54,7 +54,16 @@ public class LaunchInterceptor {
   }
 
   public boolean checkLIC_5() {
-    return true;
+    // There exists at least one set of two consecutive data points,
+    // (X[i],Y[i]) and (X[j],Y[j]), such that X[j] - X[i] < 0. (where i = j-1)
+    for (int i = 0; i < POINTS.length - 1; i++) {
+      int j = i + 1;
+      if (POINTS[j].getX() - POINTS[i].getX() < 0) {
+        return true;
+      }
+    }
+    
+    return false;
   }
 
   public boolean checkLIC_6() {
