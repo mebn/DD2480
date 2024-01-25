@@ -75,7 +75,7 @@ public class LaunchInterceptor {
     return true;
   }
 
-  private boolean checkLIC_11() {
+  public boolean checkLIC_11() {
     return true;
   }
 
