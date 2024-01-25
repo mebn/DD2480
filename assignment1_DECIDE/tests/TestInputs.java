@@ -3,10 +3,10 @@ import org.junit.Test;
 public class TestInputs {
 
     @Test
-    public void TestPositiveInput (LaunchInterceptor li) {
+    public void TestPositiveInput () {
         // implement a test for correct input
     }
-    public void TestNegativeInput (LaunchInterceptor li) {
+    public void TestNegativeInput () {
         // implement a test for faulty input
     }
 }
