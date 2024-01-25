@@ -9,7 +9,7 @@ import org.junit.Test;
 import src.LaunchInterceptor;
 import src.LaunchParameters;
 
-public class TestLICXX {
+public class TestLIC_0 {
     @Test
 
     /**
