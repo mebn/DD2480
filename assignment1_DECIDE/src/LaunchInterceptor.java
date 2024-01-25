@@ -3,7 +3,6 @@ package src;
 import java.awt.*;
 import java.awt.geom.Point2D;
 import java.lang.Math.*;
-import java.util.function.Function;
 
 enum operator {
   ANDD,
