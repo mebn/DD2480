@@ -1,6 +1,7 @@
 package src;
 
 import java.awt.*;
+import java.awt.geom.Point2D;
 
 enum operator {
   ANDD,
@@ -10,12 +11,12 @@ enum operator {
 
 public class LaunchInterceptor {
   private final int NUMPOINTS;
-  private final Point[] POINTS;
+  private final Point2D[] POINTS;
   private final LaunchParameters PARAMETERS;
   private final operator[][] LCM;
   private final boolean[] PUV;
 
-  public LaunchInterceptor(int numpoints, Point[] points, LaunchParameters params, operator[][] lcm, boolean[] puv) {
+  public LaunchInterceptor(int numpoints, Point2D[] points, LaunchParameters params, operator[][] lcm, boolean[] puv) {
     this.NUMPOINTS = numpoints;
     this.POINTS = points;
     this.PARAMETERS = params;
@@ -29,7 +30,7 @@ public class LaunchInterceptor {
 
   public boolean checkLIC_0() {
     for (int i = 1; i < POINTS.length; i++) {
-      if (POINTS[i].distance(POINTS[i-1]) > PARAMETERS.LENGTH1)
+      if (POINTS[i].distance(POINTS[i - 1]) > PARAMETERS.LENGTH1)
         return true;
     }
     return false;
