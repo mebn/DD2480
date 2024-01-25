@@ -41,5 +41,4 @@ public class TestLICXX {
 
         Assert.assertFalse(res);
     }
-
 }
