@@ -16,6 +16,7 @@ public class LaunchInterceptor {
   private final LaunchParameters PARAMETERS;
   private final operator[][] LCM;
   private final boolean[] PUV;
+  private final double PI = 3.1415926535;
 
   public LaunchInterceptor(int numpoints, Point2D[] points, LaunchParameters params, operator[][] lcm, boolean[] puv) {
     this.NUMPOINTS = numpoints;
@@ -41,15 +42,37 @@ public class LaunchInterceptor {
     return true;
   }
 
-  private boolean checkLIC_2() {
-    for (int i = 0; i < NUMPOINTS - 3; i++) {
+  /**
+   * Checks if there exists at least one set of three consecutive data points
+   * which form an angle such that:
+   * angle < (PI − EPSILON) or angle > (PI + EPSILON)
+   * The second of the three consecutive points is always the vertex of the angle.
+   * If either the first point or the last point (or both) coincides with the
+   * vertex, the angle is undefined
+   * and the LIC is not satisfied by those three points.
+   * (0 ≤ EPSILON < PI)
+   *
+   * @return true if the condition is satisfied, false otherwise
+   */
+  public boolean checkLIC_2() {
+    for (int i = 0; i < NUMPOINTS - 2; i++) {
       Point2D first = POINTS[i];
       Point2D second = POINTS[i + 1];
       Point2D third = POINTS[i + 2];
-      double result = Math.atan2(first.getX() - second.getX(), first.getY() - second.getY())
-          - Math.atan2(third.getX() - second.getX(), third.getY() - second.getY());
+      // If first or third point coincide with second point, angle is undefined
+      if (first.equals(second) || third.equals(second))
+        continue;
+      double firstAngle = Math.atan2(first.getY() - second.getY(), first.getX() - second.getX());
+      double thirdAngle = Math.atan2(third.getY() - second.getY(), third.getX() - second.getX());
+      // firstAngle = (firstAngle > 0) ? firstAngle : 2 * pi + firstAngle;
+      // thirdAngle = (thirdAngle > 0) ? thirdAngle : 2 * pi + thirdAngle;
+      double angle = Math.abs(firstAngle - thirdAngle);
+
+      if (angle < PI - PARAMETERS.EPSILON || angle > PI + PARAMETERS.EPSILON) {
+        return true;
+      }
     }
-    return true;
+    return false;
   }
 
   public boolean checkLIC_3() {
