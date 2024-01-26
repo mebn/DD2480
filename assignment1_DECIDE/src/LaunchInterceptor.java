@@ -36,11 +36,18 @@ public class LaunchInterceptor {
     return false;
   }
 
-  private boolean checkLIC_1() {
+  public boolean checkLIC_1() {
     return true;
   }
 
   private boolean checkLIC_2() {
+    for (int i = 0; i < NUMPOINTS - 3; i++) {
+      Point2D first = POINTS[i];
+      Point2D second = POINTS[i + 1];
+      Point2D third = POINTS[i + 2];
+      double result = Math.atan2(first.getX() - second.getX(), first.getY() - second.getY())
+          - Math.atan2(third.getX() - second.getX(), third.getY() - second.getY());
+    }
     return true;
   }
 
