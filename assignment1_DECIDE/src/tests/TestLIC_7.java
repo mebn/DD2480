@@ -53,7 +53,7 @@ public class TestLIC_7 {
     @Test
     public void testLIC7FalseWhenLessThen3Points() {
         LaunchParameters params = new LaunchParameters();
-        Point[] datapoints = {new Point(0,0), new Point(1,0), new Point(2,0)};
+        Point[] datapoints = {new Point(0,0), new Point(2,0)};
 
         LaunchInterceptor li = new LaunchInterceptor(datapoints.length, datapoints, params, null, null);
         
