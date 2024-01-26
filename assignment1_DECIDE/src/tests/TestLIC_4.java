@@ -1,7 +1,6 @@
 package src.tests;
 
 import java.awt.Point;
-import static org.junit.Assert.*;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -11,16 +10,11 @@ import src.LaunchParameters;
 
 public class TestLIC_4 {
     @Test
-
-    /**
-     * Test cases for LIC 4
-     */
     public void testLIC4True() {
         LaunchParameters params = new LaunchParameters();
         params.Q_PTS = 2;
         params.QUADS = 1;
         Point[] datapoints = {new Point(-1,0), new Point(4,1)};
-
 
         LaunchInterceptor li = new LaunchInterceptor(datapoints.length, datapoints, params, null, null);
         
@@ -35,9 +29,6 @@ public class TestLIC_4 {
         params.Q_PTS = 2;
         params.QUADS = 1;
         Point[] datapoints = {new Point(0,0), new Point(1,0)};
-
-
-
 
         LaunchInterceptor li = new LaunchInterceptor(datapoints.length, datapoints, params, null, null);
         
