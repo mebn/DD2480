@@ -2,6 +2,7 @@ package src;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
+import java.lang.Math.*;
 
 enum operator {
   ANDD,
@@ -52,7 +53,27 @@ public class LaunchInterceptor {
   }
 
   public boolean checkLIC_3() {
-    return true;
+    double enclosedArea;
+
+    for (int i = 0; i < POINTS.length - 2; i++) {
+      Point2D p1 = POINTS[i];
+      double x1 = p1.getX();
+      double y1 = p1.getY();
+
+      Point2D p2 = POINTS[i + 1];
+      double x2 = p2.getX();
+      double y2 = p2.getY();
+
+      Point2D p3 = POINTS[i + 2];
+      double x3 = p3.getX();
+      double y3 = p3.getY();
+
+      enclosedArea = Math.abs(x1 * (y2 - y3) + x2 * (y3 - y1) + x3 * (y1 - y2)) / 2;
+      if (enclosedArea > PARAMETERS.AREA1) {
+        return true;
+      }
+    }
+    return false;
   }
 
   public boolean checkLIC_4() {
@@ -60,22 +81,38 @@ public class LaunchInterceptor {
   }
 
   public boolean checkLIC_5() {
-    return true;
+    // There exists at least one set of two consecutive data points,
+    // (X[i],Y[i]) and (X[j],Y[j]), such that X[j] - X[i] < 0. (where i = j-1)
+    for (int i = 0; i < POINTS.length - 1; i++) {
+      int j = i + 1;
+      if (POINTS[j].getX() - POINTS[i].getX() < 0) {
+        return true;
+      }
+    }
+
+    return false;
   }
 
-  private boolean checkLIC_6() {
+  public boolean checkLIC_6() {
     return true;
   }
 
   public boolean checkLIC_7() {
-    return true;
+    for (int i = 1 + PARAMETERS.K_PTS; i < POINTS.length; i++) {
+      if (POINTS.length < 3)
+        return false;
+
+      if (POINTS[i].distance(POINTS[i - PARAMETERS.K_PTS - 1]) > PARAMETERS.LENGTH1)
+        return true;
+    }
+    return false;
   }
 
   private boolean checkLIC_8() {
     return true;
   }
 
-  private boolean checkLIC_9() {
+  public boolean checkLIC_9() {
     return true;
   }
 
