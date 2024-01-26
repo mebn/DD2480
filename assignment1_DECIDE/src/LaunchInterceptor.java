@@ -71,7 +71,13 @@ public class LaunchInterceptor {
   }
 
   public boolean checkLIC_7() {
-    return true;
+    for (int i = 1 + PARAMETERS.K_PTS; i < POINTS.length; i++) {
+      if (POINTS.length < 3) return false;
+      
+      if (POINTS[i].distance(POINTS[i - PARAMETERS.K_PTS - 1]) > PARAMETERS.LENGTH1)
+        return true;
+    }
+    return false;
   }
 
   private boolean checkLIC_8() {
