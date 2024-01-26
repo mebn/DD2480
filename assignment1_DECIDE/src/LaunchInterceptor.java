@@ -3,6 +3,7 @@ package src;
 import java.awt.*;
 import java.awt.geom.Point2D;
 import java.lang.Math.*;
+import java.util.Arrays;
 
 enum operator {
   ANDD,
@@ -100,7 +101,38 @@ public class LaunchInterceptor {
   }
 
   public boolean checkLIC_4() {
-    return true;
+    // There exists at least one set of Q PTS consecutive data points that lie in more than QUADS
+    // quadrants. Where there is ambiguity as to which quadrant contains a given point, priority
+    // of decision will be by quadrant number, i.e., I, II, III, IV. For example, the data point (0,0)
+    // is in quadrant I, the point (-l,0) is in quadrant II, the point (0,-l) is in quadrant III, the point
+    // (0,1) is in quadrant I and the point (1,0) is in quadrant I.
+
+    for (int i = 0; i < POINTS.length - PARAMETERS.Q_PTS + 1; i++) {
+      int[] quadrants = new int[4];
+      
+      for (int j = 0; j < PARAMETERS.Q_PTS; j++) {
+        Point2D p = POINTS[i + j];
+        double x = p.getX();
+        double y = p.getY();
+
+        if (x >= 0 && y >= 0) {
+          quadrants[0] = 1;
+        } else if (x < 0 && y >= 0) {
+          quadrants[1] = 1;
+        } else if (x <= 0 && y < 0) {
+          quadrants[2] = 1;
+        } else if (x > 0 && y < 0) {
+          quadrants[3] = 1;
+        }
+      }
+
+      int num_quads = Arrays.stream(quadrants).sum();
+      if (num_quads > PARAMETERS.QUADS) {
+        return true;
+      }
+    }
+    
+    return false;
   }
 
   public boolean checkLIC_5() {
