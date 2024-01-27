@@ -1,7 +1,6 @@
 package src.tests;
 
 import java.awt.geom.Point2D;
-import static org.junit.Assert.*;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -26,19 +25,19 @@ public class TestLIC_1 {
         new Point2D.Double(0.0, -2.5)
     };
 
-    LaunchInterceptor li = new LaunchInterceptor(2, datapoints, params, null, null);
+    LaunchInterceptor li = new LaunchInterceptor(datapoints.length, datapoints, params, null, null);
 
-    Boolean res = li.checkLIC_0();
+    Boolean res = li.checkLIC_1();
 
     Assert.assertTrue(res);
   }
 
   /**
    * Tests if 3 consecutive points placed just outside radius of circle returns
-   * false.
+   * true.
    */
   @Test
-  public void testLIC1FalseRightOutside() {
+  public void testLIC1TrueRightOutside() {
     LaunchParameters params = new LaunchParameters();
     params.RADIUS1 = 2;
     // Look at maybe implementing a point class of our own
@@ -48,19 +47,19 @@ public class TestLIC_1 {
         new Point2D.Double(0.0, -2.2)
     };
 
-    LaunchInterceptor li = new LaunchInterceptor(2, datapoints, params, null, null);
+    LaunchInterceptor li = new LaunchInterceptor(datapoints.length, datapoints, params, null, null);
 
-    Boolean res = li.checkLIC_0();
+    Boolean res = li.checkLIC_1();
 
-    Assert.assertFalse(res);
+    Assert.assertTrue(res);
   }
 
   /**
    * Tests if 3 consecutive points placed well within radius of circle returns
-   * true.
+   * false.
    */
   @Test
-  public void testLIC1TrueWellInside() {
+  public void testLIC1FalseWellInside() {
     LaunchParameters params = new LaunchParameters();
     params.RADIUS1 = 2;
     // Look at maybe implementing a point class of our own
@@ -70,10 +69,10 @@ public class TestLIC_1 {
         new Point2D.Double(0.3, 0.2)
     };
 
-    LaunchInterceptor li = new LaunchInterceptor(2, datapoints, params, null, null);
+    LaunchInterceptor li = new LaunchInterceptor(datapoints.length, datapoints, params, null, null);
 
-    Boolean res = li.checkLIC_0();
+    Boolean res = li.checkLIC_1();
 
-    Assert.assertTrue(res);
+    Assert.assertFalse(res);
   }
 }
