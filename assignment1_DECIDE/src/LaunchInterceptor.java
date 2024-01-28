@@ -67,7 +67,7 @@ public class LaunchInterceptor {
         r = Math.sqrt((ux - x1) * (ux - x1) + (uy - y1) * (uy - y1));  
       }
 
-      if (r >= PARAMETERS.RADIUS1) {
+      if (r > PARAMETERS.RADIUS1) {
         return true;
       }
     }

@@ -13,9 +13,9 @@ public class TestLIC_1 {
 
   /**
    * Tests if 3 consecutive points placed on outer rim of circle returns
-   * true.
+   * false.
    */
-  public void testLIC1TrueOnBorder() {
+  public void testLIC1FalseOnBorder() {
     LaunchParameters params = new LaunchParameters();
     params.RADIUS1 = 2.5;
     // Look at maybe implementing a point class of our own
@@ -29,7 +29,7 @@ public class TestLIC_1 {
 
     Boolean res = li.checkLIC_1();
 
-    Assert.assertTrue(res);
+    Assert.assertFalse(res);
   }
 
   /**
