@@ -171,7 +171,7 @@ public class LaunchInterceptor {
     return true;
   }
 
-  private boolean checkLIC_10() {
+  public boolean checkLIC_10() {
     return true;
   }
 
@@ -179,7 +179,7 @@ public class LaunchInterceptor {
     return true;
   }
 
-  private boolean checkLIC_12() {
+  public boolean checkLIC_12() {
     return true;
   }
 
