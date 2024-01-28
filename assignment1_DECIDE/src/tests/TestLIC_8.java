@@ -28,7 +28,7 @@ public class TestLIC_8 {
      * placed on outer rim of circle returns false.
      */
     @Test
-    public void testLIC8FaseOnBorder() {
+    public void testLIC8FalseOnBorder() {
         LaunchParameters params = new LaunchParameters();
         params.RADIUS1 = 2;
         params.A_PTS = 1;
