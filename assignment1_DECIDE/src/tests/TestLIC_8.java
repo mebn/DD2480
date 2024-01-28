@@ -34,11 +34,11 @@ public class TestLIC_8 {
         params.A_PTS = 1;
         params.B_PTS = 1;
         Point2D.Double[] datapoints = {
-                new Point2D.Double(0.0, 2.0),
+                new Point2D.Double(1.0, 4.0),
                 new Point2D.Double(1.0, 1.0), // A_PTS
-                new Point2D.Double(2.0, 0),
+                new Point2D.Double(3.0, 2),
                 new Point2D.Double(1.0, 1.0), // B_PTS
-                new Point2D.Double(0.0, -2.0)
+                new Point2D.Double(1.0, 0.0)
         };
 
         LaunchInterceptor li = new LaunchInterceptor(datapoints.length, datapoints, params, null, null);
@@ -60,11 +60,11 @@ public class TestLIC_8 {
         params.A_PTS = 1;
         params.B_PTS = 1;
         Point2D.Double[] datapoints = {
-                new Point2D.Double(0.0, 2.1),
+                new Point2D.Double(1.0, 4.1),
                 new Point2D.Double(1.0, 1.0), // A_PTS
-                new Point2D.Double(2.1, 0),
+                new Point2D.Double(3.1, 2),
                 new Point2D.Double(1.0, 1.0), // B_PTS
-                new Point2D.Double(0.0, -2.1)
+                new Point2D.Double(1.0, -0.1)
         };
 
         LaunchInterceptor li = new LaunchInterceptor(datapoints.length, datapoints, params, null, null);
@@ -86,11 +86,11 @@ public class TestLIC_8 {
         params.A_PTS = 1;
         params.B_PTS = 1;
         Point2D.Double[] datapoints = {
-                new Point2D.Double(0.0, 1.9),
+                new Point2D.Double(1.0, 3.9),
                 new Point2D.Double(1.0, 1.0), // A_PTS
-                new Point2D.Double(1.9, 0),
+                new Point2D.Double(2.9, 2),
                 new Point2D.Double(1.0, 1.0), // B_PTS
-                new Point2D.Double(0.0, -1.9)
+                new Point2D.Double(1.0, 0.1)
         };
 
         LaunchInterceptor li = new LaunchInterceptor(datapoints.length, datapoints, params, null, null);
