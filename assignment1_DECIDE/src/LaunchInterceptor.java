@@ -5,6 +5,8 @@ import java.awt.geom.Point2D;
 import java.lang.Math.*;
 import java.util.Arrays;
 
+import src.GeometryUtils;
+
 enum operator {
   ANDD,
   ORR,
@@ -195,15 +197,44 @@ public class LaunchInterceptor {
     return false;
   }
 
-  private boolean checkLIC_8() {
+  public boolean checkLIC_8() {
     return true;
   }
 
+    /**
+   * Checks  if there exists at least one set of three data points separated by exactly C_PTS and D_PTS
+   * consecutive intervening points, respectively, that form an angle such that:
+   * angle < (PI−EPSILON)
+   * or
+   * angle > (PI+EPSILON)
+   * The second point of the set of three points is always the vertex of the angle. If either the first
+   * point or the last point (or both) coincide with the vertex, the angle is undefined and the LIC
+   * is not satisfied by those three points. When NUMPOINTS < 5, the condition is not met.
+   *
+   * @return true if the condition is satisfied, false otherwise
+   */
   public boolean checkLIC_9() {
-    return true;
+    final int C_PTS = PARAMETERS.C_PTS;
+    final int D_PTS = PARAMETERS.D_PTS;
+    if (NUMPOINTS < 5) return false;
+    if (C_PTS < 1 || D_PTS < 1 || C_PTS + D_PTS > NUMPOINTS - 3) return false; //Possibly throw an exception or something here instead since the constraints are on the parameters
+    
+    for (int i = 0; i < NUMPOINTS - C_PTS - D_PTS - 2; i++) {
+      Point2D first = POINTS[i];
+      Point2D second = POINTS[i + C_PTS + 1];
+      Point2D third = POINTS[i + C_PTS + D_PTS + 2];
+
+      if (!first.equals(second) && !third.equals(second)) {
+        double angle = GeometryUtils.threePointAngle(first, second, third);
+        if (angle < PI - PARAMETERS.EPSILON || angle > PI + PARAMETERS.EPSILON) {
+          return true;
+        }
+      }
+    }
+    return false;
   }
 
-  private boolean checkLIC_10() {
+  public boolean checkLIC_10() {
     return true;
   }
 
@@ -219,15 +250,15 @@ public class LaunchInterceptor {
     return false;
   }
 
-  private boolean checkLIC_12() {
+  public boolean checkLIC_12() {
     return true;
   }
 
-  private boolean checkLIC_13() {
+  public boolean checkLIC_13() {
     return true;
   }
 
-  private boolean checkLIC_14() {
+  public boolean checkLIC_14() {
     return true;
   }
 
