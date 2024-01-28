@@ -130,7 +130,7 @@ public class Point {
      * @return The resulting cross product.
      */
     public double crossProduct(Point b){
-        return x * b.y + y * b.x;
+        return x * b.y - y * b.x;
     }
 
     /**
