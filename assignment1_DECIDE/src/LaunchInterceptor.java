@@ -176,7 +176,15 @@ public class LaunchInterceptor {
   }
 
   public boolean checkLIC_11() {
-    return true;
+    int G_PTS = PARAMETERS.G_PTS;
+    if (NUMPOINTS < 3) return false;
+    if (G_PTS < 1 || G_PTS > NUMPOINTS-2) return false;
+
+    for (int i = 0; i < NUMPOINTS - G_PTS; i++){
+      if(POINTS[i + G_PTS].getX() - POINTS[i].getX() < 0) return true;
+    }
+
+    return false;
   }
 
   private boolean checkLIC_12() {
