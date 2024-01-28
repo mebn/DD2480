@@ -19,11 +19,11 @@ public class TestLIC_2 {
      *      - If either the first point or the last point (or both) coincides with the vertex,
      *              the angle is undefined and the LIC is not satisfied by those three points.  (0 ≤ EPSILON < PI)
      * 
-     * Tests:
-     *      1. angle(x,x,y) = undefined => assertFalse
-     *      2. angle(x,y,z) < pi - epsilon => assertTrue
-     *      3. pi - epsilon <= angle(x,y,z) =< pi + epsilon => assertFalse
-     *      4. angle(x,y,z) > pi + epsilon => assertTrue
+     * Test Requirements:
+     *      1. angle(x,x,y) = undefined
+     *      2. angle(x,y,z) < pi - epsilon
+     *      3. pi - epsilon <= angle(x,y,z) =< pi + epsilon
+     *      4. angle(x,y,z) > pi + epsilon
      *      5. angle(x,y,z) != angle(y,x,z) 
      */
 
@@ -37,7 +37,7 @@ public class TestLIC_2 {
 
     @Test
     public void testUndefinedAngle() {
-        /* Test 1 */
+        /* TR1 */
         params.EPSILON = epsilon;
         LaunchInterceptor li = new LaunchInterceptor(3, pointsUndefinedAngle, params, null, null);
         boolean result = li.checkLIC_2();
@@ -46,7 +46,7 @@ public class TestLIC_2 {
 
     @Test
     public void testAngleLessThan90deg() {
-        /* Test 2 */
+        /* TR2 */
         params.EPSILON = epsilon;
         LaunchInterceptor li = new LaunchInterceptor(3, points45deg, params, null, null);
         boolean result = li.checkLIC_2();
@@ -55,21 +55,19 @@ public class TestLIC_2 {
 
     @Test
     public void testAngle90deg() {
-        /* Test 3,5 */
+        /* TR3,TR5 */
         params.EPSILON = epsilon;
         LaunchInterceptor li = new LaunchInterceptor(3, points90deg, params, null, null);
         boolean result = li.checkLIC_2();
-
         assertFalse(result);
     }
 
     @Test
     public void testAngleMoreThan270deg() {
-        /* Test 4*/
+        /* TR4 */
         params.EPSILON = epsilon;
         LaunchInterceptor li = new LaunchInterceptor(3, points315deg, params, null, null);
         boolean result = li.checkLIC_2();
-
         assertTrue(result);
     }
 }
