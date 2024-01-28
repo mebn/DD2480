@@ -134,6 +134,24 @@ public class Point {
     }
 
     /**
+     * Calculates the distance between this point and one other point.
+     * @param b The point to calculate the distance from.
+     * @return The distance betwwen this point and point b
+     */
+    public double distance(Point b){
+        return subtract(b).magnitude();
+    }
+
+    /**
+     * Calculates the squared distance between this point and one other point.
+     * @param b The point to calculate the distance from.
+     * @return The squared distance betwwen this point and point b
+     */
+    public double distanceSquared(Point b){
+        return subtract(b).magnitudeSquared();
+    }
+
+    /**
      * Calculates the angle between two vectors.
      * The angle will be positive if it is the clockwise angle between this point and b,
      * and negative if it is the counter-clockwise angle between this point and b.
