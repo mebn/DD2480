@@ -152,6 +152,26 @@ public class Point {
     }
 
     /**
+     * Checks if two points are exactly equal to each other.
+     * @param b the point to compare with
+     * @return True if the two points are exactly equal to each other. False otherwise
+     */
+    public boolean equals(Point b){
+        return (x == b.x && y == b.y);
+    }
+
+    /**
+     * Checks if two points are aproximately equal to each other
+     * @param b the other point to compare with.
+     * @param tolerance The allowed tolerance.
+     * @return True if difference between both the x coordinates, and the y coordinates
+     *  of the two points is less than the tolerance. Returns false otherwise.
+     */
+    public boolean equals(Point b, double tolerance){
+        return (Math.abs(x-b.x) < tolerance) && (Math.abs(y - b.y) < tolerance);
+    }
+
+    /**
      * Calculates the angle between two vectors.
      * The angle will be positive if it is the clockwise angle between this point and b,
      * and negative if it is the counter-clockwise angle between this point and b.
