@@ -1,6 +1,6 @@
 package src.tests;
 
-import java.awt.geom.Point2D;
+import src.Point;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -19,10 +19,10 @@ public class TestLIC_1 {
     LaunchParameters params = new LaunchParameters();
     params.RADIUS1 = 2.5;
     // Look at maybe implementing a point class of our own
-    Point2D.Double[] datapoints = {
-        new Point2D.Double(0.0, 2.5),
-        new Point2D.Double(2.5, 0),
-        new Point2D.Double(0.0, -2.5)
+    Point[] datapoints = {
+        new Point(0.0, 2.5),
+        new Point(2.5, 0),
+        new Point(0.0, -2.5)
     };
 
     LaunchInterceptor li = new LaunchInterceptor(datapoints.length, datapoints, params, null, null);
@@ -41,10 +41,10 @@ public class TestLIC_1 {
     LaunchParameters params = new LaunchParameters();
     params.RADIUS1 = 2;
     // Look at maybe implementing a point class of our own
-    Point2D.Double[] datapoints = {
-        new Point2D.Double(0.0, 2.2),
-        new Point2D.Double(2.1, 0),
-        new Point2D.Double(0.0, -2.2)
+    Point[] datapoints = {
+        new Point(0.0, 2.2),
+        new Point(2.1, 0),
+        new Point(0.0, -2.2)
     };
 
     LaunchInterceptor li = new LaunchInterceptor(datapoints.length, datapoints, params, null, null);
@@ -63,10 +63,10 @@ public class TestLIC_1 {
     LaunchParameters params = new LaunchParameters();
     params.RADIUS1 = 2;
     // Look at maybe implementing a point class of our own
-    Point2D.Double[] datapoints = {
-        new Point2D.Double(0.0, 0.5),
-        new Point2D.Double(0.5, 0),
-        new Point2D.Double(0.3, 0.2)
+    Point[] datapoints = {
+        new Point(0.0, 0.5),
+        new Point(0.5, 0),
+        new Point(0.3, 0.2)
     };
 
     LaunchInterceptor li = new LaunchInterceptor(datapoints.length, datapoints, params, null, null);
