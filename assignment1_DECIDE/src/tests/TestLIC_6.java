@@ -1,6 +1,6 @@
 package src.tests;
 
-import java.awt.Point;
+import src.Point;
 import static org.junit.Assert.*;
 
 import org.ietf.jgss.Oid;

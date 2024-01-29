@@ -1,8 +1,6 @@
 package src.tests;
 
-import java.awt.Point;
-import java.awt.geom.Point2D;
-
+import src.Point;
 import static org.junit.Assert.*;
 
 import org.junit.Assert;
