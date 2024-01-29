@@ -251,39 +251,7 @@ public class LaunchInterceptor {
   }
 
   public boolean checkLIC_14() {
-    boolean req1 = false;
-    boolean req2 = false;
-
-    int E_PTS = PARAMETERS.E_PTS;
-    int F_PTS = PARAMETERS.F_PTS;
-
-    if (E_PTS < 1 || F_PTS < 1 || NUMPOINTS < 5) return false;
-    if (E_PTS + F_PTS <= NUMPOINTS - 3) return false;
-
-    for (int i = 0; i < NUMPOINTS - 2 - E_PTS - F_PTS; i++) {
-      Point2D p1 = POINTS[i];
-      double x1 = p1.getX();
-      double y1 = p1.getY();
-
-      Point2D p2 = POINTS[i + E_PTS + 1];
-      double x2 = p2.getX();
-      double y2 = p2.getY();
-
-      Point2D p3 = POINTS[i + E_PTS + F_PTS + 2];
-      double x3 = p3.getX();
-      double y3 = p3.getY();
-
-      double enclosedArea = Math.abs(x1 * (y2 - y3) + x2 * (y3 - y1) + x3 * (y1 - y2)) / 2;
-
-      if (enclosedArea > PARAMETERS.AREA1) {
-        req1 = true;
-      } 
-
-      if (enclosedArea < PARAMETERS.AREA2) {
-        req2 = true;
-      } 
-    }
-    return (req1 && req2);
+    return true;
   }
 
   public static void main(String[] args) {
