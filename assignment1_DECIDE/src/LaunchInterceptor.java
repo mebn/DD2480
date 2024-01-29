@@ -216,6 +216,7 @@ public class LaunchInterceptor {
   public boolean checkLIC_9() {
     final int C_PTS = PARAMETERS.C_PTS;
     final int D_PTS = PARAMETERS.D_PTS;
+    
     if (NUMPOINTS < 5) return false;
     if (C_PTS < 1 || D_PTS < 1 || C_PTS + D_PTS > NUMPOINTS - 3) {
       throw new IllegalArgumentException("In checkLIC_9: C_PTS >= 1 && D_PTS >= 1 && C_PTS + D_PTS <= NUMPOINTS - 3");
