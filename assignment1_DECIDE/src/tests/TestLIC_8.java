@@ -1,7 +1,6 @@
 package src.tests;
 
-import java.awt.Point;
-import java.awt.geom.Point2D;
+import src.Point;
 
 import static org.junit.Assert.*;
 
@@ -33,12 +32,12 @@ public class TestLIC_8 {
         params.RADIUS1 = 2;
         params.A_PTS = 1;
         params.B_PTS = 1;
-        Point2D.Double[] datapoints = {
-                new Point2D.Double(1.0, 4.0),
-                new Point2D.Double(99.0, 99.0), // A_PTS
-                new Point2D.Double(3.0, 2.0),
-                new Point2D.Double(99.0, 99.0), // B_PTS
-                new Point2D.Double(1.0, 0.0)
+        Point[] datapoints = {
+                new Point(1.0, 4.0),
+                new Point(99.0, 99.0), // A_PTS
+                new Point(3.0, 2.0),
+                new Point(99.0, 99.0), // B_PTS
+                new Point(1.0, 0.0)
         };
 
         LaunchInterceptor li = new LaunchInterceptor(datapoints.length, datapoints, params, null, null);
@@ -59,12 +58,12 @@ public class TestLIC_8 {
         params.RADIUS1 = 2;
         params.A_PTS = 1;
         params.B_PTS = 1;
-        Point2D.Double[] datapoints = {
-                new Point2D.Double(1.0, 4.1),
-                new Point2D.Double(99.0, 99.0), // A_PTS
-                new Point2D.Double(3.1, 2.0),
-                new Point2D.Double(99.0, 99.0), // B_PTS
-                new Point2D.Double(1.0, -0.1)
+        Point[] datapoints = {
+                new Point(1.0, 4.1),
+                new Point(99.0, 99.0), // A_PTS
+                new Point(3.1, 2.0),
+                new Point(99.0, 99.0), // B_PTS
+                new Point(1.0, -0.1)
         };
 
         LaunchInterceptor li = new LaunchInterceptor(datapoints.length, datapoints, params, null, null);
@@ -85,12 +84,12 @@ public class TestLIC_8 {
         params.RADIUS1 = 2;
         params.A_PTS = 1;
         params.B_PTS = 1;
-        Point2D.Double[] datapoints = {
-                new Point2D.Double(1.0, 3.9),
-                new Point2D.Double(99.0, 99.0), // A_PTS
-                new Point2D.Double(2.9, 2.0),
-                new Point2D.Double(99.0, 99.0), // B_PTS
-                new Point2D.Double(1.0, 0.1)
+        Point[] datapoints = {
+                new Point(1.0, 3.9),
+                new Point(99.0, 99.0), // A_PTS
+                new Point(2.9, 2.0),
+                new Point(99.0, 99.0), // B_PTS
+                new Point(1.0, 0.1)
         };
 
         LaunchInterceptor li = new LaunchInterceptor(datapoints.length, datapoints, params, null, null);
@@ -109,11 +108,11 @@ public class TestLIC_8 {
         params.RADIUS1 = 2;
         params.A_PTS = 1;
         params.B_PTS = 1;
-        Point2D.Double[] datapoints = {
-                new Point2D.Double(0.0, 1.9),
-                new Point2D.Double(1.9, 0.0),
-                new Point2D.Double(99.0, 99.0), // B_PTS
-                new Point2D.Double(0.0, -1.9)
+        Point[] datapoints = {
+                new Point(0.0, 1.9),
+                new Point(1.9, 0.0),
+                new Point(99.0, 99.0), // B_PTS
+                new Point(0.0, -1.9)
         };
 
         LaunchInterceptor li = new LaunchInterceptor(datapoints.length, datapoints, params, null, null);
@@ -133,12 +132,12 @@ public class TestLIC_8 {
         params.RADIUS1 = 2;
         params.A_PTS = 2;
         params.B_PTS = 2;
-        Point2D.Double[] datapoints = {
-                new Point2D.Double(0.0, 1.9),
-                new Point2D.Double(99.0, 99.0), // A_PTS
-                new Point2D.Double(1.9, 0.0),
-                new Point2D.Double(99.0, 99.0), // B_PTS
-                new Point2D.Double(0.0, -1.9)
+        Point[] datapoints = {
+                new Point(0.0, 1.9),
+                new Point(99.0, 99.0), // A_PTS
+                new Point(1.9, 0.0),
+                new Point(99.0, 99.0), // B_PTS
+                new Point(0.0, -1.9)
         };
 
         LaunchInterceptor li = new LaunchInterceptor(datapoints.length, datapoints, params, null, null);
