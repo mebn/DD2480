@@ -1,7 +1,7 @@
 package src;
 
+import src.Point;
 import java.awt.*;
-import java.awt.geom.Point2D;
 import java.lang.Math.*;
 import java.util.Arrays;
 
@@ -13,13 +13,13 @@ enum operator {
 
 public class LaunchInterceptor {
   private final int NUMPOINTS;
-  private final Point2D[] POINTS;
+  private final Point[] POINTS;
   private final LaunchParameters PARAMETERS;
   private final operator[][] LCM;
   private final boolean[] PUV;
   private final double PI = 3.1415926535;
 
-  public LaunchInterceptor(int numpoints, Point2D[] points, LaunchParameters params, operator[][] lcm, boolean[] puv) {
+  public LaunchInterceptor(int numpoints, Point[] points, LaunchParameters params, operator[][] lcm, boolean[] puv) {
     this.NUMPOINTS = numpoints;
     this.POINTS = points;
     this.PARAMETERS = params;
@@ -41,9 +41,9 @@ public class LaunchInterceptor {
 
   public boolean checkLIC_1() {
     for (int i = 0; i < NUMPOINTS - 2; i++) {
-      Point2D p1 = POINTS[i];
-      Point2D p2 = POINTS[i + 1];
-      Point2D p3 = POINTS[i + 2];
+      Point p1 = POINTS[i];
+      Point p2 = POINTS[i + 1];
+      Point p3 = POINTS[i + 2];
 
       double x1 = p1.getX();
       double y1 = p1.getY();
@@ -89,9 +89,9 @@ public class LaunchInterceptor {
    */
   public boolean checkLIC_2() {
     for (int i = 0; i < NUMPOINTS - 2; i++) {
-      Point2D first = POINTS[i];
-      Point2D second = POINTS[i + 1];
-      Point2D third = POINTS[i + 2];
+      Point first = POINTS[i];
+      Point second = POINTS[i + 1];
+      Point third = POINTS[i + 2];
       // If first or third point coincide with second point, angle is undefined
       if (first.equals(second) || third.equals(second))
         continue;
@@ -112,15 +112,15 @@ public class LaunchInterceptor {
     double enclosedArea;
 
     for (int i = 0; i < POINTS.length - 2; i++) {
-      Point2D p1 = POINTS[i];
+      Point p1 = POINTS[i];
       double x1 = p1.getX();
       double y1 = p1.getY();
 
-      Point2D p2 = POINTS[i + 1];
+      Point p2 = POINTS[i + 1];
       double x2 = p2.getX();
       double y2 = p2.getY();
 
-      Point2D p3 = POINTS[i + 2];
+      Point p3 = POINTS[i + 2];
       double x3 = p3.getX();
       double y3 = p3.getY();
 
@@ -143,7 +143,7 @@ public class LaunchInterceptor {
       int[] quadrants = new int[4];
       
       for (int j = 0; j < PARAMETERS.Q_PTS; j++) {
-        Point2D p = POINTS[i + j];
+        Point p = POINTS[i + j];
         double x = p.getX();
         double y = p.getY();
 
