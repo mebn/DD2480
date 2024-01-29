@@ -217,7 +217,9 @@ public class LaunchInterceptor {
     final int C_PTS = PARAMETERS.C_PTS;
     final int D_PTS = PARAMETERS.D_PTS;
     if (NUMPOINTS < 5) return false;
-    if (C_PTS < 1 || D_PTS < 1 || C_PTS + D_PTS > NUMPOINTS - 3) return false; //Possibly throw an exception or something here instead since the constraints are on the parameters
+    if (C_PTS < 1 || D_PTS < 1 || C_PTS + D_PTS > NUMPOINTS - 3) {
+      throw new IllegalArgumentException("In checkLIC_9: C_PTS >= 1 && D_PTS >= 1 && C_PTS + D_PTS <= NUMPOINTS - 3");
+    }
     
     for (int i = 0; i < NUMPOINTS - C_PTS - D_PTS - 2; i++) {
       Point2D first = POINTS[i];
