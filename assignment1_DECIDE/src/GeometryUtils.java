@@ -16,7 +16,7 @@ public class GeometryUtils {
    * @param a the first point
    * @param b the second point which is the vertex of the angle
    * @param c the third point
-   * @return the absolute value of the counter clock-wise angle between the three points
+   * @return the absolute value of the angle between a and c using b as the vertex of the angle
    */
   public static double threePointAngle(Point a, Point b, Point c) {
     return Math.abs(a.subtract(b).angle(c.subtract(b)));
