@@ -198,7 +198,43 @@ public class LaunchInterceptor {
   }
 
   public boolean checkLIC_8() {
-    return true;
+    if (NUMPOINTS < 5 || POINTS.length < 5) {
+      return false;
+    }
+
+    for (int i = 0; i < NUMPOINTS - PARAMETERS.A_PTS - PARAMETERS.B_PTS - 2; i++) {
+      Point p1 = POINTS[i];
+      Point p2 = POINTS[i + PARAMETERS.A_PTS + 1];
+      Point p3 = POINTS[i + PARAMETERS.A_PTS + PARAMETERS.B_PTS + 2];
+
+      double x1 = p1.getX();
+      double y1 = p1.getY();
+
+      double x2 = p2.getX();
+      double y2 = p2.getY();
+
+      double x3 = p3.getX();
+      double y3 = p3.getY();
+
+      // calculate circumcenter of triangle
+      // https://en.wikipedia.org/wiki/Circumcircle#Cartesian_coordinates_2
+      double d = 2 * (x1 * (y2 - y3) + x2 * (y3 - y1) + x3 * (y1 - y2));
+      double r = 0;
+
+      if (d == 0) {
+        r = Math.max(Math.max(p1.distance(p2), p1.distance(p3)), p2.distance(p3)) / 2;
+      } else {
+        double ux = ((x1 * x1 + y1 * y1) * (y2 - y3) + (x2 * x2 + y2 * y2) * (y3 - y1) + (x3 * x3 + y3 * y3) * (y1 - y2)) / d;
+        double uy = ((x1 * x1 + y1 * y1) * (x3 - x2) + (x2 * x2 + y2 * y2) * (x1 - x3) + (x3 * x3 + y3 * y3) * (x2 - x1)) / d;
+        r = Math.sqrt((ux - x1) * (ux - x1) + (uy - y1) * (uy - y1));  
+      }
+
+      if (r > PARAMETERS.RADIUS1) {
+        return true;
+      }
+    }
+
+    return false;
   }
 
     /**
