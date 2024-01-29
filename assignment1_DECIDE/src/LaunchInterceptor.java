@@ -243,8 +243,8 @@ public class LaunchInterceptor {
     if (NUMPOINTS < 3) return false;
     if (G_PTS < 1 || G_PTS > NUMPOINTS-2) return false;
 
-    for (int i = 0; i < NUMPOINTS - G_PTS; i++){
-      if(POINTS[i + G_PTS].getX() - POINTS[i].getX() < 0) return true;
+    for (int i = 0; i < NUMPOINTS - G_PTS - 1; i++){
+      if(POINTS[i + G_PTS + 1].getX() < POINTS[i].getX()) return true;
     }
 
     return false;
