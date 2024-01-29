@@ -5,6 +5,8 @@ import java.awt.*;
 import java.lang.Math.*;
 import java.util.Arrays;
 
+import src.GeometryUtils;
+
 enum operator {
   ANDD,
   ORR,
@@ -235,8 +237,40 @@ public class LaunchInterceptor {
     return false;
   }
 
+    /**
+   * Checks  if there exists at least one set of three data points separated by exactly C_PTS and D_PTS
+   * consecutive intervening points, respectively, that form an angle such that:
+   * angle < (PI−EPSILON)
+   * or
+   * angle > (PI+EPSILON)
+   * The second point of the set of three points is always the vertex of the angle. If either the first
+   * point or the last point (or both) coincide with the vertex, the angle is undefined and the LIC
+   * is not satisfied by those three points. When NUMPOINTS < 5, the condition is not met.
+   *
+   * @return true if the condition is satisfied, false otherwise
+   */
   public boolean checkLIC_9() {
-    return true;
+    final int C_PTS = PARAMETERS.C_PTS;
+    final int D_PTS = PARAMETERS.D_PTS;
+    
+    if (NUMPOINTS < 5) return false;
+    if (C_PTS < 1 || D_PTS < 1 || C_PTS + D_PTS > NUMPOINTS - 3) {
+      throw new IllegalArgumentException("In checkLIC_9: C_PTS >= 1 && D_PTS >= 1 && C_PTS + D_PTS <= NUMPOINTS - 3");
+    }
+    
+    for (int i = 0; i < NUMPOINTS - C_PTS - D_PTS - 2; i++) {
+      Point first = POINTS[i];
+      Point second = POINTS[i + C_PTS + 1];
+      Point third = POINTS[i + C_PTS + D_PTS + 2];
+
+      if (!first.equals(second) && !third.equals(second)) {
+        double angle = GeometryUtils.threePointAngle(first, second, third);
+        if (angle < PI - PARAMETERS.EPSILON || angle > PI + PARAMETERS.EPSILON) {
+          return true;
+        }
+      }
+    }
+    return false;
   }
 
   public boolean checkLIC_10() {

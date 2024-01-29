@@ -61,6 +61,40 @@ public class TestLIC_9 {
     }
 
     @Test
+    public void testLIC9FalseAnglePiDegrees() {
+        LaunchParameters params = new LaunchParameters();
+        
+        // angle = 90 degrees
+        Point[] datapoints = {new Point(0,2), new Point(99,99), new Point(0,0), new Point(99,99), new Point(0,-2)};
+
+        params.EPSILON = 0.000001;    // Floating point problems here if you set epsilon = 0. It should still return false but returns true
+        params.C_PTS = 1;
+        params.D_PTS = 1;
+        LaunchInterceptor li = new LaunchInterceptor(datapoints.length, datapoints, params, null, null);
+        
+        Boolean res = li.checkLIC_9();
+
+        Assert.assertFalse(res);
+    }
+
+    @Test
+    public void testLIC9TrueAngleJustUnderPiDegrees() {
+        LaunchParameters params = new LaunchParameters();
+        
+        // angle = 90 degrees
+        Point[] datapoints = {new Point(-0.1,2.0), new Point(99,99), new Point(0,0), new Point(99,99), new Point(0,-2)};
+
+        params.EPSILON = 0.000001;
+        params.C_PTS = 1;
+        params.D_PTS = 1;
+        LaunchInterceptor li = new LaunchInterceptor(datapoints.length, datapoints, params, null, null);
+        
+        Boolean res = li.checkLIC_9();
+
+        Assert.assertTrue(res);
+    }
+
+    @Test
     public void testLIC9FalseWhenLessThen5Points() {
         LaunchParameters params = new LaunchParameters();
         Point[] datapoints = {new Point(0,0), new Point(1,0), new Point(2,0)};
