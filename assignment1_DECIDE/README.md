@@ -9,4 +9,4 @@ java src.LaunchInterceptor
 ```
 
 ### Run tests
-We use junit 5 for our tests. Inside VS Code, click the green run/play button next to each test.
+We use junit 4 for our tests. Inside VS Code, click the green run/play button next to each test.
