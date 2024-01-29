@@ -183,7 +183,36 @@ public class LaunchInterceptor {
   }
 
   public boolean checkLIC_6() {
-    return true;
+    int N_PTS = PARAMETERS.N_PTS;
+    double DIST = PARAMETERS.DIST;
+
+    if(NUMPOINTS < 3) return false;
+    if(N_PTS < 3 || N_PTS > NUMPOINTS) return false;
+    if(DIST < 0) return false;
+
+    for(int i = 0; i <= NUMPOINTS - N_PTS; i++){
+      Point Q1 = POINTS[i];
+      Point Q2 = POINTS[i + N_PTS - 1];
+
+      for(int j = i+1; j < i+N_PTS-1; j++){
+        Point P = POINTS[j];
+        double d;
+        if(Q1.equals(Q2)){
+          d = Q1.distance(P);
+        }
+        else{
+          /*
+          d is the distance between point P, and the line between Q1 and Q2
+          The expression is equivalent to ((Q2 - Q1) X (P - Q1)) / ||Q1 - Q2||
+          Unfortunately JAVA has no operator overloading so it can't be written as nicely
+          */
+          d = Q2.subtract(Q1).crossProduct(P.subtract(Q1)) / Q1.distance(Q2); 
+        }
+
+        if(d > DIST) return true;
+      }
+    }
+    return false;
   }
 
   public boolean checkLIC_7() {
