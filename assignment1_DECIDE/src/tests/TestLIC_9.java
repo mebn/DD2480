@@ -82,7 +82,7 @@ public class TestLIC_9 {
         LaunchParameters params = new LaunchParameters();
         
         // angle = 90 degrees
-        Point2D[] datapoints = {new Point2D.Double(-0.1,2.0), new Point2D.Double(99,99), new Point2D.Double(0,0), new Point2D.Double(99,99), new Point2D.Double(0,-2)};
+        Point[] datapoints = {new Point(-0.1,2.0), new Point(99,99), new Point(0,0), new Point(99,99), new Point(0,-2)};
 
         params.EPSILON = 0.000001;
         params.C_PTS = 1;

@@ -1,6 +1,6 @@
 package src;
 
-import java.awt.geom.Point2D;
+import src.Point;
 
 /**
  * Utility class for geometry calculations.
@@ -20,7 +20,7 @@ public class GeometryUtils {
    * @param c the third point
    * @return the absolute value of the counter clock-wise angle between the three points
    */
-  public static double threePointAngle(Point2D a, Point2D b, Point2D c) {
+  public static double threePointAngle(Point a, Point b, Point c) {
     // Compute the angle from positive x-axis to point a and b [-pi, pi]
     double firstAngle = Math.atan2(a.getY() - b.getY(), a.getX() - b.getX());
     double thirdAngle = Math.atan2(c.getY() - b.getY(), c.getX() - b.getX());

@@ -222,9 +222,9 @@ public class LaunchInterceptor {
     }
     
     for (int i = 0; i < NUMPOINTS - C_PTS - D_PTS - 2; i++) {
-      Point2D first = POINTS[i];
-      Point2D second = POINTS[i + C_PTS + 1];
-      Point2D third = POINTS[i + C_PTS + D_PTS + 2];
+      Point first = POINTS[i];
+      Point second = POINTS[i + C_PTS + 1];
+      Point third = POINTS[i + C_PTS + D_PTS + 2];
 
       if (!first.equals(second) && !third.equals(second)) {
         double angle = GeometryUtils.threePointAngle(first, second, third);
