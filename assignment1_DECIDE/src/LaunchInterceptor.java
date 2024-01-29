@@ -201,9 +201,9 @@ public class LaunchInterceptor {
     }
 
     for (int i = 0; i < NUMPOINTS - PARAMETERS.A_PTS - PARAMETERS.B_PTS - 2; i++) {
-      Point2D p1 = POINTS[i];
-      Point2D p2 = POINTS[i + PARAMETERS.A_PTS + 1];
-      Point2D p3 = POINTS[i + PARAMETERS.A_PTS + PARAMETERS.B_PTS + 2];
+      Point p1 = POINTS[i];
+      Point p2 = POINTS[i + PARAMETERS.A_PTS + 1];
+      Point p3 = POINTS[i + PARAMETERS.A_PTS + PARAMETERS.B_PTS + 2];
 
       double x1 = p1.getX();
       double y1 = p1.getY();
