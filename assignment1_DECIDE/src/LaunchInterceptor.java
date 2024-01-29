@@ -195,7 +195,7 @@ public class LaunchInterceptor {
     return false;
   }
 
-  private boolean checkLIC_8() {
+  public boolean checkLIC_8() {
     return true;
   }
 
@@ -203,7 +203,7 @@ public class LaunchInterceptor {
     return true;
   }
 
-  private boolean checkLIC_10() {
+  public boolean checkLIC_10() {
     return true;
   }
 
@@ -219,15 +219,15 @@ public class LaunchInterceptor {
     return false;
   }
 
-  private boolean checkLIC_12() {
+  public boolean checkLIC_12() {
     return true;
   }
 
-  private boolean checkLIC_13() {
+  public boolean checkLIC_13() {
     return true;
   }
 
-  private boolean checkLIC_14() {
+  public boolean checkLIC_14() {
     return true;
   }
 
