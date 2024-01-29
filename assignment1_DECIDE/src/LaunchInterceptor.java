@@ -201,7 +201,8 @@ public class LaunchInterceptor {
         else{
           /*
           d is the distance between point P, and the line between Q1 and Q2
-          Expression is equivalent to ((Q2 - Q1) X (P - Q1)) / ||Q1 - Q2||
+          The expression is equivalent to ((Q2 - Q1) X (P - Q1)) / ||Q1 - Q2||
+          Unfortunately JAVA has no operator overloading so it can't be written as nicely
           */
           d = Q2.subtract(Q1).crossProduct(P.subtract(Q1)) / Q1.distance(Q2); 
         }
