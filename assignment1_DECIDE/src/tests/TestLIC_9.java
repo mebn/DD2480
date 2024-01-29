@@ -1,6 +1,8 @@
 package src.tests;
 
 import java.awt.Point;
+import java.awt.geom.Point2D;
+
 import static org.junit.Assert.*;
 
 import org.junit.Assert;
@@ -58,6 +60,40 @@ public class TestLIC_9 {
         Boolean res = li.checkLIC_9();
 
         Assert.assertFalse(res);
+    }
+
+    @Test
+    public void testLIC9FalseAnglePiDegrees() {
+        LaunchParameters params = new LaunchParameters();
+        
+        // angle = 90 degrees
+        Point[] datapoints = {new Point(0,2), new Point(99,99), new Point(0,0), new Point(99,99), new Point(0,-2)};
+
+        params.EPSILON = 0.000001;    // Floating point problems here if you set epsilon = 0. It should still return false but returns true
+        params.C_PTS = 1;
+        params.D_PTS = 1;
+        LaunchInterceptor li = new LaunchInterceptor(datapoints.length, datapoints, params, null, null);
+        
+        Boolean res = li.checkLIC_9();
+
+        Assert.assertFalse(res);
+    }
+
+    @Test
+    public void testLIC9TrueAngleJustUnderPiDegrees() {
+        LaunchParameters params = new LaunchParameters();
+        
+        // angle = 90 degrees
+        Point2D[] datapoints = {new Point2D.Double(-0.1,2.0), new Point2D.Double(99,99), new Point2D.Double(0,0), new Point2D.Double(99,99), new Point2D.Double(0,-2)};
+
+        params.EPSILON = 0.000001;
+        params.C_PTS = 1;
+        params.D_PTS = 1;
+        LaunchInterceptor li = new LaunchInterceptor(datapoints.length, datapoints, params, null, null);
+        
+        Boolean res = li.checkLIC_9();
+
+        Assert.assertTrue(res);
     }
 
     @Test
