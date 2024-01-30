@@ -1,9 +1,11 @@
 package src;
 
+import src.Point;
 import java.awt.*;
-import java.awt.geom.Point2D;
 import java.lang.Math.*;
 import java.util.Arrays;
+
+import src.GeometryUtils;
 
 enum operator {
   ANDD,
@@ -13,13 +15,16 @@ enum operator {
 
 public class LaunchInterceptor {
   private final int NUMPOINTS;
-  private final Point2D[] POINTS;
+  private final Point[] POINTS;
   private final LaunchParameters PARAMETERS;
   private final operator[][] LCM;
   private final boolean[] PUV;
+  private boolean[] CMV = new boolean[15];
+  private boolean[][] PUM = new boolean[15][15];
+  private boolean[] FUV = new boolean[15];
   private final double PI = 3.1415926535;
 
-  public LaunchInterceptor(int numpoints, Point2D[] points, LaunchParameters params, operator[][] lcm, boolean[] puv) {
+  public LaunchInterceptor(int numpoints, Point[] points, LaunchParameters params, operator[][] lcm, boolean[] puv) {
     this.NUMPOINTS = numpoints;
     this.POINTS = points;
     this.PARAMETERS = params;
@@ -29,6 +34,56 @@ public class LaunchInterceptor {
 
   public boolean decide() {
     return true;
+  }
+
+  public void calculate_CMV() {
+    CMV[0] = checkLIC_0();
+    CMV[1] = checkLIC_1();
+    CMV[2] = checkLIC_2();
+    CMV[3] = checkLIC_3();
+    CMV[4] = checkLIC_4();
+    CMV[5] = checkLIC_5();
+    CMV[6] = checkLIC_6();
+    CMV[7] = checkLIC_7();
+    CMV[8] = checkLIC_8();
+    CMV[9] = checkLIC_9();
+    CMV[10] = checkLIC_10();
+    CMV[11] = checkLIC_11();
+    CMV[12] = checkLIC_12();
+    CMV[13] = checkLIC_13();
+    CMV[14] = checkLIC_14();
+  }
+
+  public void set_CMV(boolean[] CMV){
+    this.CMV = CMV;
+  }
+
+  public boolean[] get_CMV(){
+    return CMV;
+  }
+
+  public void calculate_PUM(){
+    return;
+  }
+
+  public void set_PUM(boolean[][] PUM){
+    this.PUM = PUM;
+  }
+
+  public boolean[][] get_PUM(){
+    return PUM;
+  }
+
+  public void calculate_FUV(){
+    return;
+  }
+
+  public void set_FUV(boolean[] FUV){
+    this.FUV = FUV;
+  }
+
+  public boolean[] get_FUV(){
+    return FUV;
   }
 
   public boolean checkLIC_0() {
@@ -41,9 +96,9 @@ public class LaunchInterceptor {
 
   public boolean checkLIC_1() {
     for (int i = 0; i < NUMPOINTS - 2; i++) {
-      Point2D p1 = POINTS[i];
-      Point2D p2 = POINTS[i + 1];
-      Point2D p3 = POINTS[i + 2];
+      Point p1 = POINTS[i];
+      Point p2 = POINTS[i + 1];
+      Point p3 = POINTS[i + 2];
 
       double x1 = p1.getX();
       double y1 = p1.getY();
@@ -89,9 +144,9 @@ public class LaunchInterceptor {
    */
   public boolean checkLIC_2() {
     for (int i = 0; i < NUMPOINTS - 2; i++) {
-      Point2D first = POINTS[i];
-      Point2D second = POINTS[i + 1];
-      Point2D third = POINTS[i + 2];
+      Point first = POINTS[i];
+      Point second = POINTS[i + 1];
+      Point third = POINTS[i + 2];
       // If first or third point coincide with second point, angle is undefined
       if (first.equals(second) || third.equals(second))
         continue;
@@ -112,15 +167,15 @@ public class LaunchInterceptor {
     double enclosedArea;
 
     for (int i = 0; i < POINTS.length - 2; i++) {
-      Point2D p1 = POINTS[i];
+      Point p1 = POINTS[i];
       double x1 = p1.getX();
       double y1 = p1.getY();
 
-      Point2D p2 = POINTS[i + 1];
+      Point p2 = POINTS[i + 1];
       double x2 = p2.getX();
       double y2 = p2.getY();
 
-      Point2D p3 = POINTS[i + 2];
+      Point p3 = POINTS[i + 2];
       double x3 = p3.getX();
       double y3 = p3.getY();
 
@@ -143,7 +198,7 @@ public class LaunchInterceptor {
       int[] quadrants = new int[4];
       
       for (int j = 0; j < PARAMETERS.Q_PTS; j++) {
-        Point2D p = POINTS[i + j];
+        Point p = POINTS[i + j];
         double x = p.getX();
         double y = p.getY();
 
@@ -181,7 +236,36 @@ public class LaunchInterceptor {
   }
 
   public boolean checkLIC_6() {
-    return true;
+    int N_PTS = PARAMETERS.N_PTS;
+    double DIST = PARAMETERS.DIST;
+
+    if(NUMPOINTS < 3) return false;
+    if(N_PTS < 3 || N_PTS > NUMPOINTS) return false;
+    if(DIST < 0) return false;
+
+    for(int i = 0; i <= NUMPOINTS - N_PTS; i++){
+      Point Q1 = POINTS[i];
+      Point Q2 = POINTS[i + N_PTS - 1];
+
+      for(int j = i+1; j < i+N_PTS-1; j++){
+        Point P = POINTS[j];
+        double d;
+        if(Q1.equals(Q2)){
+          d = Q1.distance(P);
+        }
+        else{
+          /*
+          d is the distance between point P, and the line between Q1 and Q2
+          The expression is equivalent to ((Q2 - Q1) X (P - Q1)) / ||Q1 - Q2||
+          Unfortunately JAVA has no operator overloading so it can't be written as nicely
+          */
+          d = Q2.subtract(Q1).crossProduct(P.subtract(Q1)) / Q1.distance(Q2); 
+        }
+
+        if(Math.abs(d) > DIST) return true;
+      }
+    }
+    return false;
   }
 
   public boolean checkLIC_7() {
@@ -195,12 +279,80 @@ public class LaunchInterceptor {
     return false;
   }
 
-  private boolean checkLIC_8() {
-    return true;
+  public boolean checkLIC_8() {
+    if (NUMPOINTS < 5 || POINTS.length < 5) {
+      return false;
+    }
+
+    for (int i = 0; i < NUMPOINTS - PARAMETERS.A_PTS - PARAMETERS.B_PTS - 2; i++) {
+      Point p1 = POINTS[i];
+      Point p2 = POINTS[i + PARAMETERS.A_PTS + 1];
+      Point p3 = POINTS[i + PARAMETERS.A_PTS + PARAMETERS.B_PTS + 2];
+
+      double x1 = p1.getX();
+      double y1 = p1.getY();
+
+      double x2 = p2.getX();
+      double y2 = p2.getY();
+
+      double x3 = p3.getX();
+      double y3 = p3.getY();
+
+      // calculate circumcenter of triangle
+      // https://en.wikipedia.org/wiki/Circumcircle#Cartesian_coordinates_2
+      double d = 2 * (x1 * (y2 - y3) + x2 * (y3 - y1) + x3 * (y1 - y2));
+      double r = 0;
+
+      if (d == 0) {
+        r = Math.max(Math.max(p1.distance(p2), p1.distance(p3)), p2.distance(p3)) / 2;
+      } else {
+        double ux = ((x1 * x1 + y1 * y1) * (y2 - y3) + (x2 * x2 + y2 * y2) * (y3 - y1) + (x3 * x3 + y3 * y3) * (y1 - y2)) / d;
+        double uy = ((x1 * x1 + y1 * y1) * (x3 - x2) + (x2 * x2 + y2 * y2) * (x1 - x3) + (x3 * x3 + y3 * y3) * (x2 - x1)) / d;
+        r = Math.sqrt((ux - x1) * (ux - x1) + (uy - y1) * (uy - y1));  
+      }
+
+      if (r > PARAMETERS.RADIUS1) {
+        return true;
+      }
+    }
+
+    return false;
   }
 
+    /**
+   * Checks  if there exists at least one set of three data points separated by exactly C_PTS and D_PTS
+   * consecutive intervening points, respectively, that form an angle such that:
+   * angle < (PI−EPSILON)
+   * or
+   * angle > (PI+EPSILON)
+   * The second point of the set of three points is always the vertex of the angle. If either the first
+   * point or the last point (or both) coincide with the vertex, the angle is undefined and the LIC
+   * is not satisfied by those three points. When NUMPOINTS < 5, the condition is not met.
+   *
+   * @return true if the condition is satisfied, false otherwise
+   */
   public boolean checkLIC_9() {
-    return true;
+    final int C_PTS = PARAMETERS.C_PTS;
+    final int D_PTS = PARAMETERS.D_PTS;
+    
+    if (NUMPOINTS < 5) return false;
+    if (C_PTS < 1 || D_PTS < 1 || C_PTS + D_PTS > NUMPOINTS - 3) {
+      throw new IllegalArgumentException("In checkLIC_9: C_PTS >= 1 && D_PTS >= 1 && C_PTS + D_PTS <= NUMPOINTS - 3");
+    }
+    
+    for (int i = 0; i < NUMPOINTS - C_PTS - D_PTS - 2; i++) {
+      Point first = POINTS[i];
+      Point second = POINTS[i + C_PTS + 1];
+      Point third = POINTS[i + C_PTS + D_PTS + 2];
+
+      if (!first.equals(second) && !third.equals(second)) {
+        double angle = GeometryUtils.threePointAngle(first, second, third);
+        if (angle < PI - PARAMETERS.EPSILON || angle > PI + PARAMETERS.EPSILON) {
+          return true;
+        }
+      }
+    }
+    return false;
   }
 
   public boolean checkLIC_10() {
@@ -212,8 +364,8 @@ public class LaunchInterceptor {
     if (NUMPOINTS < 3) return false;
     if (G_PTS < 1 || G_PTS > NUMPOINTS-2) return false;
 
-    for (int i = 0; i < NUMPOINTS - G_PTS; i++){
-      if(POINTS[i + G_PTS].getX() - POINTS[i].getX() < 0) return true;
+    for (int i = 0; i < NUMPOINTS - G_PTS - 1; i++){
+      if(POINTS[i + G_PTS + 1].getX() < POINTS[i].getX()) return true;
     }
 
     return false;
@@ -222,12 +374,42 @@ public class LaunchInterceptor {
   public boolean checkLIC_12() {
     return true;
   }
+  
+  /**
+   * Checks if there exists at least one set of three data points, separated by exactly A PTS and B PTS
+   * consecutive intervening points, respectively, that cannot be contained within or on a circle of
+   * radius RADIUS1. In addition, there exists at least one set of three data points (which can be
+   * the same or different from the three data points just mentioned) separated by exactly A PTS
+   * and B PTS consecutive intervening points, respectively, that can be contained in or on a
+   * circle of radius RADIUS2. Both parts must be true for the LIC to be true. The condition is
+   * not met when NUMPOINTS < 5.
+   * 0 ≤ RADIUS2
+   *
+   * @return true if the condition is satisfied, false otherwise
+   */
+  public boolean checkLIC_13() {
+    if (NUMPOINTS < 5) return false;
+    if (PARAMETERS.RADIUS2 < 0) {
+      throw new IllegalArgumentException("In checkLIC_13: RADIUS2 has to be >= 0");
+    }
 
-  private boolean checkLIC_13() {
-    return true;
+    boolean rad1Found = false;
+    boolean rad2Found = false;
+
+    for (int i = 0; i < NUMPOINTS - PARAMETERS.A_PTS - PARAMETERS.B_PTS - 2; i++) {
+      Point p1 = POINTS[i];
+      Point p2 = POINTS[i + PARAMETERS.A_PTS + 1];
+      Point p3 = POINTS[i + PARAMETERS.A_PTS + PARAMETERS.B_PTS + 2];
+
+      double r = GeometryUtils.threePointCircleRadius(p1, p2, p3);
+      if (r > PARAMETERS.RADIUS1) rad1Found = true;
+      if (r <= PARAMETERS.RADIUS2) rad2Found = true;
+      if (rad1Found && rad2Found) return true;
+    }
+    return false;
   }
 
-  private boolean checkLIC_14() {
+  public boolean checkLIC_14() {
     return true;
   }
 
