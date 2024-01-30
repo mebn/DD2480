@@ -359,11 +359,11 @@ public class LaunchInterceptor {
     int E_PTS = PARAMETERS.E_PTS;
     int F_PTS = PARAMETERS.F_PTS;
 
+    if (NUMPOINTS < 5) return false;
+
     if (E_PTS < 1) throw new IllegalArgumentException("E_PTS must be >=1");
     if (F_PTS < 1) throw new IllegalArgumentException("F_PTS must be >=1");
     if (E_PTS + F_PTS > NUMPOINTS - 3) throw new IllegalArgumentException("E_PTS + F_PTS must be <= NUMPOINTS - 3");
-
-    if (NUMPOINTS < 5) return false;
 
     for (int i = 0; i < NUMPOINTS - 2 - E_PTS - F_PTS; i++) {
       Point p1 = POINTS[i];
