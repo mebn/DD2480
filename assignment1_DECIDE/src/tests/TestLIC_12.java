@@ -5,10 +5,10 @@ import org.junit.Test;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import java.awt.Point;
 
 import src.LaunchInterceptor;
 import src.LaunchParameters;
+import src.Point;
 
 public class TestLIC_12 {
     /* 
