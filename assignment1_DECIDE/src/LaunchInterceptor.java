@@ -94,13 +94,9 @@ public class LaunchInterceptor {
       Point second = POINTS[i + 1];
       Point third = POINTS[i + 2];
       // If first or third point coincide with second point, angle is undefined
-      if (first.equals(second) || third.equals(second))
-        continue;
-      double firstAngle = Math.atan2(first.getY() - second.getY(), first.getX() - second.getX());
-      double thirdAngle = Math.atan2(third.getY() - second.getY(), third.getX() - second.getX());
-      // firstAngle = (firstAngle > 0) ? firstAngle : 2 * pi + firstAngle;
-      // thirdAngle = (thirdAngle > 0) ? thirdAngle : 2 * pi + thirdAngle;
-      double angle = Math.abs(firstAngle - thirdAngle);
+      if (first.equals(second) || third.equals(second)) continue;
+
+      double angle = GeometryUtils.threePointAngle(first, second, third);
 
       if (angle < PI - PARAMETERS.EPSILON || angle > PI + PARAMETERS.EPSILON) {
         return true;
