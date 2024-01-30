@@ -19,7 +19,9 @@ public class LaunchInterceptor {
   private final LaunchParameters PARAMETERS;
   private final operator[][] LCM;
   private final boolean[] PUV;
-  private final boolean[] CMV = new boolean[15];
+  private boolean[] CMV = new boolean[15];
+  private boolean[][] PUM = new boolean[15][15];
+  private boolean[] FUV = new boolean[15];
   private final double PI = 3.1415926535;
 
   public LaunchInterceptor(int numpoints, Point[] points, LaunchParameters params, operator[][] lcm, boolean[] puv) {
@@ -50,6 +52,38 @@ public class LaunchInterceptor {
     CMV[12] = checkLIC_12();
     CMV[13] = checkLIC_13();
     CMV[14] = checkLIC_14();
+  }
+
+  public void set_CMV(boolean[] CMV){
+    this.CMV = CMV;
+  }
+
+  public boolean[] get_CMV(){
+    return CMV;
+  }
+
+  public void calculate_PUM(){
+    return;
+  }
+
+  public void set_PUM(boolean[][] PUM){
+    this.PUM = PUM;
+  }
+
+  public boolean[][] get_PUM(){
+    return PUM;
+  }
+
+  public void calculate_FUV(){
+    return;
+  }
+
+  public void set_FUV(boolean[] FUV){
+    this.FUV = FUV;
+  }
+
+  public boolean[] get_FUV(){
+    return FUV;
   }
 
   public boolean checkLIC_0() {
