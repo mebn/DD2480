@@ -340,9 +340,39 @@ public class LaunchInterceptor {
   public boolean checkLIC_12() {
     return true;
   }
-
+  
+  /**
+   * Checks if there exists at least one set of three data points, separated by exactly A PTS and B PTS
+   * consecutive intervening points, respectively, that cannot be contained within or on a circle of
+   * radius RADIUS1. In addition, there exists at least one set of three data points (which can be
+   * the same or different from the three data points just mentioned) separated by exactly A PTS
+   * and B PTS consecutive intervening points, respectively, that can be contained in or on a
+   * circle of radius RADIUS2. Both parts must be true for the LIC to be true. The condition is
+   * not met when NUMPOINTS < 5.
+   * 0 ≤ RADIUS2
+   *
+   * @return true if the condition is satisfied, false otherwise
+   */
   public boolean checkLIC_13() {
-    return true;
+    if (NUMPOINTS < 5) return false;
+    if (PARAMETERS.RADIUS2 < 0) {
+      throw new IllegalArgumentException("In checkLIC_13: RADIUS2 has to be >= 0");
+    }
+
+    boolean rad1Found = false;
+    boolean rad2Found = false;
+
+    for (int i = 0; i < NUMPOINTS - PARAMETERS.A_PTS - PARAMETERS.B_PTS - 2; i++) {
+      Point p1 = POINTS[i];
+      Point p2 = POINTS[i + PARAMETERS.A_PTS + 1];
+      Point p3 = POINTS[i + PARAMETERS.A_PTS + PARAMETERS.B_PTS + 2];
+
+      double r = GeometryUtils.threePointCircleRadius(p1, p2, p3);
+      if (r > PARAMETERS.RADIUS1) rad1Found = true;
+      if (r <= PARAMETERS.RADIUS2) rad2Found = true;
+      if (rad1Found && rad2Found) return true;
+    }
+    return false;
   }
 
   public boolean checkLIC_14() {
