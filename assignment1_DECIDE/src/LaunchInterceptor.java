@@ -209,7 +209,7 @@ public class LaunchInterceptor {
           d = Q2.subtract(Q1).crossProduct(P.subtract(Q1)) / Q1.distance(Q2); 
         }
 
-        if(d > DIST) return true;
+        if(Math.abs(d) > DIST) return true;
       }
     }
     return false;

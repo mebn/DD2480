@@ -31,6 +31,21 @@ public class TestLIC_6 {
     }
 
     @Test
+    public void testLIC6TrueNormalOtherSideOfLine() {
+        LaunchParameters params = new LaunchParameters();
+        params.N_PTS = 3;
+        params.DIST = 2;
+        Point[] datapoints = {new Point(0,0), new Point(1,-3), new Point(4,0)};
+
+
+        LaunchInterceptor li = new LaunchInterceptor(datapoints.length, datapoints, params, null, null);
+        
+        Boolean res = li.checkLIC_6();
+
+        Assert.assertTrue(res);
+    }
+
+    @Test
     public void testLIC6TrueSinglePoint() {
         LaunchParameters params = new LaunchParameters();
         params.N_PTS = 3;
