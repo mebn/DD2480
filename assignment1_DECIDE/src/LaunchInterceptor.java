@@ -19,6 +19,7 @@ public class LaunchInterceptor {
   private final LaunchParameters PARAMETERS;
   private final operator[][] LCM;
   private final boolean[] PUV;
+  private final boolean[] CMV = new boolean[15];
   private final double PI = 3.1415926535;
 
   public LaunchInterceptor(int numpoints, Point[] points, LaunchParameters params, operator[][] lcm, boolean[] puv) {
@@ -31,6 +32,24 @@ public class LaunchInterceptor {
 
   public boolean decide() {
     return true;
+  }
+
+  public void calculate_CMV() {
+    CMV[0] = checkLIC_0();
+    CMV[1] = checkLIC_1();
+    CMV[2] = checkLIC_2();
+    CMV[3] = checkLIC_3();
+    CMV[4] = checkLIC_4();
+    CMV[5] = checkLIC_5();
+    CMV[6] = checkLIC_6();
+    CMV[7] = checkLIC_7();
+    CMV[8] = checkLIC_8();
+    CMV[9] = checkLIC_9();
+    CMV[10] = checkLIC_10();
+    CMV[11] = checkLIC_11();
+    CMV[12] = checkLIC_12();
+    CMV[13] = checkLIC_13();
+    CMV[14] = checkLIC_14();
   }
 
   public boolean checkLIC_0() {
