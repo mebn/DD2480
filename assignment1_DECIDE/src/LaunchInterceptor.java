@@ -74,8 +74,21 @@ public class LaunchInterceptor {
     return PUM;
   }
 
-  public void calculate_FUV(){
-    return;
+  public void calculate_FUV() {
+    for (int i = 0; i < 15; i++) {
+      if (!PUV[i]) {
+        FUV[i] = true;
+        continue;
+      }
+      
+      FUV[i] = true;
+      for (int j = 0; j < 15; j++) {
+        if (!PUM[i][j]) {
+          FUV[i] = false;
+          break;
+        }
+      }
+    }
   }
 
   public void set_FUV(boolean[] FUV){
