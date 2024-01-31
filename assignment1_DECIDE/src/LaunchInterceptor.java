@@ -337,7 +337,28 @@ public class LaunchInterceptor {
   }
 
   public boolean checkLIC_12() {
-    return true;
+    double LENGTH1 = PARAMETERS.LENGTH1;
+    double LENGTH2 = PARAMETERS.LENGTH2;
+    int K_PTS = PARAMETERS.K_PTS;
+
+    if(NUMPOINTS < 3) return false;
+    if(LENGTH1 < 0){
+      throw new IllegalArgumentException("In checkLIC_12: LENGTH1 has to be >= 0");
+    }
+    if(LENGTH2 < 0){
+      throw new IllegalArgumentException("In checkLIC_12: LENGTH2 has to be >= 0");
+    }
+    boolean condition1 = false;
+    boolean condition2 = false;
+
+    for(int i = 0; i < NUMPOINTS-K_PTS-1; i++){
+      int j = i + K_PTS + 1;
+
+      if(POINTS[i].distance(POINTS[j]) > LENGTH1) condition1 = true;
+      if(POINTS[i].distance(POINTS[j]) < LENGTH2) condition2 = true;
+    }
+
+    return condition1 && condition2;
   }
   
   /**
