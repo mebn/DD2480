@@ -9,12 +9,17 @@ import src.LaunchInterceptor;
 import src.LaunchParameters;
 
 public class TestLIC_1 {
-  @Test
+  /**
+   * LIC 1 should return true iff:
+   * There exists at least one set of three consecutive data points that cannot all be contained
+   * within or on a circle of radius RADIUS1.
+   */
 
   /**
    * Tests if 3 consecutive points placed on outer rim of circle returns
    * false.
    */
+  @Test
   public void testLIC1FalseOnBorder() {
     LaunchParameters params = new LaunchParameters();
     params.RADIUS1 = 2.5;
