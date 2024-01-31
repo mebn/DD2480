@@ -10,14 +10,20 @@ import src.LaunchInterceptor;
 import src.LaunchParameters;
 
 public class TestLIC_7 {
+    /**
+     * LIC 7 should return true iff:
+     * There exists at least one set of two data points separated by exactly K PTS consecutive 
+     * intervening points that are a distance greater than the length, LENGTH1, apart. The condition
+     * is not met when NUMPOINTS < 3.
+     */
+
+
+    /**
+     * Tests that LIC 7 returns true when there exists points separated by 3 other points furhter apart than 5 units.
+    */
     @Test
     public void testLIC7True() {
-        /*
-        There exists at least one set of two data points separated by exactly K PTS consecutive in-
-        tervening points that are a distance greater than the length, LENGTH1, apart. The condition
-        is not met when NUMPOINTS < 3.
-        1 ≤ K PTS ≤ (NUMPOINTS − 2)
-        */
+
         LaunchParameters params = new LaunchParameters();
         
         // distance between the first and last point is: sqrt(4^2+4^2) = 5.7
@@ -33,6 +39,10 @@ public class TestLIC_7 {
         Assert.assertTrue(res);
     }
 
+    /*
+     * Tests that LIC 7 returns false when there exists no 2 points separated by 3 other points that are further apart than
+     * 6 units.
+     */
     @Test
     public void testLIC7False() {
         LaunchParameters params = new LaunchParameters();
@@ -50,6 +60,9 @@ public class TestLIC_7 {
         Assert.assertFalse(res);
     }
 
+    /**
+     * Tests that LIC 7 returns false when there are less than 3 points.
+     */
     @Test
     public void testLIC7FalseWhenLessThen3Points() {
         LaunchParameters params = new LaunchParameters();
