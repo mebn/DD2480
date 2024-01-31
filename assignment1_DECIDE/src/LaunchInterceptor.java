@@ -63,6 +63,32 @@ public class LaunchInterceptor {
   }
 
   public void calculate_PUM(){
+    /*
+     * In the example the diagonal of the matrix is filled with stars.
+     * The specifications does not mention to treat the diagonal any different
+     * however so we treat [i][i] just as usual.
+     */
+
+    for(int i = 0; i < 15; i++){
+      for (int j = 0; j < 15; j++) {
+        switch (LCM[i][j]) {
+          case ANDD:
+            PUM[i][j] = CMV[i] && CMV[j];
+          break;
+
+          case ORR:
+            PUM[i][j] = CMV[i] || CMV[j];
+          break;
+
+          case NOTUSED:
+            PUM[i][j] = true;
+          break;
+
+          default:
+            break;
+        }
+      }
+    }
     return;
   }
 
