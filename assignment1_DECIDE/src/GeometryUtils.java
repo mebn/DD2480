@@ -55,4 +55,17 @@ public class GeometryUtils {
     }
     return r;
   }
+
+  public static double triangleArea(Point p1, Point p2, Point p3) {
+      double x1 = p1.getX();
+      double y1 = p1.getY();
+
+      double x2 = p2.getX();
+      double y2 = p2.getY();
+
+      double x3 = p3.getX();
+      double y3 = p3.getY();
+
+      return Math.abs(x1 * (y2 - y3) + x2 * (y3 - y1) + x3 * (y1 - y2)) / 2;
+  }
 }

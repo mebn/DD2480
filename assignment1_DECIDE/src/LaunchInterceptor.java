@@ -100,27 +100,7 @@ public class LaunchInterceptor {
       Point p2 = POINTS[i + 1];
       Point p3 = POINTS[i + 2];
 
-      double x1 = p1.getX();
-      double y1 = p1.getY();
-
-      double x2 = p2.getX();
-      double y2 = p2.getY();
-
-      double x3 = p3.getX();
-      double y3 = p3.getY();
-
-      // calculate circumcenter of triangle
-      // https://en.wikipedia.org/wiki/Circumcircle#Cartesian_coordinates_2
-      double d = 2 * (x1 * (y2 - y3) + x2 * (y3 - y1) + x3 * (y1 - y2));
-      double r = 0;
-
-      if (d == 0) {
-        r = Math.max(Math.max(p1.distance(p2), p1.distance(p3)), p2.distance(p3)) / 2;
-      } else {
-        double ux = ((x1 * x1 + y1 * y1) * (y2 - y3) + (x2 * x2 + y2 * y2) * (y3 - y1) + (x3 * x3 + y3 * y3) * (y1 - y2)) / d;
-        double uy = ((x1 * x1 + y1 * y1) * (x3 - x2) + (x2 * x2 + y2 * y2) * (x1 - x3) + (x3 * x3 + y3 * y3) * (x2 - x1)) / d;
-        r = Math.sqrt((ux - x1) * (ux - x1) + (uy - y1) * (uy - y1));  
-      }
+      double r = GeometryUtils.threePointCircleRadius(p1, p2, p3);
 
       if (r > PARAMETERS.RADIUS1) {
         return true;
@@ -148,13 +128,9 @@ public class LaunchInterceptor {
       Point second = POINTS[i + 1];
       Point third = POINTS[i + 2];
       // If first or third point coincide with second point, angle is undefined
-      if (first.equals(second) || third.equals(second))
-        continue;
-      double firstAngle = Math.atan2(first.getY() - second.getY(), first.getX() - second.getX());
-      double thirdAngle = Math.atan2(third.getY() - second.getY(), third.getX() - second.getX());
-      // firstAngle = (firstAngle > 0) ? firstAngle : 2 * pi + firstAngle;
-      // thirdAngle = (thirdAngle > 0) ? thirdAngle : 2 * pi + thirdAngle;
-      double angle = Math.abs(firstAngle - thirdAngle);
+      if (first.equals(second) || third.equals(second)) continue;
+
+      double angle = GeometryUtils.threePointAngle(first, second, third);
 
       if (angle < PI - PARAMETERS.EPSILON || angle > PI + PARAMETERS.EPSILON) {
         return true;
@@ -168,18 +144,9 @@ public class LaunchInterceptor {
 
     for (int i = 0; i < POINTS.length - 2; i++) {
       Point p1 = POINTS[i];
-      double x1 = p1.getX();
-      double y1 = p1.getY();
-
       Point p2 = POINTS[i + 1];
-      double x2 = p2.getX();
-      double y2 = p2.getY();
-
       Point p3 = POINTS[i + 2];
-      double x3 = p3.getX();
-      double y3 = p3.getY();
-
-      enclosedArea = Math.abs(x1 * (y2 - y3) + x2 * (y3 - y1) + x3 * (y1 - y2)) / 2;
+      enclosedArea = GeometryUtils.triangleArea(p1, p2, p3);
       if (enclosedArea > PARAMETERS.AREA1) {
         return true;
       }
@@ -289,27 +256,7 @@ public class LaunchInterceptor {
       Point p2 = POINTS[i + PARAMETERS.A_PTS + 1];
       Point p3 = POINTS[i + PARAMETERS.A_PTS + PARAMETERS.B_PTS + 2];
 
-      double x1 = p1.getX();
-      double y1 = p1.getY();
-
-      double x2 = p2.getX();
-      double y2 = p2.getY();
-
-      double x3 = p3.getX();
-      double y3 = p3.getY();
-
-      // calculate circumcenter of triangle
-      // https://en.wikipedia.org/wiki/Circumcircle#Cartesian_coordinates_2
-      double d = 2 * (x1 * (y2 - y3) + x2 * (y3 - y1) + x3 * (y1 - y2));
-      double r = 0;
-
-      if (d == 0) {
-        r = Math.max(Math.max(p1.distance(p2), p1.distance(p3)), p2.distance(p3)) / 2;
-      } else {
-        double ux = ((x1 * x1 + y1 * y1) * (y2 - y3) + (x2 * x2 + y2 * y2) * (y3 - y1) + (x3 * x3 + y3 * y3) * (y1 - y2)) / d;
-        double uy = ((x1 * x1 + y1 * y1) * (x3 - x2) + (x2 * x2 + y2 * y2) * (x1 - x3) + (x3 * x3 + y3 * y3) * (x2 - x1)) / d;
-        r = Math.sqrt((ux - x1) * (ux - x1) + (uy - y1) * (uy - y1));  
-      }
+      double r = GeometryUtils.threePointCircleRadius(p1, p2, p3);
 
       if (r > PARAMETERS.RADIUS1) {
         return true;
