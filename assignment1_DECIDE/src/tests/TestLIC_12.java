@@ -15,7 +15,7 @@ public class TestLIC_12 {
      * There exists two point u,v separated by K_PTS such that dist(u,v) > LENGTH1
      *      AND
      * There exists two points w,t (can be u,v) separated by K_PTS such that dist(w,t) < LENGTH2
-     * NUMPOINTS > 3
+     * NUMPOINTS >= 3
      * LENGTH2 >= 0
      */
 
