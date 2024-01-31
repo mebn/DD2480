@@ -303,7 +303,25 @@ public class LaunchInterceptor {
   }
 
   public boolean checkLIC_10() {
-    return true;
+    int E_PTS = PARAMETERS.E_PTS;
+    int F_PTS = PARAMETERS.F_PTS;
+
+    if (NUMPOINTS < 5) return false;
+
+    if (E_PTS < 1) throw new IllegalArgumentException("E_PTS must be >=1");
+    if (F_PTS < 1) throw new IllegalArgumentException("F_PTS must be >=1");
+    if (E_PTS + F_PTS > NUMPOINTS - 3) throw new IllegalArgumentException("E_PTS + F_PTS must be <= NUMPOINTS - 3");
+
+    for (int i = 0; i < NUMPOINTS - 2 - E_PTS - F_PTS; i++) {
+      Point p1 = POINTS[i];
+      Point p2 = POINTS[i + E_PTS + 1];
+      Point p3 = POINTS[i + E_PTS + F_PTS + 2];
+
+      double enclosedArea = GeometryUtils.triangleArea(p1, p2, p3);
+
+      if (enclosedArea > PARAMETERS.AREA1) return true;
+    }
+    return false;
   }
 
   public boolean checkLIC_11() {
