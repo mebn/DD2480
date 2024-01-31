@@ -65,10 +65,10 @@ public class TestLIC_12 {
         params.LENGTH2 = 2;
         params.K_PTS = 1;
         
-        Point[] points = {new Point(0,0), new Point(1,0), new Point(1,1)};
+        Point[] points = {new Point(0,0), new Point(1,0)};
         /* dist(u,v) = sqrt(2) */
 
-        LaunchInterceptor li = new LaunchInterceptor(3, points, params, null, null);
+        LaunchInterceptor li = new LaunchInterceptor(2, points, params, null, null);
         boolean result = li.checkLIC_12();
         assertFalse(result);
     }
