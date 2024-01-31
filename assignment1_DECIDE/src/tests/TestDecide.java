@@ -156,4 +156,60 @@ public class TestDecide{
     boolean res = li.decide();
     Assert.assertTrue(res);
   }
+
+  @Test
+  public void testDecideTrue2() {
+    Point[] points = {
+      new Point(6.0,0),
+      new Point(5,1),
+      new Point(4,2),
+      new Point(3,3),
+      new Point(2,4),
+      new Point(1,5),
+      new Point(0,6),
+    };
+    LaunchParameters params = new LaunchParameters();
+    params.LENGTH1 = 1;
+    params.RADIUS1 = 1;
+    params.EPSILON = 1;
+    params.AREA1 = 1;
+    params.Q_PTS = 1;
+    params.QUADS = 1;
+    params.DIST = 1;
+    params.N_PTS = 1;
+    params.K_PTS = 1;
+    params.A_PTS = 1;
+    params.B_PTS = 1;
+    params.C_PTS = 1;
+    params.D_PTS = 1;
+    params.E_PTS = 1;
+    params.F_PTS = 1;
+    params.G_PTS = 1;
+    params.LENGTH2 = 1;
+    params.RADIUS2 = 1;
+    params.AREA2 = 1;
+    Operator[][] lcm = {
+      {Operator.ANDD, Operator.ANDD, Operator.ORR, Operator.ORR,Operator.ORR,Operator.ANDD,Operator.ORR,Operator.ANDD,Operator.ANDD,Operator.ORR,Operator.ORR,Operator.ANDD,Operator.ORR,Operator.ORR,Operator.NOTUSED}, 
+      {Operator.ANDD, Operator.ANDD, Operator.ORR, Operator.ORR,Operator.ORR,Operator.ANDD,Operator.ORR,Operator.ANDD,Operator.ANDD,Operator.ORR,Operator.ORR,Operator.ANDD,Operator.ORR,Operator.ORR,Operator.ORR}, 
+      {Operator.ANDD, Operator.ANDD, Operator.ANDD, Operator.ANDD,Operator.ANDD,Operator.ANDD,Operator.ANDD,Operator.ANDD,Operator.ANDD,Operator.ANDD,Operator.ANDD,Operator.ANDD,Operator.ANDD,Operator.ANDD,Operator.ANDD}, 
+      {Operator.ANDD, Operator.ANDD, Operator.ANDD, Operator.ANDD,Operator.ANDD,Operator.ANDD,Operator.ANDD,Operator.ANDD,Operator.ANDD,Operator.ANDD,Operator.ANDD,Operator.ANDD,Operator.ANDD,Operator.ANDD,Operator.ANDD}, 
+      {Operator.ANDD, Operator.ANDD, Operator.ANDD, Operator.ANDD,Operator.ANDD,Operator.ANDD,Operator.ANDD,Operator.ANDD,Operator.ANDD,Operator.ANDD,Operator.ANDD,Operator.ANDD,Operator.ANDD,Operator.ANDD,Operator.ANDD}, 
+      {Operator.ANDD, Operator.ANDD, Operator.ANDD, Operator.ANDD,Operator.ANDD,Operator.ANDD,Operator.ANDD,Operator.ANDD,Operator.ANDD,Operator.ANDD,Operator.ANDD,Operator.ANDD,Operator.ANDD,Operator.ANDD,Operator.ANDD}, 
+      {Operator.ANDD, Operator.ANDD, Operator.ANDD, Operator.ANDD,Operator.ANDD,Operator.ANDD,Operator.ANDD,Operator.ANDD,Operator.ANDD,Operator.ANDD,Operator.ANDD,Operator.ANDD,Operator.ANDD,Operator.ANDD,Operator.ANDD}, 
+      {Operator.ANDD, Operator.ANDD, Operator.ANDD, Operator.ANDD,Operator.ANDD,Operator.ANDD,Operator.ANDD,Operator.ANDD,Operator.ANDD,Operator.ANDD,Operator.ANDD,Operator.ANDD,Operator.ANDD,Operator.ANDD,Operator.ANDD}, 
+      {Operator.ANDD, Operator.ANDD, Operator.ANDD, Operator.ANDD,Operator.ANDD,Operator.ANDD,Operator.ANDD,Operator.ANDD,Operator.ANDD,Operator.ANDD,Operator.ANDD,Operator.ANDD,Operator.ANDD,Operator.ANDD,Operator.ANDD}, 
+      {Operator.ANDD, Operator.ANDD, Operator.ANDD, Operator.ANDD,Operator.ANDD,Operator.ANDD,Operator.ANDD,Operator.ANDD,Operator.ANDD,Operator.ANDD,Operator.ANDD,Operator.ANDD,Operator.ANDD,Operator.ANDD,Operator.ANDD}, 
+      {Operator.ANDD, Operator.ANDD, Operator.ANDD, Operator.ANDD,Operator.ANDD,Operator.ANDD,Operator.ANDD,Operator.ANDD,Operator.ANDD,Operator.ANDD,Operator.ANDD,Operator.ANDD,Operator.ANDD,Operator.ANDD,Operator.ANDD}, 
+      {Operator.ANDD, Operator.ANDD, Operator.ANDD, Operator.ANDD,Operator.ANDD,Operator.ANDD,Operator.ANDD,Operator.ANDD,Operator.ANDD,Operator.ANDD,Operator.ANDD,Operator.ANDD,Operator.ANDD,Operator.ANDD,Operator.ANDD}, 
+      {Operator.ANDD, Operator.ANDD, Operator.ANDD, Operator.ANDD,Operator.ANDD,Operator.ANDD,Operator.ANDD,Operator.ANDD,Operator.ANDD,Operator.ANDD,Operator.ANDD,Operator.ANDD,Operator.ANDD,Operator.ANDD,Operator.ANDD}, 
+      {Operator.ANDD, Operator.ANDD, Operator.ANDD, Operator.ANDD,Operator.ANDD,Operator.ANDD,Operator.ANDD,Operator.ANDD,Operator.ANDD,Operator.ANDD,Operator.ANDD,Operator.ANDD,Operator.ANDD,Operator.ANDD,Operator.ANDD}, 
+      {Operator.ANDD, Operator.ANDD, Operator.ANDD, Operator.ANDD,Operator.ANDD,Operator.ANDD,Operator.ANDD,Operator.ANDD,Operator.ANDD,Operator.ANDD,Operator.ANDD,Operator.ANDD,Operator.ANDD,Operator.ANDD,Operator.ANDD}, 
+    };
+
+    boolean[] puv = {true,true,false,false,false,false,false,false,false,false,false,false,false,false,false};
+    LaunchInterceptor li = new LaunchInterceptor(points.length, points, params, lcm, puv);
+    boolean res = li.decide();
+    Assert.assertTrue(res);
+  }
+
 }
