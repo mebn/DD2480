@@ -33,6 +33,14 @@ public class LaunchInterceptor {
   }
 
   public boolean decide() {
+    calculate_CMV();
+    calculate_PUM();
+    calculate_FUV();
+
+    for(int i = 0; i < 15; i++){
+      if(FUV[i] == false) return false;
+    }
+
     return true;
   }
 
