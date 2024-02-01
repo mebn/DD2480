@@ -11,11 +11,11 @@ import src.LaunchParameters;
 
 public class TestLIC_10 {
 
-    /*
+    /**
+     * LIC 10 should return true iff:
      * There exists at least one set of three data points separated by exactly E PTS and F PTS consecutive intervening points, respectively, 
      * that are the vertices of a triangle with area greater than AREA1
      * The condition is not met when NUMPOINTS < 5
-     * 1≤E PTS,1≤F PTS E PTS+F PTS ≤ NUMPOINTS−3
      */
 
     LaunchParameters params = new LaunchParameters();
@@ -27,6 +27,9 @@ public class TestLIC_10 {
     Point[] bigTriangle = {new Point(2,0), new Point(1,1), new Point(0,0), new Point(1,1), new Point(0,2)};
     /* area(bigTriangle) = 2 */
 
+    /**
+     * Check that false is returned when there is less than 5 points.
+     */
     @Test
     public void testTooFewPoints() {
         params.AREA1 = area;
@@ -39,6 +42,9 @@ public class TestLIC_10 {
         assertFalse(result);
     }
 
+    /**
+     * Check that false is returned when there is less than 5 points.
+     */
     @Test
     public void testTooFewPoints2() {
         params.AREA1 = area;
@@ -51,6 +57,9 @@ public class TestLIC_10 {
         assertFalse(result);
     }
 
+    /**
+     * Check that false is returned when F_PTS is too large
+     */
     @Test
     public void testTooLargeF_PTS() {
         params.AREA1 = area;
@@ -62,6 +71,9 @@ public class TestLIC_10 {
         assertFalse(result);
     }
 
+    /**
+     * Check that false is returned when E_PTS is too large
+     */
     @Test
     public void testTooLargeE_PTS() {
         params.AREA1 = area;
@@ -73,6 +85,9 @@ public class TestLIC_10 {
         assertFalse(result);
     }
 
+    /**
+     * Check that false is returned when there is no triangle with area greater than area
+     */
     @Test
     public void testLessEqualAREA1() {
         params.AREA1 = area;
@@ -84,6 +99,9 @@ public class TestLIC_10 {
         assertFalse(result);
     }
 
+    /**
+     * Check that true is returned when there is a triangle with area greater than area
+     */
     @Test
     public void testLargerThanAREA1() {
         params.AREA1 = area;
