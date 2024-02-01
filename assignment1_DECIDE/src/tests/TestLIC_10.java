@@ -4,9 +4,8 @@ import src.Point;
 
 import static org.junit.Assert.*;
 
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
+
 
 import src.LaunchInterceptor;
 import src.LaunchParameters;
@@ -60,7 +59,7 @@ public class TestLIC_10 {
     }
 
     /**
-     * Check that false is returned when F_PTS is too large
+     * Check that exception is thrown when F_PTS is too large
      */
     @Test
     public void testTooLargeF_PTS() {
@@ -75,7 +74,7 @@ public class TestLIC_10 {
     }
 
     /**
-     * Check that false is returned when E_PTS is too large
+     * Check that exception is thrown when E_PTS is too large
      */
     @Test
     public void testTooLargeE_PTS() {

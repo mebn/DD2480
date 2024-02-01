@@ -7,7 +7,6 @@ import src.LaunchInterceptor;
 import src.LaunchParameters;
 import src.Point;
 
-import junit.framework.TestCase;
 import src.Operator;
 
 public class TestDecide{
