@@ -11,17 +11,20 @@ import src.LaunchParameters;
 import src.Point;
 
 public class TestLIC_12 {
-    /* 
-     * There exists two point u,v separated by K_PTS such that dist(u,v) > LENGTH1
+    /**
+     * LIC 12 should return true iff:
+     * There exists two points u,v separated by K_PTS such that dist(u,v) > LENGTH1
      *      AND
      * There exists two points w,t (can be u,v) separated by K_PTS such that dist(w,t) < LENGTH2
-     * NUMPOINTS >= 3
-     * LENGTH2 >= 0
+     * The condition is not met when numpoints < 3
      */
 
     LaunchParameters params = new LaunchParameters();
     Point[] points = {new Point(0,0), new Point(1,0), new Point(1,1), new Point(0,1)};
 
+    /**
+     * Tests that false is returned when there are no two points further away than Length1
+     */
     @Test
     public void testFalseLessThanLENGTH1() {
         params.LENGTH1 = 2;
@@ -34,6 +37,9 @@ public class TestLIC_12 {
         assertFalse(result);
     }
 
+    /**
+     * Tests that false is returned when there are no two points closer than Length2
+     */
     @Test
     public void testFalseGreaterThanLENGTH2() {
         params.LENGTH1 = 1;
@@ -46,6 +52,9 @@ public class TestLIC_12 {
         assertFalse(result);
     }
 
+    /**
+     * Tests that true is returned when both requirements are satisfied.
+     */
     @Test
     public void testTrueLENGTH1LENGTH2() {
         params.LENGTH1 = 1;
@@ -59,6 +68,9 @@ public class TestLIC_12 {
 
     }
 
+    /**
+     * Tests that false is returned when there are less than 3 points.
+     */
     @Test
     public void testFalseNUMPOINTS() {
         params.LENGTH1 = 1;
