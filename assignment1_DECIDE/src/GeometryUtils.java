@@ -1,7 +1,5 @@
 package src;
 
-import src.Point;
-
 /**
  * Utility class for geometry calculations.
  */

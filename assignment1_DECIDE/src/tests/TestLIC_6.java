@@ -1,9 +1,9 @@
 package src.tests;
 
 import src.Point;
-import static org.junit.Assert.*;
 
-import org.ietf.jgss.Oid;
+
+
 import org.junit.Assert;
 import org.junit.Test;
 

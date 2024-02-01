@@ -1,7 +1,7 @@
 package src.tests;
 
 import src.Point;
-import static org.junit.Assert.*;
+
 
 import org.junit.Assert;
 import org.junit.Test;

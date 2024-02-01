@@ -1,11 +1,6 @@
 package src;
 
-import src.Point;
-import java.awt.*;
-import java.lang.Math.*;
 import java.util.Arrays;
-
-import src.GeometryUtils;
 
 enum operator {
   ANDD,
