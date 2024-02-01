@@ -2,24 +2,18 @@ package src;
 
 import java.util.Arrays;
 
-enum operator {
-  ANDD,
-  ORR,
-  NOTUSED
-}
-
 public class LaunchInterceptor {
   private final int NUMPOINTS;
   private final Point[] POINTS;
   private final LaunchParameters PARAMETERS;
-  private final operator[][] LCM;
+  private final Operator[][] LCM;
   private final boolean[] PUV;
   private boolean[] CMV = new boolean[15];
   private boolean[][] PUM = new boolean[15][15];
   private boolean[] FUV = new boolean[15];
   private final double PI = 3.1415926535;
 
-  public LaunchInterceptor(int numpoints, Point[] points, LaunchParameters params, operator[][] lcm, boolean[] puv) {
+  public LaunchInterceptor(int numpoints, Point[] points, LaunchParameters params, Operator[][] lcm, boolean[] puv) {
     this.NUMPOINTS = numpoints;
     this.POINTS = points;
     this.PARAMETERS = params;
@@ -266,7 +260,7 @@ public class LaunchInterceptor {
           /*
           d is the distance between point P, and the line between Q1 and Q2
           The expression is equivalent to ((Q2 - Q1) X (P - Q1)) / ||Q1 - Q2||
-          Unfortunately JAVA has no operator overloading so it can't be written as nicely
+          Unfortunately JAVA has no Operator overloading so it can't be written as nicely
           */
           d = Q2.subtract(Q1).crossProduct(P.subtract(Q1)) / Q1.distance(Q2); 
         }

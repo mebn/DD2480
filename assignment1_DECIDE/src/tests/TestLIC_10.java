@@ -4,7 +4,9 @@ import src.Point;
 
 import static org.junit.Assert.*;
 
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 import src.LaunchInterceptor;
 import src.LaunchParameters;
@@ -62,13 +64,14 @@ public class TestLIC_10 {
      */
     @Test
     public void testTooLargeF_PTS() {
+
         params.AREA1 = area;
         params.E_PTS = 1;
         params.F_PTS = 2;
 
         LaunchInterceptor li = new LaunchInterceptor(5, bigTriangle, params, null, null);
-        boolean result = li.checkLIC_10();
-        assertFalse(result);
+        assertThrows(IllegalArgumentException.class, () -> li.checkLIC_10());
+
     }
 
     /**
@@ -81,8 +84,7 @@ public class TestLIC_10 {
         params.F_PTS = 1;
 
         LaunchInterceptor li = new LaunchInterceptor(5, bigTriangle, params, null, null);
-        boolean result = li.checkLIC_10();
-        assertFalse(result);
+        assertThrows(IllegalArgumentException.class, () -> li.checkLIC_10());
     }
 
     /**
