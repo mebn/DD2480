@@ -1,7 +1,7 @@
 package src.tests;
 
 import src.Point;
-import static org.junit.Assert.*;
+
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -10,6 +10,16 @@ import src.LaunchInterceptor;
 import src.LaunchParameters;
 
 public class TestLIC_3 {
+    /**
+     * LIC 3 should return true iff:
+     * There exists at least one set of three consecutive data points that are the vertices of a triangle
+     * with area greater than AREA1.
+     */
+
+
+    /**
+     * Tests that LIC 3 returns true if a triangle with area greater than 2 exists.
+     */
     @Test
     public void testLIC3True() {
         LaunchParameters params = new LaunchParameters();
@@ -23,6 +33,9 @@ public class TestLIC_3 {
         Assert.assertTrue(res);
     }
 
+    /**
+     * Tests that LIC 3 returns false if a triangle with area greater than 16 doesn't exist.
+     */
     @Test
     public void testLIC3False() {
         LaunchParameters params = new LaunchParameters();

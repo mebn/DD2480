@@ -1,14 +1,6 @@
 package src;
 
-import src.Point;
-import java.awt.*;
-import java.lang.Math.*;
 import java.util.Arrays;
-import src.Operator;
-
-import src.GeometryUtils;
-
-
 
 public class LaunchInterceptor {
   private final int NUMPOINTS;

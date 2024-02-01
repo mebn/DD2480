@@ -13,6 +13,7 @@ import src.LaunchParameters;
 public class TestLIC_2 {
 
     /*
+     * LIC 2 should return true iff:
      * There exists at least one set of three consecutive data points which form an angle such that: 
      *      - angle < (PI − EPSILON) or angle > (PI + EPSILON) 
      *      - The second of the three consecutive points is always the vertex of the angle.
