@@ -49,4 +49,5 @@ For more details, go to issues and sort by assignee.
 * Implemented LIC 0 and 7.
 * Wrote some unit tests for Decide() method.
 
-<!-- ## Our way of working (Essence standard) -->
+## Our way of working (Essence standard)
+We classified our way of working as *In Use*. We had decided on style guidelines for commits, branches, and pull requests. Every pull request had to be reviewed before being merged. We used test-driven development, where the test and implementation were written by different people. All group members had access to the necessary tools required to participate. One thing that could have been improved was the way we distributed work among us. We had a first-come, first-served approach, where each member picked the issues to work on. Those with more time could then work more, making the distribution of work a little unbalanced. We could also have set up e.g. Maven to handle tests better.
