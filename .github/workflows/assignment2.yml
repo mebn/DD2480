@@ -1,0 +1,23 @@
+on:
+  push:
+    branches: [ "main" ]
+    paths: [ "assignment2/**" ]
+  pull_request:
+    branches: [ "main" ]
+    paths: [ "assignment2/**" ]
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  build-and-test-assignment2:
+    name: build-and-test-assignment2
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Build
+      working-directory: assignment2/
+      run: cargo build --verbose
+    - name: Run tests
+      working-directory: assignment2/
+      run: cargo test --verbose
