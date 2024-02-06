@@ -10,13 +10,10 @@ pub async fn github_webhook(headers: HeaderMap, body: String) -> StatusCode {
     println!("{:?}", headers);
     println!("{:?}", body);
 
-    let github_event = headers.get("x-github-event");
-
-    if let None = github_event {
-        return StatusCode::BAD_REQUEST;
-    }
-
-    let github_event = github_event.unwrap().to_str().unwrap();
+    let github_event = match headers.get("x-github-event") {
+        Some(event) => event.to_str().unwrap(),
+        None => return StatusCode::BAD_REQUEST,
+    };
 
     if github_event == "push" {
         println!("push event");
@@ -34,7 +31,7 @@ pub async fn github_webhook(headers: HeaderMap, body: String) -> StatusCode {
         return StatusCode::OK;
     }
 
-    StatusCode::OK
+    StatusCode::NOT_IMPLEMENTED
 }
 
 #[cfg(test)]
