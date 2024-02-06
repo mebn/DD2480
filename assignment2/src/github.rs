@@ -147,20 +147,12 @@ mod tests {
     fn test_get_modified_folders_ok() {
         let data = real_data();
         let github = Github::new(&data).unwrap();
-        assert_eq!(
-            github.get_modified_folders().sort(),
-            vec!["assignment2", "/"].sort()
-        );
-    }
 
-    #[test]
-    /// Test that the function returns the correct folders given added/removed/modified files.
-    fn test_get_modified_folders_fail() {
-        let data = real_data();
-        let github = Github::new(&data).unwrap();
-        assert_eq!(
-            github.get_modified_folders().sort(),
-            vec!["assignment2"].sort()
-        );
+        let mut modified_folders = github.get_modified_folders();
+        modified_folders.sort();
+        let mut expected = vec!["assignment2", "/"];
+        expected.sort();
+
+        assert_eq!(modified_folders, expected);
     }
 }
