@@ -5,7 +5,7 @@ use axum::http::{HeaderMap, StatusCode};
 /// Handles the GitHub webhook.
 /// Does different things depending on the event type.
 ///
-/// E.g. if the event is a pull request, it will run the CI pipeline.
+/// E.g. if the event is a push, it will run the CI pipeline.
 pub async fn github_webhook(headers: HeaderMap, body: String) -> StatusCode {
     println!("{:?}", headers);
     println!("{:?}", body);
@@ -18,8 +18,8 @@ pub async fn github_webhook(headers: HeaderMap, body: String) -> StatusCode {
 
     let github_event = github_event.unwrap().to_str().unwrap();
 
-    if github_event == "pull request" {
-        println!("Pull request event");
+    if github_event == "push" {
+        println!("push event");
         // new github struct
         // parse webhook
         // new repo struct (url: github.webhook_data.url)
@@ -43,10 +43,10 @@ mod tests {
 
     #[tokio::test]
     /// Should return a 200 OK status code
-    /// when the GitHub event is a pull request.
+    /// when the GitHub event is a "push".
     async fn test_github_webhook_ok() {
         let mut headers = HeaderMap::new();
-        headers.insert("x-github-event", "pull_request".parse().unwrap());
+        headers.insert("x-github-event", "push".parse().unwrap());
 
         let status = github_webhook(headers, "".into()).await;
         assert_eq!(status, StatusCode::OK);
@@ -57,10 +57,7 @@ mod tests {
     /// when the event type is not recognized/handled.
     async fn test_github_webhook_bad_request() {
         let mut headers = HeaderMap::new();
-        headers.insert(
-            "this-header-does-not-exist",
-            "pull_request".parse().unwrap(),
-        );
+        headers.insert("this-header-does-not-exist", "push".parse().unwrap());
 
         let status = github_webhook(headers, "".into()).await;
         assert_eq!(status, StatusCode::BAD_REQUEST);
