@@ -1,5 +1,4 @@
-struct WebhookData {
-}
+struct WebhookData {}
 
 pub struct Github {
     webhook_data: WebhookData,
