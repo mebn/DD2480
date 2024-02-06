@@ -1,6 +1,9 @@
+use serde::{Deserialize, Serialize};
+
 use crate::ci::Status;
 
-struct WebhookData {
+#[derive(Serialize, Deserialize)]
+pub struct WebhookData {
     repo: String,
 }
 
