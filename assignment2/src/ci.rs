@@ -1,7 +1,7 @@
 pub struct CI {
     path_repo: String, // DD2480/assignment2/temp/repo-1322
-    path_log: String, // DD2480/assignment2/logs/repo-1322
-    status: Status
+    path_log: String,  // DD2480/assignment2/logs/repo-1322
+    status: Status,
 }
 
 pub struct Status {
@@ -17,7 +17,7 @@ impl CI {
             status: Status {
                 build_status: false,
                 test_status: false,
-            }
+            },
         }
     }
     pub fn build(&self) {}

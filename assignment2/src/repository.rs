@@ -1,6 +1,6 @@
 pub struct Repository {
-    url: String,    
-    path: String,   // Path to local repo
+    url: String,
+    path: String, // Path to local repo
     branch: String,
     commit_id: String,
 }
@@ -8,7 +8,6 @@ pub struct Repository {
 impl Repository {
     pub fn new() -> Self {
         todo!("Implement this function")
-    
     }
     pub fn clone(&self) {}
     pub fn checkout(&self) {}
