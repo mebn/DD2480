@@ -40,7 +40,7 @@ mod tests {
 
     #[tokio::test]
     /// Should return a 200 OK status code
-    /// when the GitHub event is a "push".
+    /// when the GitHub event is push.
     async fn test_github_webhook_ok() {
         let mut headers = HeaderMap::new();
         headers.insert("x-github-event", "push".parse().unwrap());
@@ -51,12 +51,23 @@ mod tests {
 
     #[tokio::test]
     /// Should return a 400 Bad Request status code
-    /// when the event type is not recognized/handled.
+    /// when x-github-event is missing.
     async fn test_github_webhook_bad_request() {
         let mut headers = HeaderMap::new();
         headers.insert("this-header-does-not-exist", "push".parse().unwrap());
 
         let status = github_webhook(headers, "".into()).await;
         assert_eq!(status, StatusCode::BAD_REQUEST);
+    }
+
+    #[tokio::test]
+    /// Should return a 501 Not Implemented status code
+    /// when the event type is not recognized/handled.
+    async fn test_github_webhook_not_implemented() {
+        let mut headers = HeaderMap::new();
+        headers.insert("x-github-event", "not-implemented".parse().unwrap());
+
+        let status = github_webhook(headers, "".into()).await;
+        assert_eq!(status, StatusCode::NOT_IMPLEMENTED);
     }
 }
