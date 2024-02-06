@@ -3,14 +3,18 @@
 
 #![warn(missing_docs)]
 
-use axum::{http::StatusCode, routing::post, Json, Router};
+use axum::{
+    http::{HeaderMap, StatusCode},
+    routing::post,
+    Json, Router,
+};
 
 pub mod ci;
 pub mod github;
 pub mod repository;
 
-const REPO_PATH: &str = "/tmp/repo";
-const LOG_PATH: &str = "/tmp/repo";
+// const REPO_PATH: &str = "/tmp/repo";
+// const LOG_PATH: &str = "/tmp/repo";
 
 #[tokio::main]
 async fn main() {
@@ -21,21 +25,36 @@ async fn main() {
     axum::serve(listener, app).await.unwrap();
 }
 
-async fn handle_github_webhook(
-    Json(webhook_data): Json<github::WebhookData>,
-) -> (StatusCode, Json<github::WebhookData>) {
-    // new github struct
-    // parse webhook
-    // new repo struct (url: github.webhook_data.url)
-    // repo.clone
-    // repo.checkout
-    // new CI struct(REPO_PATH + repo.commitID, LOG_PATH)
-    // CI.build()
-    // CI.test()
-    // repo.cleanup()
-    // github.send_commit_status(CI.status)
+/// Handles the GitHub webhook.
+/// Does different things depending on the event type.
+/// E.g. if the event is a pull request, it will run the CI/CD pipeline.
+async fn handle_github_webhook(headers: HeaderMap, body: String) -> StatusCode {
+    println!("{:?}", headers);
+    println!("{:?}", body);
 
-    println!("asdasd");
+    let github_event = headers.get("x-github-event");
 
-    (StatusCode::OK, Json(webhook_data))
+    if let None = github_event {
+        return StatusCode::BAD_REQUEST;
+    }
+
+    let github_event = github_event.unwrap().to_str().unwrap();
+
+    if github_event == "pull request" {
+        println!("Pull request event");
+        return StatusCode::OK;
+    }
+
+    StatusCode::OK
 }
+
+// new github struct
+// parse webhook
+// new repo struct (url: github.webhook_data.url)
+// repo.clone
+// repo.checkout
+// new CI struct(REPO_PATH + repo.commitID, LOG_PATH)
+// CI.build()
+// CI.test()
+// repo.cleanup()
+// github.send_commit_status(CI.status)
