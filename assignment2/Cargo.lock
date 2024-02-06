@@ -3,5 +3,5 @@
 version = 3
 
 [[package]]
-name = "assignment2_ci"
+name = "assignment2"
 version = "0.1.0"

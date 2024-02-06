@@ -6,5 +6,4 @@ pub struct CI {
 impl CI {
     pub fn build(&self) {}
     pub fn test(&self) {}
-    pub fn write_log(&self) {}
 }
