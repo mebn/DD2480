@@ -1,26 +1,25 @@
+//! # Assignment 2
+//! This is a CI server that listens for webhooks from GitHub and runs a CI pipeline on the repository.
+
 #![warn(missing_docs)]
 
-mod ci;
-mod github;
-mod repository;
+use axum::{routing::post, Router};
 
-const REPO_PATH: &str = "/tmp/repo";
-const LOG_PATH: &str = "/tmp/repo";
+pub mod ci;
+pub mod github;
+pub mod repository;
+pub mod routes;
 
-fn main() {
-    println!("Hello, world!");
-    // server
-}
+use routes::github_webhook::github_webhook;
 
-fn handle_webhook() {
-    // new github struct
-    // parse webhook
-    // new repo struct (url: github.webhook_data.url)
-    // repo.clone
-    // repo.checkout
-    // new CI struct(REPO_PATH + repo.commitID, LOG_PATH)
-    // CI.build()
-    // CI.test()
-    // repo.cleanup()
-    // github.send_commit_status(CI.status)
+// const REPO_PATH: &str = "/tmp/repo";
+// const LOG_PATH: &str = "/tmp/repo";
+
+#[tokio::main]
+async fn main() {
+    let app = Router::new().route("/github_webhook", post(github_webhook));
+
+    let listener = tokio::net::TcpListener::bind("0.0.0.0:8007").await.unwrap();
+    println!("Listening on {}", listener.local_addr().unwrap());
+    axum::serve(listener, app).await.unwrap();
 }
