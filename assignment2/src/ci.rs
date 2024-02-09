@@ -36,7 +36,14 @@ impl CI {
         } else {
             println!("Tests failed");
         }
+        self.log_to_file(&output.stdout)?;
 
+        Ok(())
+    }
+
+    fn log_to_file(&self, bytes: &[u8]) -> Result<(), std::io::Error> {
+        let mut file = File::create(&self.path_log)?;
+        file.write_all(&bytes)?;
         Ok(())
     }
 }
