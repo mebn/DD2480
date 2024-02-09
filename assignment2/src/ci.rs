@@ -27,6 +27,7 @@ impl CI {
     pub fn test(&mut self) -> Result<(), std::io::Error> {
         let output = Command::new("cargo")
             .arg("test")
+            .arg("--verbose")
             .current_dir(&self.path_repo)
             .output()?;
 
@@ -67,6 +68,9 @@ mod tests {
         );
         ci.test().unwrap();
         assert_eq!(ci.status.test_status, true);
+        assert!(std::path::Path::new("tests/logs/log_test_pass.txt").exists());
+        // cleanup
+        std::fs::remove_file("tests/logs/log_test_pass.txt").unwrap();
     }
 
     #[test]
@@ -77,5 +81,8 @@ mod tests {
         );
         ci.test().unwrap();
         assert_eq!(ci.status.test_status, false);
+        assert!(std::path::Path::new("tests/logs/log_test_fail.txt").exists());
+        // cleanup
+        std::fs::remove_file("tests/logs/log_test_fail.txt").unwrap();
     }
 }
