@@ -1,4 +1,11 @@
+# macOS
 .DS_Store
+
+# java
 *.class
+
+# assignment 2
+CI_REPOS
+CI_LOGS
 target
-temp
+assignment2/tests/logs
