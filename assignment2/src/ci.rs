@@ -13,7 +13,8 @@ pub struct Status {
 }
 
 impl CI {
-    /// Constructs a new `CI` instance.
+    /// Constructs a new `CI` instance. Used to run
+    /// build and test processes on a local repository.
     ///
     /// # Arguments
     ///
