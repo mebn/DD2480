@@ -1,3 +1,5 @@
+use std::{fs::File, io::Write, process::Command};
+
 pub struct CI {
     path_repo: String, // DD2480/assignment2/temp/repo-1322
     path_log: String,  // DD2480/assignment2/logs/repo-1322
@@ -21,5 +23,20 @@ impl CI {
         }
     }
     pub fn build(&self) {}
-    pub fn test(&self) {}
+
+    pub fn test(&mut self) -> Result<(), std::io::Error> {
+        let output = Command::new("cargo")
+            .arg("test")
+            .current_dir(&self.path_repo)
+            .output()?;
+
+        if output.status.success() {
+            println!("Tests passed successfully");
+            self.status.test_status = true; // Personally not the biggest fan of updating the value inside the instance.
+        } else {
+            println!("Tests failed");
+        }
+
+        Ok(())
+    }
 }
