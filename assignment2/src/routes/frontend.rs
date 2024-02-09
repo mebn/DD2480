@@ -104,9 +104,9 @@ mod tests {
     /// Makes sure all files for a commit are listed.
     #[tokio::test]
     async fn test_list_log_files_for_commit() {
-        setup().await;
+        let _ = setup().await;
         let response = list_files(Some("commit-1".to_string()), get_path());
-        teardown().await;
+        let _ = teardown().await;
         assert_eq!(response, "<html><body><a href='commit-1/build.log'>build.log</a><br/><a href='commit-1/test.log'>test.log</a><br/></body></html>");
     }
 
