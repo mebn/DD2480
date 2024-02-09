@@ -32,9 +32,10 @@ impl CI {
 
         if output.status.success() {
             println!("Tests passed successfully");
-            self.status.test_status = true; // Personally not the biggest fan of updating the value inside the instance.
+            self.status.test_status = true; // Personally not the biggest fan of updating the value inside the instance. Maybe return the status code instead?
         } else {
             println!("Tests failed");
+            self.status.test_status = false;
         }
         self.log_to_file(&output.stdout)?;
 
@@ -42,8 +43,39 @@ impl CI {
     }
 
     fn log_to_file(&self, bytes: &[u8]) -> Result<(), std::io::Error> {
-        let mut file = File::create(&self.path_log)?;
-        file.write_all(&bytes)?;
+        File::create(&self.path_log)?.write_all(&bytes)?;
         Ok(())
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_ci_fields() {
+        let ci = CI::new("test/directory".to_string(), "test/directory".to_string());
+        assert_eq!(ci.path_repo, "test/directory");
+        assert_eq!(ci.path_log, "test/directory");
+    }
+
+    #[test]
+    fn test_ci_tests_pass() {
+        let mut ci = CI::new(
+            "tests/libs/tests_pass".to_string(),
+            "tests/logs/log_test_pass.txt".to_string(),
+        );
+        ci.test().unwrap();
+        assert_eq!(ci.status.test_status, true);
+    }
+
+    #[test]
+    fn test_ci_tests_fail() {
+        let mut ci = CI::new(
+            "tests/libs/tests_fail".to_string(),
+            "tests/logs/log_test_fail.txt".to_string(),
+        );
+        ci.test().unwrap();
+        assert_eq!(ci.status.test_status, false);
     }
 }
