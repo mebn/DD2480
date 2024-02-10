@@ -14,6 +14,14 @@ pub struct Status {
     build_status: bool,
     test_status: bool,
 }
+impl Status {
+    pub fn get_build_status(&self) -> bool {
+        self.build_status
+    }
+    pub fn get_test_status(&self) -> bool {
+        self.test_status
+    }
+}
 
 impl CI {
     /// Constructs a new `CI` instance. Used to run
