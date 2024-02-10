@@ -1,4 +1,4 @@
-use std::{fs::File, io::Write, path::Path, process::Command};
+use std::{fs::File, io::Write, process::Command};
 
 pub struct CI {
     path_repo: String, // DD2480/assignment2/temp/repo-1322
