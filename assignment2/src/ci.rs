@@ -43,20 +43,21 @@ impl CI {
             .output()?;
 
         if output.status.success() {
-            println!("Tests passed successfully");
+            println!("Tests for {} passed successfully", self.path_repo);
             self.status.test_status = true; // Personally not the biggest fan of updating the value inside the instance. Maybe return the status code instead?
         } else {
-            println!("Tests failed");
+            println!("Tests for {} failed", self.path_repo);
             self.status.test_status = false;
         }
-        self.log_to_file(&output.stdout)?;
+        self.log_to_file(&output.stdout, "test.log".to_string())?;
 
         Ok(())
     }
 
     /// Logs the output of the tests to a file.
-    fn log_to_file(&self, bytes: &[u8]) -> Result<(), std::io::Error> {
-        File::create(&self.path_log)?.write_all(&bytes)?;
+    fn log_to_file(&self, bytes: &[u8], filename: String) -> Result<(), std::io::Error> {
+        // Add check to see if directory does not exist
+        File::create(format!("{}/{}", self.path_log, filename))?.write_all(&bytes)?;
         Ok(())
     }
 }
@@ -77,14 +78,14 @@ mod tests {
     #[test]
     fn test_ci_tests_pass() {
         let mut ci = CI::new(
-            "tests/libs/tests_pass".to_string(),
-            "tests/logs/log_test_pass.txt".to_string(),
+            "tests/libs/commit-pass".to_string(),
+            "tests/logs/commit-pass".to_string(),
         );
         ci.test().unwrap();
         assert_eq!(ci.status.test_status, true);
-        assert!(std::path::Path::new("tests/logs/log_test_pass.txt").exists());
+        assert!(std::path::Path::new("tests/logs/commit-pass/test.log").exists());
         // cleanup
-        std::fs::remove_file("tests/logs/log_test_pass.txt").unwrap();
+        // std::fs::remove_file("tests/logs/commit-pass/test.log").unwrap();
     }
 
     /// Tests that a failing test suite updates the `test_status` field in `Status` to `false`
@@ -92,13 +93,13 @@ mod tests {
     #[test]
     fn test_ci_tests_fail() {
         let mut ci = CI::new(
-            "tests/libs/tests_fail".to_string(),
-            "tests/logs/log_test_fail.txt".to_string(),
+            "tests/libs/commit-fail".to_string(),
+            "tests/logs/commit-fail".to_string(),
         );
         ci.test().unwrap();
         assert_eq!(ci.status.test_status, false);
-        assert!(std::path::Path::new("tests/logs/log_test_fail.txt").exists());
+        assert!(std::path::Path::new("tests/logs/commit-fail/test.log").exists());
         // cleanup
-        std::fs::remove_file("tests/logs/log_test_fail.txt").unwrap();
+        // std::fs::remove_file("tests/logs/commit-fail/test.log").unwrap();
     }
 }
