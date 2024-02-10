@@ -1,3 +1,6 @@
+//! This module implements a simple Continuous Integration (CI) system.
+//! It provides functionality to build and test local repositories.
+
 use std::{fs::File, io::Write, process::Command};
 
 pub struct CI {
@@ -14,7 +17,8 @@ pub struct Status {
 
 impl CI {
     /// Constructs a new `CI` instance. Used to run
-    /// build and test processes on a local repository.
+    /// build and test processes on a local repository
+    /// and log the results to file.
     ///
     /// # Arguments
     ///
@@ -34,7 +38,7 @@ impl CI {
 
     /// Runs `cargo test --verbose` on the repo specified in `self.path_repo`,
     /// updates the test status in `self.status`,
-    /// and logs the test output to the file specified by `self.path_log`.
+    /// and logs the test output to the directory specified by `self.path_log`.
     pub fn test(&mut self) -> Result<(), std::io::Error> {
         let output = Command::new("cargo")
             .arg("test")
