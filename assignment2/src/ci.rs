@@ -1,4 +1,4 @@
-use std::{fs::File, io::Write, process::Command};
+use std::{fs::File, io::Write, path::Path, process::Command};
 
 pub struct CI {
     path_repo: String, // DD2480/assignment2/temp/repo-1322
@@ -54,9 +54,14 @@ impl CI {
         Ok(())
     }
 
-    /// Logs the output of the tests to a file.
+    /// Logs the bytes to a file.
+    ///
+    /// # Arguments
+    ///
+    /// * `bytes` - The data to be written to the file.
+    /// * `filename` - The name of the file in the `self.path_log` directory.
     fn log_to_file(&self, bytes: &[u8], filename: String) -> Result<(), std::io::Error> {
-        // Add check to see if directory does not exist
+        std::fs::create_dir_all(&self.path_log)?;
         File::create(format!("{}/{}", self.path_log, filename))?.write_all(&bytes)?;
         Ok(())
     }
