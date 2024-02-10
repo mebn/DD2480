@@ -82,29 +82,29 @@ mod tests {
     /// and logs the test output to a file.
     #[test]
     fn test_ci_tests_pass() {
-        let mut ci = CI::new(
-            "tests/libs/commit-pass".to_string(),
-            "tests/logs/commit-pass".to_string(),
-        );
+        let path_repo = "tests/libs/commit-pass".to_string();
+        let log_repo = "tests/logs/commit-pass".to_string();
+        let mut ci = CI::new(path_repo.clone(), log_repo.clone());
         ci.test().unwrap();
+
+        assert!(std::path::Path::new(&(log_repo.clone() + "/test.log")).exists());
+        std::fs::remove_dir_all(log_repo.clone()).unwrap();
+
         assert_eq!(ci.status.test_status, true);
-        assert!(std::path::Path::new("tests/logs/commit-pass/test.log").exists());
-        // cleanup
-        // std::fs::remove_file("tests/logs/commit-pass/test.log").unwrap();
     }
 
     /// Tests that a failing test suite updates the `test_status` field in `Status` to `false`
     /// and logs the test output to a file.
     #[test]
     fn test_ci_tests_fail() {
-        let mut ci = CI::new(
-            "tests/libs/commit-fail".to_string(),
-            "tests/logs/commit-fail".to_string(),
-        );
+        let path_repo = "tests/libs/commit-fail".to_string();
+        let log_repo = "tests/logs/commit-fail".to_string();
+        let mut ci = CI::new(path_repo.clone(), log_repo.clone());
         ci.test().unwrap();
+
+        assert!(std::path::Path::new(&(log_repo.clone() + "/test.log")).exists());
+        std::fs::remove_dir_all(log_repo.clone()).unwrap();
+
         assert_eq!(ci.status.test_status, false);
-        assert!(std::path::Path::new("tests/logs/commit-fail/test.log").exists());
-        // cleanup
-        // std::fs::remove_file("tests/logs/commit-fail/test.log").unwrap();
     }
 }
