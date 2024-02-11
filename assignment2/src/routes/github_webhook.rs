@@ -23,10 +23,11 @@ pub async fn github_webhook(headers: HeaderMap, body: String) -> StatusCode {
         // repo.clone
         // repo.checkout
         // new CI struct(REPO_PATH + repo.commitID, LOG_PATH)
+        // github.send_commit_status(CI.get_status())   // Update commit to pending
         // CI.build()
         // CI.test()
         // repo.cleanup()
-        // github.send_commit_status(CI.status)
+        // github.send_commit_status(CI.get_status())   // Update commit to success/failure
 
         return StatusCode::OK;
     }
