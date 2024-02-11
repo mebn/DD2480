@@ -64,6 +64,10 @@ impl CI {
     }
     pub fn build(&self) {}
 
+    pub fn get_status(&self) -> &CommitStatus {
+        &self.status
+    }
+
     /// Runs `cargo test --verbose` on the repo specified in `self.path_repo`,
     /// updates the test status in `self.status`,
     /// and logs the test output to the directory specified by `self.path_log`.
