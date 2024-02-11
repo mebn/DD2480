@@ -23,7 +23,7 @@ pub struct CommitStatus {
     test_status: Status,
 }
 impl CommitStatus {
-    /// Returns the overall status of the build & test.
+    /// Returns the overall status of the build & test as a String.
     ///
     /// The overall status is determined by the build and test statuses.
     /// If either status is `Failure`, the overall status is `Failure`.
