@@ -68,7 +68,7 @@ mod tests {
     use super::*;
 
     fn get_path() -> PathBuf {
-        std::env::current_dir().unwrap().join("tests").join("logs")
+        std::env::current_dir().unwrap().join("tests").join("logs_frontend")
     }
 
     async fn setup() {
