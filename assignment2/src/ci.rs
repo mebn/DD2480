@@ -101,6 +101,8 @@ impl CI {
 
 #[cfg(test)]
 mod tests {
+    use tokio::fs::remove_dir_all;
+
     use super::*;
     /// Tests that the `CI` struct is constructed correctly.
     #[test]
@@ -120,7 +122,7 @@ mod tests {
         ci.test().unwrap();
 
         assert!(std::path::Path::new(&(log_repo.clone() + "/test.log")).exists());
-        std::fs::remove_dir_all(log_repo.clone()).unwrap();
+        let _ = remove_dir_all("tests/logs").await;
 
         assert_eq!(ci.status.test_status, Status::Success);
     }
@@ -135,7 +137,7 @@ mod tests {
         ci.test().unwrap();
 
         assert!(std::path::Path::new(&(log_repo.clone() + "/test.log")).exists());
-        std::fs::remove_dir_all(log_repo.clone()).unwrap();
+        let _ = remove_dir_all("tests/logs").await;
 
         assert_eq!(ci.status.test_status, Status::Failure);
     }
