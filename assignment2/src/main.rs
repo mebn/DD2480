@@ -14,22 +14,14 @@ use axum::{
     Router,
 };
 use dotenv::dotenv;
-use lazy_static::lazy_static;
 use routes::frontend::{list_all_commits, list_log_files_for_commit, show_file};
 use routes::github_webhook::github_webhook;
 
-// Global variables to paths.
-// Cannot use const because of std::env::current_dir().
-// Not ideal, but it works for now.
-lazy_static! {
-    /// The path to the directory where the logs are stored.
-    pub static ref LOGS_PATH: std::path::PathBuf = std::env::current_dir()
-        .unwrap().join("CI_LOGS");
+/// The path to the directory where the logs are stored.
+const LOGS_PATH: &str = "CI_LOGS";
 
-    /// The path to the directory where the repositories are cloned.
-    pub static ref REPO_PATH: std::path::PathBuf = std::env::current_dir()
-        .unwrap().join("CI_REPOS");
-}
+/// The path to the directory where the repositories are cloned.
+const REPO_PATH: &str = "CI_REPOS";
 
 /// Starts the CI server and handles all the routes.
 #[tokio::main]
