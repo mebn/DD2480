@@ -101,9 +101,10 @@ impl CI {
 
 #[cfg(test)]
 mod tests {
-    use tokio::fs::remove_dir_all;
+    use std::fs::remove_dir_all;
 
     use super::*;
+
     /// Tests that the `CI` struct is constructed correctly.
     #[test]
     fn test_ci_fields() {
@@ -114,30 +115,38 @@ mod tests {
 
     /// Tests that a passing test suite updates the `test_status` field in `Status` to `true`
     /// and logs the test output to a file.
-    #[tokio::test]
-    async fn test_ci_tests_pass() {
+    #[test]
+    fn test_ci_tests_pass() {
         let path_repo = "tests/libs/commit-pass".to_string();
         let log_repo = "tests/logs/commit-pass".to_string();
         let mut ci = CI::new(path_repo.clone(), log_repo.clone());
         ci.test().unwrap();
 
         assert!(std::path::Path::new(&(log_repo.clone() + "/test.log")).exists());
-        let _ = remove_dir_all("tests/logs").await;
+
+        match remove_dir_all("tests/logs") {
+            Ok(_) => println!("no Error"),
+            Err(e) => println!("Error: {}", e),
+        }
 
         assert_eq!(ci.status.test_status, Status::Success);
     }
 
     /// Tests that a failing test suite updates the `test_status` field in `Status` to `false`
     /// and logs the test output to a file.
-    #[tokio::test]
-    async fn test_ci_tests_fail() {
+    #[test]
+    fn test_ci_tests_fail() {
         let path_repo = "tests/libs/commit-fail".to_string();
         let log_repo = "tests/logs/commit-fail".to_string();
         let mut ci = CI::new(path_repo.clone(), log_repo.clone());
         ci.test().unwrap();
 
         assert!(std::path::Path::new(&(log_repo.clone() + "/test.log")).exists());
-        let _ = remove_dir_all("tests/logs").await;
+
+        match remove_dir_all("tests/logs") {
+            Ok(_) => println!("no Error"),
+            Err(e) => println!("Error: {}", e),
+        }
 
         assert_eq!(ci.status.test_status, Status::Failure);
     }

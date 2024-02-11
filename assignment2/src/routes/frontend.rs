@@ -62,57 +62,60 @@ pub async fn show_file(Path((commit, file)): Path<(String, String)>) -> Html<Str
 
 #[cfg(test)]
 mod tests {
-    // had to use tokio, otherwise the tests would fail
-    use tokio::fs::{create_dir_all, remove_dir_all, write};
+    use std::fs::{create_dir_all, remove_dir_all, write};
 
     use super::*;
 
     fn get_path() -> PathBuf {
-        std::env::current_dir().unwrap().join("tests").join("logs_frontend")
+        // std::env::current_dir().unwrap().join("tests").join("logs_frontend")
+        PathBuf::from("tests/logs_frontend")
     }
 
-    async fn setup() {
+    fn setup() {
         let path = get_path();
         let commit_1 = path.clone().join("commit-1");
         let commit_2 = path.clone().join("commit-2");
 
-        let _ = create_dir_all(path.clone()).await;
-        let _ = create_dir_all(commit_1.clone()).await;
-        let _ = create_dir_all(commit_2.clone()).await;
+        create_dir_all(path.clone()).unwrap();
+        create_dir_all(commit_1.clone()).unwrap();
+        create_dir_all(commit_2.clone()).unwrap();
 
-        let _ = write(commit_1.clone().join("test.log"), "test1 log").await;
-        let _ = write(commit_1.clone().join("build.log"), "build1 log").await;
+        write(commit_1.clone().join("test.log"), "test1 log").unwrap();
+        write(commit_1.clone().join("build.log"), "build1 log").unwrap();
 
-        let _ = write(commit_2.clone().join("test.log"), "test2 log").await;
-        let _ = write(commit_2.clone().join("build.log"), "build2 log").await;
+        write(commit_2.clone().join("test.log"), "test2 log").unwrap();
+        write(commit_2.clone().join("build.log"), "build2 log").unwrap();
     }
 
-    async fn teardown() {
+    fn teardown() {
         let path = get_path();
-        let _ = remove_dir_all(path).await;
+        match remove_dir_all(path) {
+            Ok(_) => println!("no Error"),
+            Err(e) => println!("Error: {}", e),
+        }
     }
 
     /// Makes sure all commits are listed.
-    #[tokio::test]
-    async fn test_list_all_commits() {
-        let _ = setup().await;
+    #[test]
+    fn test_list_all_commits() {
+        setup();
         let response = list_files(None, get_path());
-        let _ = teardown().await;
+        teardown();
         assert_eq!(response, "<html><body><a href='/commit-1'>commit-1</a><br/><a href='/commit-2'>commit-2</a><br/></body></html>");
     }
 
     /// Makes sure all files for a commit are listed.
-    #[tokio::test]
-    async fn test_list_log_files_for_commit() {
-        let _ = setup().await;
+    #[test]
+    fn test_list_log_files_for_commit() {
+        setup();
         let response = list_files(Some("commit-1".to_string()), get_path());
-        let _ = teardown().await;
+        teardown();
         assert_eq!(response, "<html><body><a href='commit-1/build.log'>build.log</a><br/><a href='commit-1/test.log'>test.log</a><br/></body></html>");
     }
 
     /// No logs found.
-    #[tokio::test]
-    async fn test_list_log_files_for_commit_no_logs() {
+    #[test]
+    fn test_list_log_files_for_commit_no_logs() {
         let response = list_files(Some("commit-1".to_string()), PathBuf::new());
         assert_eq!(response, "<html><body>no logs found</html></body>");
     }
