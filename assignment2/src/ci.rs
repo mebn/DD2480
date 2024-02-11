@@ -112,8 +112,8 @@ mod tests {
 
     /// Tests that a passing test suite updates the `test_status` field in `Status` to `true`
     /// and logs the test output to a file.
-    #[test]
-    fn test_ci_tests_pass() {
+    #[tokio::test]
+    async fn test_ci_tests_pass() {
         let path_repo = "tests/libs/commit-pass".to_string();
         let log_repo = "tests/logs/commit-pass".to_string();
         let mut ci = CI::new(path_repo.clone(), log_repo.clone());
@@ -127,8 +127,8 @@ mod tests {
 
     /// Tests that a failing test suite updates the `test_status` field in `Status` to `false`
     /// and logs the test output to a file.
-    #[test]
-    fn test_ci_tests_fail() {
+    #[tokio::test]
+    async fn test_ci_tests_fail() {
         let path_repo = "tests/libs/commit-fail".to_string();
         let log_repo = "tests/logs/commit-fail".to_string();
         let mut ci = CI::new(path_repo.clone(), log_repo.clone());
