@@ -9,6 +9,7 @@ pub struct CI {
     status: CommitStatus,
 }
 
+/// Struct to define the different statuses
 #[derive(PartialEq, Debug)]
 pub enum Status {
     Pending,
@@ -16,11 +17,18 @@ pub enum Status {
     Failure,
 }
 
+/// Struct to hold the status of the build and test processes.
 pub struct CommitStatus {
     build_status: Status,
     test_status: Status,
 }
 impl CommitStatus {
+    /// Returns the overall status of the build & test.
+    ///
+    /// The overall status is determined by the build and test statuses.
+    /// If either status is `Failure`, the overall status is `Failure`.
+    /// If either status is `Pending` and none is `Failure`, the overall status is `Pending`.
+    /// If both statuses are `Success`, the overall status is `Success`.
     pub fn total_status(&self) -> String {
         match (&self.build_status, &self.test_status) {
             (Status::Failure, _) | (_, Status::Failure) => "failure".to_string(),
@@ -29,19 +37,6 @@ impl CommitStatus {
         }
     }
 }
-/// Represents the status of the build and test processes.
-// pub struct Status {
-//     build_status: bool,
-//     test_status: bool,
-// }
-// impl Status {
-//     pub fn get_build_status(&self) -> bool {
-//         self.build_status
-//     }
-//     pub fn get_test_status(&self) -> bool {
-//         self.test_status
-//     }
-// }
 
 impl CI {
     /// Constructs a new `CI` instance. Used to run
@@ -64,6 +59,7 @@ impl CI {
     }
     pub fn build(&self) {}
 
+    /// Returns a reference to the `CommitStatus` struct.
     pub fn get_status(&self) -> &CommitStatus {
         &self.status
     }
