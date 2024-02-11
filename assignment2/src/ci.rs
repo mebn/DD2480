@@ -21,11 +21,11 @@ pub struct CommitStatus {
     test_status: Status,
 }
 impl CommitStatus {
-    pub fn total_status(&self) -> Status {
+    pub fn total_status(&self) -> String {
         match (&self.build_status, &self.test_status) {
-            (Status::Failure, _) | (_, Status::Failure) => Status::Failure,
-            (Status::Pending, _) | (_, Status::Pending) => Status::Pending,
-            _ => Status::Success,
+            (Status::Failure, _) | (_, Status::Failure) => "failure".to_string(),
+            (Status::Pending, _) | (_, Status::Pending) => "pending".to_string(),
+            _ => "success".to_string(),
         }
     }
 }
