@@ -6,22 +6,42 @@ use std::{fs::File, io::Write, process::Command};
 pub struct CI {
     path_repo: String, // DD2480/assignment2/temp/repo-1322
     path_log: String,  // DD2480/assignment2/logs/repo-1322
-    status: Status,
+    status: CommitStatus,
 }
 
+#[derive(PartialEq, Debug)]
+pub enum Status {
+    Pending,
+    Success,
+    Failure,
+}
+
+pub struct CommitStatus {
+    build_status: Status,
+    test_status: Status,
+}
+impl CommitStatus {
+    pub fn total_status(&self) -> Status {
+        match (&self.build_status, &self.test_status) {
+            (Status::Failure, _) | (_, Status::Failure) => Status::Failure,
+            (Status::Pending, _) | (_, Status::Pending) => Status::Pending,
+            _ => Status::Success,
+        }
+    }
+}
 /// Represents the status of the build and test processes.
-pub struct Status {
-    build_status: bool,
-    test_status: bool,
-}
-impl Status {
-    pub fn get_build_status(&self) -> bool {
-        self.build_status
-    }
-    pub fn get_test_status(&self) -> bool {
-        self.test_status
-    }
-}
+// pub struct Status {
+//     build_status: bool,
+//     test_status: bool,
+// }
+// impl Status {
+//     pub fn get_build_status(&self) -> bool {
+//         self.build_status
+//     }
+//     pub fn get_test_status(&self) -> bool {
+//         self.test_status
+//     }
+// }
 
 impl CI {
     /// Constructs a new `CI` instance. Used to run
@@ -36,9 +56,9 @@ impl CI {
         Self {
             path_repo,
             path_log,
-            status: Status {
-                build_status: false,
-                test_status: false,
+            status: CommitStatus {
+                build_status: Status::Pending,
+                test_status: Status::Pending,
             },
         }
     }
@@ -56,10 +76,10 @@ impl CI {
 
         if output.status.success() {
             println!("Tests for {} passed successfully", self.path_repo);
-            self.status.test_status = true; // Personally not the biggest fan of updating the value inside the instance. Maybe return the status code instead?
+            self.status.test_status = Status::Success; // Personally not the biggest fan of updating the value inside the instance. Maybe return the status code instead?
         } else {
             println!("Tests for {} failed", self.path_repo);
-            self.status.test_status = false;
+            self.status.test_status = Status::Failure;
         }
         self.log_to_file(&output.stdout, "test.log".to_string())?;
 
@@ -102,7 +122,7 @@ mod tests {
         assert!(std::path::Path::new(&(log_repo.clone() + "/test.log")).exists());
         std::fs::remove_dir_all(log_repo.clone()).unwrap();
 
-        assert_eq!(ci.status.test_status, true);
+        assert_eq!(ci.status.test_status, Status::Success);
     }
 
     /// Tests that a failing test suite updates the `test_status` field in `Status` to `false`
@@ -117,6 +137,24 @@ mod tests {
         assert!(std::path::Path::new(&(log_repo.clone() + "/test.log")).exists());
         std::fs::remove_dir_all(log_repo.clone()).unwrap();
 
-        assert_eq!(ci.status.test_status, false);
+        assert_eq!(ci.status.test_status, Status::Failure);
+    }
+
+    #[test]
+    fn test_total_status() {
+        let mut ci = CI::new("test/directory".to_string(), "test/directory".to_string());
+        assert_eq!(ci.status.total_status(), Status::Pending);
+
+        ci.status.build_status = Status::Success;
+        assert_eq!(ci.status.total_status(), Status::Pending);
+
+        ci.status.test_status = Status::Success;
+        assert_eq!(ci.status.total_status(), Status::Success);
+
+        ci.status.build_status = Status::Failure;
+        assert_eq!(ci.status.total_status(), Status::Failure);
+
+        ci.status.test_status = Status::Pending;
+        assert_eq!(ci.status.total_status(), Status::Failure);
     }
 }
