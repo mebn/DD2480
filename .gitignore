@@ -9,3 +9,4 @@ CI_REPOS
 CI_LOGS
 target
 assignment2/tests/logs
+assignment2/tests/logs_frontend
