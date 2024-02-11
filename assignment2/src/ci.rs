@@ -147,18 +147,18 @@ mod tests {
     #[test]
     fn test_total_status() {
         let mut ci = CI::new("test/directory".to_string(), "test/directory".to_string());
-        assert_eq!(ci.status.total_status(), Status::Pending);
+        assert_eq!(ci.status.total_status(), "pending");
 
         ci.status.build_status = Status::Success;
-        assert_eq!(ci.status.total_status(), Status::Pending);
+        assert_eq!(ci.status.total_status(), "pending");
 
         ci.status.test_status = Status::Success;
-        assert_eq!(ci.status.total_status(), Status::Success);
+        assert_eq!(ci.status.total_status(), "success");
 
         ci.status.build_status = Status::Failure;
-        assert_eq!(ci.status.total_status(), Status::Failure);
+        assert_eq!(ci.status.total_status(), "failure");
 
         ci.status.test_status = Status::Pending;
-        assert_eq!(ci.status.total_status(), Status::Failure);
+        assert_eq!(ci.status.total_status(), "failure");
     }
 }
