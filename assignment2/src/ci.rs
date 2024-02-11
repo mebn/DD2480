@@ -6,13 +6,36 @@ use std::{fs::File, io::Write, process::Command};
 pub struct CI {
     path_repo: String, // DD2480/assignment2/temp/repo-1322
     path_log: String,  // DD2480/assignment2/logs/repo-1322
-    status: Status,
+    status: CommitStatus,
 }
 
-/// Represents the status of the build and test processes.
-pub struct Status {
-    build_status: bool,
-    test_status: bool,
+/// Struct to define the different statuses
+#[derive(PartialEq, Debug)]
+pub enum Status {
+    Pending,
+    Success,
+    Failure,
+}
+
+/// Struct to hold the status of the build and test processes.
+pub struct CommitStatus {
+    build_status: Status,
+    test_status: Status,
+}
+impl CommitStatus {
+    /// Returns the overall status of the build & test as a String.
+    ///
+    /// The overall status is determined by the build and test statuses.
+    /// If either status is `Failure`, the overall status is `Failure`.
+    /// If either status is `Pending` and none is `Failure`, the overall status is `Pending`.
+    /// If both statuses are `Success`, the overall status is `Success`.
+    pub fn total_status(&self) -> String {
+        match (&self.build_status, &self.test_status) {
+            (Status::Failure, _) | (_, Status::Failure) => "failure".to_string(),
+            (Status::Pending, _) | (_, Status::Pending) => "pending".to_string(),
+            _ => "success".to_string(),
+        }
+    }
 }
 
 impl CI {
@@ -28,13 +51,18 @@ impl CI {
         Self {
             path_repo,
             path_log,
-            status: Status {
-                build_status: false,
-                test_status: false,
+            status: CommitStatus {
+                build_status: Status::Pending,
+                test_status: Status::Pending,
             },
         }
     }
     pub fn build(&self) {}
+
+    /// Returns a reference to the `CommitStatus` struct.
+    pub fn get_status(&self) -> &CommitStatus {
+        &self.status
+    }
 
     /// Runs `cargo test --verbose` on the repo specified in `self.path_repo`,
     /// updates the test status in `self.status`,
@@ -48,10 +76,10 @@ impl CI {
 
         if output.status.success() {
             println!("Tests for {} passed successfully", self.path_repo);
-            self.status.test_status = true; // Personally not the biggest fan of updating the value inside the instance. Maybe return the status code instead?
+            self.status.test_status = Status::Success; // Personally not the biggest fan of updating the value inside the instance. Maybe return the status code instead?
         } else {
             println!("Tests for {} failed", self.path_repo);
-            self.status.test_status = false;
+            self.status.test_status = Status::Failure;
         }
         self.log_to_file(&output.stdout, "test.log".to_string())?;
 
@@ -94,7 +122,7 @@ mod tests {
         assert!(std::path::Path::new(&(log_repo.clone() + "/test.log")).exists());
         std::fs::remove_dir_all(log_repo.clone()).unwrap();
 
-        assert_eq!(ci.status.test_status, true);
+        assert_eq!(ci.status.test_status, Status::Success);
     }
 
     /// Tests that a failing test suite updates the `test_status` field in `Status` to `false`
@@ -109,6 +137,24 @@ mod tests {
         assert!(std::path::Path::new(&(log_repo.clone() + "/test.log")).exists());
         std::fs::remove_dir_all(log_repo.clone()).unwrap();
 
-        assert_eq!(ci.status.test_status, false);
+        assert_eq!(ci.status.test_status, Status::Failure);
+    }
+
+    #[test]
+    fn test_total_status() {
+        let mut ci = CI::new("test/directory".to_string(), "test/directory".to_string());
+        assert_eq!(ci.status.total_status(), "pending");
+
+        ci.status.build_status = Status::Success;
+        assert_eq!(ci.status.total_status(), "pending");
+
+        ci.status.test_status = Status::Success;
+        assert_eq!(ci.status.total_status(), "success");
+
+        ci.status.build_status = Status::Failure;
+        assert_eq!(ci.status.total_status(), "failure");
+
+        ci.status.test_status = Status::Pending;
+        assert_eq!(ci.status.total_status(), "failure");
     }
 }

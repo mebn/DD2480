@@ -13,6 +13,7 @@ use axum::{
     routing::{get, post},
     Router,
 };
+use dotenv::dotenv;
 use routes::frontend::{list_all_commits, list_log_files_for_commit, show_file};
 use routes::github_webhook::github_webhook;
 
@@ -25,6 +26,7 @@ const REPO_PATH: &str = "CI_REPOS";
 /// Starts the CI server and handles all the routes.
 #[tokio::main]
 async fn main() {
+    dotenv().ok();
     let app = Router::new()
         .route("/github_webhook", post(github_webhook))
         .route("/", get(list_all_commits))
