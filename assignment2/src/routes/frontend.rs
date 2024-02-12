@@ -62,52 +62,23 @@ pub async fn show_file(Path((commit, file)): Path<(String, String)>) -> Html<Str
 
 #[cfg(test)]
 mod tests {
-    use std::fs::{create_dir_all, remove_dir_all, write};
-
     use super::*;
 
     fn get_path() -> PathBuf {
         PathBuf::from("tests/logs_frontend")
     }
 
-    fn setup() {
-        let path = get_path();
-        let commit_1 = path.clone().join("commit-1");
-        let commit_2 = path.clone().join("commit-2");
-
-        create_dir_all(commit_1.clone()).unwrap();
-        create_dir_all(commit_2.clone()).unwrap();
-
-        write(commit_1.clone().join("test.log"), "test1 log").unwrap();
-        write(commit_1.clone().join("build.log"), "build1 log").unwrap();
-
-        write(commit_2.clone().join("test.log"), "test2 log").unwrap();
-        write(commit_2.clone().join("build.log"), "build2 log").unwrap();
-    }
-
-    fn teardown() {
-        let path = get_path();
-        match remove_dir_all(path) {
-            Ok(_) => {}
-            Err(e) => println!("Error {e}"),
-        }
-    }
-
     /// Makes sure all commits are listed.
     #[test]
     fn test_list_all_commits() {
-        setup();
         let response = list_files(None, get_path());
-        teardown();
         assert_eq!(response, "<html><body><a href='/commit-1'>commit-1</a><br/><a href='/commit-2'>commit-2</a><br/></body></html>");
     }
 
     /// Makes sure all files for a commit are listed.
     #[test]
     fn test_list_log_files_for_commit() {
-        setup();
         let response = list_files(Some("commit-1".to_string()), get_path());
-        teardown();
         assert_eq!(response, "<html><body><a href='commit-1/build.log'>build.log</a><br/><a href='commit-1/test.log'>test.log</a><br/></body></html>");
     }
 
