@@ -3,39 +3,11 @@
 
 use std::{fs::File, io::Write, process::Command};
 
+/// A struct that contains the data from a CI system.
+#[derive(Clone)]
 pub struct CI {
-    path_repo: String, // DD2480/assignment2/temp/repo-1322
-    path_log: String,  // DD2480/assignment2/logs/repo-1322
-    status: CommitStatus,
-}
-
-/// Struct to define the different statuses
-#[derive(PartialEq, Debug)]
-pub enum Status {
-    Pending,
-    Success,
-    Failure,
-}
-
-/// Struct to hold the status of the build and test processes.
-pub struct CommitStatus {
-    build_status: Status,
-    test_status: Status,
-}
-impl CommitStatus {
-    /// Returns the overall status of the build & test as a String.
-    ///
-    /// The overall status is determined by the build and test statuses.
-    /// If either status is `Failure`, the overall status is `Failure`.
-    /// If either status is `Pending` and none is `Failure`, the overall status is `Pending`.
-    /// If both statuses are `Success`, the overall status is `Success`.
-    pub fn total_status(&self) -> String {
-        match (&self.build_status, &self.test_status) {
-            (Status::Failure, _) | (_, Status::Failure) => "failure".to_string(),
-            (Status::Pending, _) | (_, Status::Pending) => "pending".to_string(),
-            _ => "success".to_string(),
-        }
-    }
+    path_repo: String,
+    path_log: String,
 }
 
 impl CI {
@@ -51,10 +23,6 @@ impl CI {
         Self {
             path_repo,
             path_log,
-            status: CommitStatus {
-                build_status: Status::Pending,
-                test_status: Status::Pending,
-            },
         }
     }
 
@@ -80,43 +48,25 @@ impl CI {
 
     }
 
-    /// Returns a reference to the `CommitStatus` struct.
-    pub fn get_status(&self) -> &CommitStatus {
-        &self.status
-    }
-
     /// Runs `cargo test --verbose` on the repo specified in `self.path_repo`,
     /// updates the test status in `self.status`,
     /// and logs the test output to the directory specified by `self.path_log`.
-    pub fn test(&mut self) -> Result<(), std::io::Error> {
+    pub fn test(&mut self) -> bool {
         let output = Command::new("cargo")
-            .arg("test")
-            .arg("--verbose")
+            .args(["test", "--verbose"])
             .current_dir(&self.path_repo)
-            .output()?;
+            .output()
+            .unwrap();
 
-        if output.status.success() {
-            println!("Tests for {} passed successfully", self.path_repo);
-            self.status.test_status = Status::Success; // Personally not the biggest fan of updating the value inside the instance. Maybe return the status code instead?
-        } else {
-            println!("Tests for {} failed", self.path_repo);
-            self.status.test_status = Status::Failure;
-        }
-        self.log_to_file(&output.stdout, "test.log".to_string())?;
+        println!("Test success: {}", output.status.success());
 
-        Ok(())
-    }
+        std::fs::create_dir_all(&self.path_log).unwrap();
+        File::create(format!("{}/{}", self.path_log, "test.log"))
+            .unwrap()
+            .write_all(&output.stdout)
+            .unwrap();
 
-    /// Logs the bytes to a file.
-    ///
-    /// # Arguments
-    ///
-    /// * `bytes` - The data to be written to the file.
-    /// * `filename` - The name of the file in the `self.path_log` directory.
-    fn log_to_file(&self, bytes: &[u8], filename: String) -> Result<(), std::io::Error> {
-        std::fs::create_dir_all(&self.path_log)?;
-        File::create(format!("{}/{}", self.path_log, filename))?.write_all(&bytes)?;
-        Ok(())
+        output.status.success()
     }
 }
 
@@ -135,32 +85,31 @@ mod tests {
     /// and logs the test output to a file.
     #[test]
     fn test_ci_tests_pass() {
-        let path_repo = "tests/libs/commit-pass".to_string();
-        let log_repo = "tests/logs/commit-pass".to_string();
+        let path_repo = "tests/libs/test-pass".to_string();
+        let log_repo = "tests/logs/test-pass".to_string();
         let mut ci = CI::new(path_repo.clone(), log_repo.clone());
-        ci.test().unwrap();
 
+        let status = ci.test();
         assert!(std::path::Path::new(&(log_repo.clone() + "/test.log")).exists());
         std::fs::remove_dir_all(log_repo.clone()).unwrap();
 
-        assert_eq!(ci.status.test_status, Status::Success);
+        assert_eq!(status, true);
     }
 
     /// Tests that a failing test suite updates the `test_status` field in `Status` to `false`
     /// and logs the test output to a file.
     #[test]
     fn test_ci_tests_fail() {
-        let path_repo = "tests/libs/commit-fail".to_string();
-        let log_repo = "tests/logs/commit-fail".to_string();
+        let path_repo = "tests/libs/test-fail".to_string();
+        let log_repo = "tests/logs/test-fail".to_string();
         let mut ci = CI::new(path_repo.clone(), log_repo.clone());
-        ci.test().unwrap();
 
+        let status = ci.test();
         assert!(std::path::Path::new(&(log_repo.clone() + "/test.log")).exists());
         std::fs::remove_dir_all(log_repo.clone()).unwrap();
 
-        assert_eq!(ci.status.test_status, Status::Failure);
+        assert_eq!(status, false);
     }
-
 
     /// Tests that a successful build returns true and logs stdout to a file
     #[test]
@@ -168,12 +117,12 @@ mod tests {
         let path_repo = "tests/libs/build-pass".to_string();
         let log_repo = "tests/logs/build-pass".to_string();
         let mut ci = CI::new(path_repo.clone(), log_repo.clone());
-        ci.test().unwrap();
 
+        let status = ci.build();
         assert!(std::path::Path::new(&(log_repo.clone())).exists());
         std::fs::remove_dir_all(log_repo.clone()).unwrap();
 
-        assert_eq!(ci.build(), true);
+        assert_eq!(status, true);
     }
 
     /// Tests that a failed build returns false and logs stdout to a file
@@ -182,29 +131,11 @@ mod tests {
         let path_repo = "tests/libs/build-fail".to_string();
         let log_repo = "tests/logs/build-fail".to_string();
         let mut ci = CI::new(path_repo.clone(), log_repo.clone());
-        ci.test().unwrap();
 
+        let status = ci.build();
         assert!(std::path::Path::new(&(log_repo.clone())).exists());
         std::fs::remove_dir_all(log_repo.clone()).unwrap();
 
-        assert_eq!(ci.build(), false);
-    }
-
-    #[test]
-    fn test_total_status() {
-        let mut ci = CI::new("test/directory".to_string(), "test/directory".to_string());
-        assert_eq!(ci.status.total_status(), "pending");
-
-        ci.status.build_status = Status::Success;
-        assert_eq!(ci.status.total_status(), "pending");
-
-        ci.status.test_status = Status::Success;
-        assert_eq!(ci.status.total_status(), "success");
-
-        ci.status.build_status = Status::Failure;
-        assert_eq!(ci.status.total_status(), "failure");
-
-        ci.status.test_status = Status::Pending;
-        assert_eq!(ci.status.total_status(), "failure");
+        assert_eq!(status, false);
     }
 }

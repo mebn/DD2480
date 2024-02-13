@@ -4,8 +4,6 @@ use std::collections::HashSet;
 
 use serde::Deserialize;
 
-use crate::ci::CommitStatus;
-
 use std::env;
 
 // use crate::ci::Status;
@@ -113,16 +111,15 @@ impl Github {
     /// Sends the status of the commit to GitHub.
     ///
     /// This method sends a POST request to the GitHub API to update the status of the commit.
-    /// The status is determined by the `CommitStatus` argument.
     ///
     /// The method uses the `GITHUB_TOKEN` environment variable for authentication.
     /// The owner and repository are currently hardcoded to "mebn" and "DD2480", respectively.
     ///
     /// # Arguments
     ///
-    /// * `commit_status` - A reference to a `CommitStatus` object that holds the status of the commit.
+    /// * `commit_status` - status of CI process (success/failure)
     ///
-    pub async fn send_commit_status(&self, commit_status: &CommitStatus) {
+    pub async fn send_commit_status(&self, commit_status: &str) {
         let token = format!(
             "Bearer {}",
             env::var("GITHUB_TOKEN").expect("Could not find GITHUB_TOKEN")
@@ -130,12 +127,11 @@ impl Github {
         let sha = self.get_commit_id();
 
         // Body
-        let status = commit_status.total_status();
         let target_url = format!("{}/{}", "http://37.27.20.70:8007", sha);
-        let description = format!("Build & Test: {}", status);
+        let description = format!("Build & Test: {}", commit_status);
         let body = format!(
             "{{\"state\": \"{}\", \"target_url\": \"{}\", \"description\": \"{}\"}}",
-            status, target_url, description
+            commit_status, target_url, description
         );
 
         // Request URL
@@ -162,12 +158,12 @@ impl Github {
                 if res.status().is_success() {
                     println!(
                         "Successfully sent commit status {} to GitHub for commit {}",
-                        status, sha
+                        commit_status, sha
                     );
                 } else {
                     println!(
                         "Failed to send commit status {} to GitHub for commit {}",
-                        status, sha
+                        commit_status, sha
                     );
                 }
             }
