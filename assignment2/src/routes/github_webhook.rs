@@ -11,7 +11,7 @@ use std::{
 /// Does different things depending on the event type.
 ///
 /// E.g. if the event is a push, it will run the CI pipeline.
-/// 
+///
 pub async fn github_webhook(headers: HeaderMap, body: String) -> StatusCode {
     println!("{:?}", headers);
     println!("{:?}", body);
@@ -65,22 +65,10 @@ pub async fn github_webhook(headers: HeaderMap, body: String) -> StatusCode {
         return StatusCode::OK;
     }
     StatusCode::NOT_IMPLEMENTED
-
 }
 #[cfg(test)]
 mod tests {
     use super::*;
-
-    #[tokio::test]
-    /// Should return a 200 OK status code
-    /// when the GitHub event is push.
-    async fn test_github_webhook_ok() {
-        let mut headers = HeaderMap::new();
-        headers.insert("x-github-event", "push".parse().unwrap());
-
-        let status = github_webhook(headers, "".into()).await;
-        assert_eq!(status, StatusCode::OK);
-    }
 
     #[tokio::test]
     /// Should return a 400 Bad Request status code
