@@ -1,6 +1,11 @@
 # Assignment 2 - Continuous Integration
 The purpose of this project is to implement a CI server for the course DD2480.
 
+# Webserver
+The server is hosted on [Hetzner](https://www.hetzner.com/) and can be accessed on http://37.27.20.70:8007/. 
+
+The server lists all commits in the format `commit-{date and time}-{commit sha}`. Clicking on any of the commits, will display the test and build outputs in `test.log` and `build.log`, respectively.
+
 ## How to build, run and, test
 This assignment has been done using rust, and therefore requires the rust toolchain. It can be compiled with:
 
