@@ -23,6 +23,9 @@ const LOGS_PATH: &str = "CI_LOGS";
 /// The path to the directory where the repositories are cloned.
 const REPO_PATH: &str = "CI_REPOS";
 
+/// The URL and port of the server.
+const SERVER_URL: &str = "http://37.27.20.70:8007";
+
 /// Starts the CI server and handles all the routes.
 #[tokio::main]
 async fn main() {

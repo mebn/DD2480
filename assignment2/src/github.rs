@@ -1,7 +1,28 @@
 //! A module for handling everything related to GitHub.
 
+use crate::SERVER_URL;
 use serde::Deserialize;
 use std::env;
+
+/// This is used to set the status of a commit to GitHub.
+pub enum CommitStatus {
+    /// The commit has been successfully built and tested.
+    Success,
+    /// The commit has failed to build or test.
+    Failure,
+    /// The commit is currently being built and tested.
+    Pending,
+}
+
+impl CommitStatus {
+    fn as_str(&self) -> &str {
+        match self {
+            CommitStatus::Success => "success",
+            CommitStatus::Failure => "failure",
+            CommitStatus::Pending => "pending",
+        }
+    }
+}
 
 #[derive(Deserialize)]
 struct WebhookData {
@@ -57,6 +78,7 @@ impl Github {
     /// This method sends a POST request to the GitHub API to update the status of the commit.
     ///
     /// The method uses the `GITHUB_TOKEN` environment variable for authentication.
+<<<<<<< HEAD
     /// The owner and repository are currently hardcoded to "mebn" and "DD2480", respectively.
     ///
     /// # Arguments
@@ -64,12 +86,20 @@ impl Github {
     /// * `commit_status` - status of CI process (success/failure)
     ///
     pub async fn send_commit_status(&self, commit_status: &str) -> String {
+=======
+    pub async fn send_commit_status(
+        &self,
+        commit_status: CommitStatus,
+        commit_folder: &str,
+    ) -> String {
+>>>>>>> fbde5769dc3d88291c1bf93f6e7376c6e71653dc
         let token = format!(
             "Bearer {}",
             env::var("GITHUB_TOKEN").expect("Could not find GITHUB_TOKEN")
         );
 
         // Request URL
+<<<<<<< HEAD
         let sha = self.get_commit_id();
         let owner = "mebn";
         let repo = "DD2480";
@@ -79,15 +109,28 @@ impl Github {
         );
 
         
+=======
+        let req_url = format!(
+            "https://api.github.com/repos/mebn/DD2480/statuses/{}",
+            self.get_commit_id()
+        );
+
+>>>>>>> fbde5769dc3d88291c1bf93f6e7376c6e71653dc
         let resp: String = ureq::post(&req_url)
             .set("Accept", "application/vnd.github+json")
             .set("Authorization", &token)
             .set("X-GitHub-Api-Version", "2022-11-28")
             .set("User-Agent", "CI-Server")
             .send_json(ureq::json!({
+<<<<<<< HEAD
                 "state": commit_status,
                 "target_url": &format!("http://37.27.20.70:8007/{sha}"),
                 "description": &format!("Build & Test: {commit_status}"),
+=======
+                "state": commit_status.as_str(),
+                "target_url": &format!("{SERVER_URL}/{commit_folder}"),
+                "description": &format!("Build & Test: {}", commit_status.as_str()),
+>>>>>>> fbde5769dc3d88291c1bf93f6e7376c6e71653dc
             }))
             .unwrap()
             .into_string()
