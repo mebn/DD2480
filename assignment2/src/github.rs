@@ -117,7 +117,7 @@ impl Github {
     ///
     /// * `commit_status` - status of CI process (success/failure)
     ///
-    pub async fn send_commit_status(&self, commit_status: &str) {
+    pub async fn send_commit_status(&self, commit_status: &str) -> String {
         let token = format!(
             "Bearer {}",
             env::var("GITHUB_TOKEN").expect("Could not find GITHUB_TOKEN")
@@ -132,6 +132,7 @@ impl Github {
             owner, repo, sha
         );
 
+        
         let resp: String = ureq::post(&req_url)
             .set("Accept", "application/vnd.github+json")
             .set("Authorization", &token)
@@ -145,7 +146,6 @@ impl Github {
             .unwrap()
             .into_string()
             .unwrap();
-
         resp
     }
 }
@@ -195,10 +195,5 @@ mod tests {
         expected.sort();
 
         assert_eq!(modified_folders, expected);
-    }
-
-    #[test]
-    fn test_send_commit_status() {
-
     }
 }
