@@ -1,5 +1,9 @@
 //! Routes for handling GitHub webhooks.
-use crate::{ci::CI, github::{Github, CommitStatus}, LOGS_PATH, REPO_PATH};
+use crate::{
+    ci::CI,
+    github::{CommitStatus, Github},
+    LOGS_PATH, REPO_PATH,
+};
 use axum::http::{HeaderMap, StatusCode};
 use chrono::{DateTime, Utc};
 use std::{
@@ -40,7 +44,9 @@ pub async fn github_webhook(headers: HeaderMap, body: String) -> StatusCode {
         create_dir_all(&repo_path).unwrap();
 
         // update commit status to pending
-        github.send_commit_status(CommitStatus::Pending, &commit_folder).await;
+        github
+            .send_commit_status(CommitStatus::Pending, &commit_folder)
+            .await;
 
         // clone the repo
         Command::new("git")
@@ -55,7 +61,6 @@ pub async fn github_webhook(headers: HeaderMap, body: String) -> StatusCode {
             .output()
             .unwrap();
 
-        
         // prepare CI
         let mut ci = CI::new(
             format!("{}/assignment2", &repo_path),
@@ -74,7 +79,9 @@ pub async fn github_webhook(headers: HeaderMap, body: String) -> StatusCode {
         };
 
         // update commit status on github
-        github.send_commit_status(commit_status, &commit_folder).await;
+        github
+            .send_commit_status(commit_status, &commit_folder)
+            .await;
 
         // cleanup
         if let Err(e) = remove_dir_all(&repo_path) {
