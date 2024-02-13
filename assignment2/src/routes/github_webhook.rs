@@ -1,5 +1,5 @@
 //! Routes for handling GitHub webhooks.
-use crate::{ci::CI, github::Github, LOGS_PATH, REPO_PATH};
+use crate::{ci::CI, github::{Github, CommitStatus}, LOGS_PATH, REPO_PATH};
 use axum::http::{HeaderMap, StatusCode};
 use chrono::{DateTime, Utc};
 use std::{
@@ -23,6 +23,8 @@ pub async fn github_webhook(headers: HeaderMap, body: String) -> StatusCode {
     if github_event == "push" {
         println!("push event, CI in progress...");
         let now = std::time::Instant::now();
+        let current_date_time: DateTime<Utc> = Utc::now();
+        let formatted_now = current_date_time.format("%Y-%m-%dT%H-%M-%S").to_string();
 
         // parse github webhook data
         let github = match Github::new(&body) {
@@ -33,13 +35,12 @@ pub async fn github_webhook(headers: HeaderMap, body: String) -> StatusCode {
             }
         };
 
-        let current_date_time: DateTime<Utc> = Utc::now();
-        let formatted_now = current_date_time.format("%Y-%m-%dT%H-%M-%S").to_string();
-
         let commit_folder = format!("commit-{}-{}", formatted_now, github.get_commit_id());
         let repo_path = format!("{}/{}", REPO_PATH, &commit_folder);
-
         create_dir_all(&repo_path).unwrap();
+
+        // update commit status to pending
+        github.send_commit_status(CommitStatus::Pending, &commit_folder).await;
 
         // clone the repo
         Command::new("git")
@@ -53,6 +54,27 @@ pub async fn github_webhook(headers: HeaderMap, body: String) -> StatusCode {
             .current_dir(&repo_path)
             .output()
             .unwrap();
+
+        
+        // prepare CI
+        let mut ci = CI::new(
+            format!("{}/assignment2", &repo_path),
+            format!("{}/{}", LOGS_PATH, &commit_folder),
+        );
+
+        // runs ci build and tests
+        println!("Running CI build and tests...");
+        let build_status = ci.build();
+        let test_status = ci.test();
+
+        // Update commit to success/failure
+        let commit_status = match build_status && test_status {
+            true => CommitStatus::Success,
+            false => CommitStatus::Failure,
+        };
+
+        // update commit status on github
+        github.send_commit_status(commit_status, &commit_folder).await;
 
         // cleanup
         if let Err(e) = remove_dir_all(&repo_path) {
