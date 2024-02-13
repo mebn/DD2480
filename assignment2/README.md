@@ -20,6 +20,11 @@ Finally, tests can be run using the command:
 cargo test
 ```
 
+In order for the project to work properly as a CI server, a .env file has to be created in the assignment2 folder. This file should contain:
+```
+GITHUB_TOKEN={your token}
+```
+You also need to setup the webhooks in your GIT-repository properly.
 
 ## P1 How compilation has been implemented
 Compilation has been implemented using the Command struct, which runs 
