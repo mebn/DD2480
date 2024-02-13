@@ -49,7 +49,6 @@ impl CI {
     }
 }
 
-
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -65,47 +64,29 @@ mod tests {
     /// and logs the test output to a file.
     #[test]
     fn test_ci_tests_pass() {
-        let path_repo = "tests/libs/commit-pass".to_string();
-        let log_repo = "tests/logs/commit-pass".to_string();
+        let path_repo = "tests/libs/test-pass".to_string();
+        let log_repo = "tests/logs/test-pass".to_string();
         let mut ci = CI::new(path_repo.clone(), log_repo.clone());
-        ci.test().unwrap();
 
+        let status = ci.test();
         assert!(std::path::Path::new(&(log_repo.clone() + "/test.log")).exists());
         std::fs::remove_dir_all(log_repo.clone()).unwrap();
 
-        assert_eq!(ci.status.test_status, Status::Success);
+        assert_eq!(status, true);
     }
 
     /// Tests that a failing test suite updates the `test_status` field in `Status` to `false`
     /// and logs the test output to a file.
     #[test]
     fn test_ci_tests_fail() {
-        let path_repo = "tests/libs/commit-fail".to_string();
-        let log_repo = "tests/logs/commit-fail".to_string();
+        let path_repo = "tests/libs/test-fail".to_string();
+        let log_repo = "tests/logs/test-fail".to_string();
         let mut ci = CI::new(path_repo.clone(), log_repo.clone());
-        ci.test().unwrap();
 
+        let status = ci.test();
         assert!(std::path::Path::new(&(log_repo.clone() + "/test.log")).exists());
         std::fs::remove_dir_all(log_repo.clone()).unwrap();
 
-        assert_eq!(ci.status.test_status, Status::Failure);
-    }
-
-    #[test]
-    fn test_total_status() {
-        let mut ci = CI::new("test/directory".to_string(), "test/directory".to_string());
-        assert_eq!(ci.status.total_status(), "pending");
-
-        ci.status.build_status = Status::Success;
-        assert_eq!(ci.status.total_status(), "pending");
-
-        ci.status.test_status = Status::Success;
-        assert_eq!(ci.status.total_status(), "success");
-
-        ci.status.build_status = Status::Failure;
-        assert_eq!(ci.status.total_status(), "failure");
-
-        ci.status.test_status = Status::Pending;
-        assert_eq!(ci.status.total_status(), "failure");
+        assert_eq!(status, false);
     }
 }
