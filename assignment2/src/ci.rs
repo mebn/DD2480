@@ -28,7 +28,7 @@ impl CI {
 
     /// Runs `cargo build --message-fmt json` on the repo specified in `self.path_repo`
     /// Logs the stdout of the build command to directory specified in `self.path_log`
-    /// Returns the build status 
+    /// Returns the build status
     pub fn build(&self) -> bool {
         let output = Command::new("cargo")
             .args(["build", "--message-format", "json"])
@@ -45,7 +45,6 @@ impl CI {
             .unwrap();
 
         output.status.success()
-
     }
 
     /// Runs `cargo test --verbose` on the repo specified in `self.path_repo`,
