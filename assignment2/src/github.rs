@@ -120,9 +120,9 @@ impl Github {
     ///
     /// # Arguments
     ///
-    /// * `commit_status` - A reference to a `CommitStatus` object that holds the status of the commit.
+    /// * `commit_status` - status of CI process
     ///
-    pub async fn send_commit_status(&self, commit_status: &CommitStatus) {
+    pub async fn send_commit_status(&self, commit_status: &str) {
         let token = format!(
             "Bearer {}",
             env::var("GITHUB_TOKEN").expect("Could not find GITHUB_TOKEN")
