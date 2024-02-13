@@ -116,9 +116,8 @@ impl Github {
     /// # Arguments
     ///
     /// * `commit_status` - status of CI process (success/failure)
-    /// * `timestamp` - time at which CI server received github action, used to identify commits
     ///
-    pub async fn send_commit_status(&self, commit_status: &str, timestamp: &str) {
+    pub async fn send_commit_status(&self, commit_status: &str) {
         let token = format!(
             "Bearer {}",
             env::var("GITHUB_TOKEN").expect("Could not find GITHUB_TOKEN")
@@ -140,7 +139,7 @@ impl Github {
             .set("User-Agent", "CI-Server")
             .send_json(ureq::json!({
                 "state": commit_status,
-                "target_url": &format!("http://37.27.20.70:8007/{timestamp}{sha}"),
+                "target_url": &format!("http://37.27.20.70:8007/{sha}"),
                 "description": &format!("Build & Test: {commit_status}"),
             }))
             .unwrap()
@@ -196,5 +195,10 @@ mod tests {
         expected.sort();
 
         assert_eq!(modified_folders, expected);
+    }
+
+    #[test]
+    fn test_send_commit_status() {
+
     }
 }
