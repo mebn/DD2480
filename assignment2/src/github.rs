@@ -6,8 +6,6 @@ use serde::Deserialize;
 
 use std::env;
 
-// use crate::ci::Status;
-
 #[derive(Deserialize)]
 struct WebhookData {
     r#ref: String, // have to use r#ref because ref is a reserved keyword
@@ -118,63 +116,38 @@ impl Github {
     /// # Arguments
     ///
     /// * `commit_status` - status of CI process (success/failure)
+    /// * `timestamp` - time at which CI server received github action, used to identify commits
     ///
-    pub async fn send_commit_status(&self, commit_status: &str) {
+    pub async fn send_commit_status(&self, commit_status: &str, timestamp: &str) {
         let token = format!(
             "Bearer {}",
             env::var("GITHUB_TOKEN").expect("Could not find GITHUB_TOKEN")
         );
-        let sha = self.get_commit_id();
-
-        // Body
-        let target_url = format!("{}/{}", "http://37.27.20.70:8007", sha);
-        let description = format!("Build & Test: {}", commit_status);
-        let body = format!(
-            "{{\"state\": \"{}\", \"target_url\": \"{}\", \"description\": \"{}\"}}",
-            commit_status, target_url, description
-        );
 
         // Request URL
+        let sha = self.get_commit_id();
         let owner = "mebn";
         let repo = "DD2480";
-        let url = format!(
+        let req_url = format!(
             "https://api.github.com/repos/{}/{}/statuses/{}",
             owner, repo, sha
         );
 
-        let client = reqwest::Client::new();
+        let resp: String = ureq::post(&req_url)
+            .set("Accept", "application/vnd.github+json")
+            .set("Authorization", &token)
+            .set("X-GitHub-Api-Version", "2022-11-28")
+            .set("User-Agent", "CI-Server")
+            .send_json(ureq::json!({
+                "state": commit_status,
+                "target_url": &format!("http://37.27.20.70:8007/{timestamp}{sha}"),
+                "description": &format!("Build & Test: {commit_status}"),
+            }))
+            .unwrap()
+            .into_string()
+            .unwrap();
 
-        let res = client
-            .post(&url)
-            .header("Accept", "application/vnd.github+json")
-            .header("Authorization", token)
-            .header("User-Agent", "CI-Server")
-            .body(body)
-            .send()
-            .await;
-
-        match res {
-            Ok(res) => {
-                if res.status().is_success() {
-                    println!(
-                        "Successfully sent commit status {} to GitHub for commit {}",
-                        commit_status, sha
-                    );
-                } else {
-                    println!(
-                        "Failed to send commit status {} to GitHub for commit {}",
-                        commit_status, sha
-                    );
-                }
-            }
-            Err(e) => {
-                panic!(
-                    "Error sending commit status to github for commit {}: {}",
-                    sha, e
-                );
-            }
-        }
-        // println!("{:?}", res);
+        resp
     }
 }
 
@@ -224,4 +197,7 @@ mod tests {
 
         assert_eq!(modified_folders, expected);
     }
+
+    #[test]
+    /// test that 
 }
