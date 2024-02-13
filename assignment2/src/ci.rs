@@ -25,7 +25,28 @@ impl CI {
             path_log,
         }
     }
-    pub fn build(&self) {}
+
+    /// Runs `cargo build --message-fmt json` on the repo specified in `self.path_repo`
+    /// Logs the stdout of the build command to directory specified in `self.path_log`
+    /// Returns the build status 
+    pub fn build(&self) -> bool {
+        let output = Command::new("cargo")
+            .args(["build", "--message-format", "json"])
+            .current_dir(&self.path_repo)
+            .output()
+            .unwrap();
+
+        println!("Build success: {}", output.status.success());
+
+        std::fs::create_dir_all(&self.path_log).unwrap();
+        File::create(format!("{}/{}", self.path_log, "build.log"))
+            .unwrap()
+            .write_all(&output.stdout)
+            .unwrap();
+
+        output.status.success()
+
+    }
 
     /// Runs `cargo test --verbose` on the repo specified in `self.path_repo`,
     /// updates the test status in `self.status`,
@@ -85,6 +106,34 @@ mod tests {
 
         let status = ci.test();
         assert!(std::path::Path::new(&(log_repo.clone() + "/test.log")).exists());
+        std::fs::remove_dir_all(log_repo.clone()).unwrap();
+
+        assert_eq!(status, false);
+    }
+
+    /// Tests that a successful build returns true and logs stdout to a file
+    #[test]
+    fn test_ci_build_pass() {
+        let path_repo = "tests/libs/build-pass".to_string();
+        let log_repo = "tests/logs/build-pass".to_string();
+        let mut ci = CI::new(path_repo.clone(), log_repo.clone());
+
+        let status = ci.build();
+        assert!(std::path::Path::new(&(log_repo.clone())).exists());
+        std::fs::remove_dir_all(log_repo.clone()).unwrap();
+
+        assert_eq!(status, true);
+    }
+
+    /// Tests that a failed build returns false and logs stdout to a file
+    #[test]
+    fn test_ci_build_fail() {
+        let path_repo = "tests/libs/build-fail".to_string();
+        let log_repo = "tests/logs/build-fail".to_string();
+        let mut ci = CI::new(path_repo.clone(), log_repo.clone());
+
+        let status = ci.build();
+        assert!(std::path::Path::new(&(log_repo.clone())).exists());
         std::fs::remove_dir_all(log_repo.clone()).unwrap();
 
         assert_eq!(status, false);
