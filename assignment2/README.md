@@ -63,7 +63,10 @@ For more details, go to issues and sort by assignee.
 * Did not contribute
 
 ### Marcus Nilszén
-* 
+* Setup webserver
+* hetzner server
+* Parse webhook data
+* Frontend
 
 ### Noak Jönsson
 * 
