@@ -77,7 +77,7 @@ For more details, go to issues and sort by assignee.
 * 
 
 ### Leo Bosch
-* 
+* integration test of git2 for git manipulation
 
 ## Our team (Essence standard)
 We would classify our team as being in the state "formed". This is a regression from how we would classify how our team was performing at the end of assignment 1 which could be classified as "Collaborating". The reason for this regression is that the team has not been working as one cohesive unit for assignment 2, and communication has been poor as opposed to open and honest.
