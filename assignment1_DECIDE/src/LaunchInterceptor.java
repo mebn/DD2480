@@ -458,7 +458,7 @@ public class LaunchInterceptor {
   }
 
   public static void main(String[] args) {
-
+    GlobalParamaters global = new GlobalParamaters();
   }
 
 }

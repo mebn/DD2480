@@ -22,10 +22,21 @@ cargo test
 
 
 ## P1 How compilation has been implemented
+Compilation has been implemented using the Command struct, which runs 
+```
+cargo build --message-fmt json
+```
+The compilation has been unit-tested as part of the tests in the "tests" module in the "ci.rs" file.
 
 ## P2 How test execution has been implemented
+Test execution has been implemented using the Command struct, which runs
+```
+cargo test --verbose
+```
+The test execution has been unit-tested as part of the tests in the "tests" module in the "ci.rs" file.
 
 ## P3 How notification has been implemented
+Notification has been implemented by setting the commit status of the repository as either "failing" or "success" for each commit. It is not currently unit tested but is instead testing manually with integration tests.
 
 
 ## Statement of contributions
