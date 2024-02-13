@@ -78,59 +78,31 @@ impl Github {
     /// This method sends a POST request to the GitHub API to update the status of the commit.
     ///
     /// The method uses the `GITHUB_TOKEN` environment variable for authentication.
-<<<<<<< HEAD
-    /// The owner and repository are currently hardcoded to "mebn" and "DD2480", respectively.
-    ///
-    /// # Arguments
-    ///
-    /// * `commit_status` - status of CI process (success/failure)
-    ///
-    pub async fn send_commit_status(&self, commit_status: &str) -> String {
-=======
     pub async fn send_commit_status(
         &self,
         commit_status: CommitStatus,
         commit_folder: &str,
     ) -> String {
->>>>>>> fbde5769dc3d88291c1bf93f6e7376c6e71653dc
         let token = format!(
             "Bearer {}",
             env::var("GITHUB_TOKEN").expect("Could not find GITHUB_TOKEN")
         );
 
         // Request URL
-<<<<<<< HEAD
-        let sha = self.get_commit_id();
-        let owner = "mebn";
-        let repo = "DD2480";
-        let req_url = format!(
-            "https://api.github.com/repos/{}/{}/statuses/{}",
-            owner, repo, sha
-        );
-
-        
-=======
         let req_url = format!(
             "https://api.github.com/repos/mebn/DD2480/statuses/{}",
             self.get_commit_id()
         );
 
->>>>>>> fbde5769dc3d88291c1bf93f6e7376c6e71653dc
         let resp: String = ureq::post(&req_url)
             .set("Accept", "application/vnd.github+json")
             .set("Authorization", &token)
             .set("X-GitHub-Api-Version", "2022-11-28")
             .set("User-Agent", "CI-Server")
             .send_json(ureq::json!({
-<<<<<<< HEAD
-                "state": commit_status,
-                "target_url": &format!("http://37.27.20.70:8007/{sha}"),
-                "description": &format!("Build & Test: {commit_status}"),
-=======
                 "state": commit_status.as_str(),
                 "target_url": &format!("{SERVER_URL}/{commit_folder}"),
                 "description": &format!("Build & Test: {}", commit_status.as_str()),
->>>>>>> fbde5769dc3d88291c1bf93f6e7376c6e71653dc
             }))
             .unwrap()
             .into_string()
