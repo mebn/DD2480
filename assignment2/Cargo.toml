@@ -1,4 +1,3 @@
-workspace = { members = [ "tests/libs/build-fail","tests/libs/build-pass"] }
 [package]
 name = "assignment2"
 version = "0.1.0"
