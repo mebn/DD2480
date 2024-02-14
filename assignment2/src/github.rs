@@ -101,7 +101,7 @@ impl Github {
             .set("User-Agent", "CI-Server")
             .send_json(ureq::json!({
                 "state": commit_status.as_str(),
-                "target_url": &format!("{SERVER_URL}/{commit_folder}"),
+                "target_url": &format!("{SERVER_URL}/commits/{commit_folder}"),
                 "description": &format!("Build & Test: {}", commit_status.as_str()),
             }))
             .unwrap()
