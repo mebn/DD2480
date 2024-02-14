@@ -62,7 +62,8 @@ For more details see the source code.
 For more details, go to issues and sort by assignee.
 
 ### Marcus Alström
-* 
+* Setup testing and logging of incoming push on CI server
+* Setup the base for sending commit status to GitHub
 
 ### Oliver Lindgren
 * Did not contribute
