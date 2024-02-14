@@ -31,7 +31,7 @@ const SERVER_URL: &str = "http://37.27.20.70:8007";
 async fn main() {
     dotenv().ok();
 
-    let service = ServeDir::new("target/doc").fallback(ServeFile::new("target/doc/assignment2/index.html"));
+    let service = ServeDir::new("target/doc");
 
     let app = Router::new()
         .nest_service("/docs/", service)
