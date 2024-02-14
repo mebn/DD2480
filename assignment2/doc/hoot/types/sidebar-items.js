@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"mod":["body","method","state","version"],"trait":["BodyType","Method","MethodWithRequestBody","MethodWithResponseBody","MethodWithoutRequestBody","MethodWithoutResponseBody","State","Version"]};

@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"enum":["CommitStatus"],"struct":["Github","Repository","WebhookData"]};

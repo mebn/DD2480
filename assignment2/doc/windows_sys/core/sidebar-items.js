@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"macro":["s","w"],"struct":["GUID"],"type":["BSTR","HRESULT","HSTRING","IInspectable","IUnknown","PCSTR","PCWSTR","PSTR","PWSTR"]};

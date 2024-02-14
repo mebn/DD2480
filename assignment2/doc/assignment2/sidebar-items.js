@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"constant":["DOC_PATH","LOGS_PATH","REPO_PATH","SERVER_URL"],"fn":["main"],"mod":["ci","github","routes"]};
