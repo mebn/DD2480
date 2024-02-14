@@ -8,9 +8,7 @@ pub mod github;
 pub mod routes;
 
 use axum::{
-    http::StatusCode,
-    routing::{get, post},
-    Router,
+    http::StatusCode, response::Redirect, routing::{get, post}, Router
 };
 use dotenv::dotenv;
 use routes::frontend::{list_all_commits, list_log_files_for_commit, show_file};
@@ -34,7 +32,8 @@ async fn main() {
     let app = Router::new()
         .nest_service("/", ServeDir::new("target/doc"))
         .route("/github_webhook", post(github_webhook))
-        .route("/commits", get(list_all_commits))
+        .route("/commits", get(|| async { Redirect::permanent("/commits/") }))
+        .route("/commits/", get(list_all_commits))
         .route("/commits/:commit", get(list_log_files_for_commit))
         .route("/commits/:commit/:file", get(show_file))
         // we just ignore favicon for now
