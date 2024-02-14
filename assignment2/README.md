@@ -74,7 +74,9 @@ For more details, go to issues and sort by assignee.
 * Frontend
 
 ### Noak Jönsson
-* 
+* Ci Build method, unittests and functionality
+* Refactoring of github.send_commit_status method
+* Refactoring of github_webhook relating to CI process
 
 ### Leo Bosch
 * integration test of git2 for git manipulation
