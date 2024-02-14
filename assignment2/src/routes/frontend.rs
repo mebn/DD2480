@@ -74,7 +74,6 @@ mod tests {
     #[test]
     fn test_list_all_commits() {
         let response = list_files(None, get_path());
-        assert!(false);
         assert_eq!(response, "<html><body><a href='commit-1'>commit-1</a><br/><a href='commit-2'>commit-2</a><br/></body></html>");
     }
 
