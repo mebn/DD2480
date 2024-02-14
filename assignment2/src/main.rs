@@ -34,7 +34,7 @@ async fn main() {
     let app = Router::new()
         .nest_service("/", ServeDir::new("target/doc"))
         .route("/github_webhook", post(github_webhook))
-        .route("/commits/", get(list_all_commits))
+        .route("/commits", get(list_all_commits))
         .route("/commits/:commit", get(list_log_files_for_commit))
         .route("/commits/:commit/:file", get(show_file))
         // we just ignore favicon for now
