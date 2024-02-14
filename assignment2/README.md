@@ -9,7 +9,7 @@ The server lists all commits in the format `commit-{date and time}-{commit sha}`
 ## Documentation
 First time on the server, generate docs with `cargo doc`.
 
-Documentation can be accessed on http://37.27.20.70:8007/assignment2/.
+Documentation can be accessed on http://37.27.20.70:8007/assignment2.
 
 ## How to build, run and, test
 This assignment has been done using rust, and therefore requires the rust toolchain. It can be compiled with:
