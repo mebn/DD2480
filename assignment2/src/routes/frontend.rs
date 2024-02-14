@@ -29,10 +29,10 @@ fn list_files(commit_folder: Option<String>, mut path: PathBuf) -> String {
                 None => "",
             };
 
-            // let slash = if folder.is_empty() { "" } else { "/" };
+            let slash = if folder.is_empty() { "" } else { "/" };
 
             links.push(format!(
-                "<a href='{folder}/{file_name}'>{file_name}</a><br/>",
+                "<a href='{folder}{slash}{file_name}'>{file_name}</a><br/>",
             ));
         }
     }
