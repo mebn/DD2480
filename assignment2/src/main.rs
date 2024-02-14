@@ -16,6 +16,7 @@ use axum::{
 use dotenv::dotenv;
 use routes::frontend::{list_all_commits, list_log_files_for_commit, show_file};
 use routes::github_webhook::github_webhook;
+use tower_http::services::ServeDir;
 
 /// The path to the directory where the logs are stored.
 const LOGS_PATH: &str = "CI_LOGS";
@@ -36,7 +37,8 @@ async fn main() {
         .route("/:commit", get(list_log_files_for_commit))
         .route("/:commit/:file", get(show_file))
         // we just ignore favicon for now
-        .route("/favicon.ico", get(|| async { StatusCode::NOT_FOUND }));
+        .route("/favicon.ico", get(|| async { StatusCode::NOT_FOUND }))
+        .nest_service("/docs", ServeDir::new("target/doc/assignment2"));
 
     let listener = tokio::net::TcpListener::bind("0.0.0.0:8007").await.unwrap();
     println!("Listening on {}", listener.local_addr().unwrap());
