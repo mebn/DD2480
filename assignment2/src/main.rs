@@ -5,7 +5,6 @@
 
 pub mod ci;
 pub mod github;
-pub mod repository;
 pub mod routes;
 
 use axum::{
@@ -16,6 +15,7 @@ use axum::{
 use dotenv::dotenv;
 use routes::frontend::{list_all_commits, list_log_files_for_commit, show_file};
 use routes::github_webhook::github_webhook;
+use tower_http::services::{ServeFile, ServeDir};
 
 /// The path to the directory where the logs are stored.
 const LOGS_PATH: &str = "CI_LOGS";
@@ -30,7 +30,11 @@ const SERVER_URL: &str = "http://37.27.20.70:8007";
 #[tokio::main]
 async fn main() {
     dotenv().ok();
+
+    let service = ServeDir::new("target/doc");
+
     let app = Router::new()
+        .nest_service("/docs/", service)
         .route("/github_webhook", post(github_webhook))
         .route("/", get(list_all_commits))
         .route("/:commit", get(list_log_files_for_commit))
