@@ -7,7 +7,7 @@ The server is hosted on [Hetzner](https://www.hetzner.com/) and can be accessed 
 The server lists all commits in the format `commit-{date and time}-{commit sha}`. Clicking on any of the commits, will display the test and build outputs in `test.log` and `build.log`, respectively.
 
 ## Browsable documentation
-All documentation has been generated and placed in the doc folder. Alternatively, our server also has an endpoint to browse the documentation at http://37.27.20.70:8007/docs/
+The server has an endpoint to browse the documentation at http://37.27.20.70:8007/docs/.
 
 ## How to build, run and, test
 This assignment has been done using rust, and therefore requires the rust toolchain. It can be compiled with:
@@ -69,7 +69,8 @@ For more details, go to issues and sort by assignee.
 * Setup the base for sending commit status to GitHub
 
 ### Oliver Lindgren
-* Did not contribute
+* README
+* Browsable documentation
 
 ### Marcus Nilszén
 * Setup webserver

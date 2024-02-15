@@ -3,6 +3,7 @@
 
 # java
 *.class
+lib
 
 # assignment 2
 CI_REPOS
