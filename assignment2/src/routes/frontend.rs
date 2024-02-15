@@ -20,19 +20,17 @@ fn list_files(commit_folder: Option<String>, mut path: PathBuf) -> String {
     let mut links = Vec::new();
 
     // Create a link for each file in the directory.
-    for entry in entries {
-        if let Ok(entry) = entry {
-            let file_name = entry.file_name().into_string().unwrap();
+    for entry in entries.flatten() {
+        let file_name = entry.file_name().into_string().unwrap();
 
-            let folder = match &commit_folder {
-                Some(commit) => commit,
-                None => "",
-            };
+        let folder = match &commit_folder {
+            Some(commit) => commit,
+            None => "",
+        };
 
-            links.push(format!(
-                "<a href='{folder}/{file_name}'>{file_name}</a><br/>"
-            ));
-        }
+        links.push(format!(
+            "<a href='{folder}/{file_name}'>{file_name}</a><br/>"
+        ));
     }
 
     links.sort_unstable();
@@ -55,7 +53,7 @@ pub async fn list_log_files_for_commit(Path(commit): Path<String>) -> Html<Strin
 
 /// Displays the contents of a file directly in the web browser.
 pub async fn show_file(Path((commit, file)): Path<(String, String)>) -> Html<String> {
-    let path = PathBuf::from(LOGS_PATH).join(&commit).join(&file);
+    let path = PathBuf::from(LOGS_PATH).join(commit).join(file);
     let contents = std::fs::read_to_string(path).unwrap();
     Html(contents)
 }

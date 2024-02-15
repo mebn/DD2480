@@ -1,12 +1,7 @@
 //! This module implements a simple Continuous Integration (CI) system.
 //! It provides functionality to build and test local repositories.
 
-use cargo_metadata::Message;
-use std::{
-    fs::File,
-    io::Write,
-    process::{Command, Stdio},
-};
+use std::{fs::File, io::Write, process::Command};
 
 /// A struct that contains the data from a CI system.
 #[derive(Clone)]
@@ -35,44 +30,21 @@ impl CI {
     /// Logs the stdout of the build command to directory specified in `self.path_log`
     /// Returns the build status
     pub fn build(&self) -> bool {
-        let mut command = Command::new("cargo")
-            .args(&["build", "--message-format", "json-diagnostic-short"])
+        let output = Command::new("cargo")
+            .args(["build", "--message-format", "json"])
             .current_dir(&self.path_repo)
-            .stdout(Stdio::piped())
-            .spawn()
+            .output()
             .unwrap();
 
-        let reader = std::io::BufReader::new(command.stdout.take().unwrap());
-        let mut log = String::from("");
-        let mut status = false;
-        for message in cargo_metadata::Message::parse_stream(reader) {
-            match message.unwrap() {
-                Message::CompilerMessage(msg) => {
-                    let json_msg = serde_json::to_string_pretty(&msg);
-                    log.push_str(&json_msg.unwrap());
-                    log.push_str("\n");
-                }
-                Message::BuildFinished(finished) => {
-                    status = finished.success;
-                    let json_msg = serde_json::to_string_pretty(&finished).unwrap();
-                    println!("{}", json_msg);
-                    log = format!("{}\n{}", json_msg, log);
-                }
-                _ => (), // Unknown message
-            }
-        }
-
-        let output = command.wait().expect("Couldn't get cargo's exit status");
-
-        println!("Build success: {}", status);
+        println!("Build success: {}", output.status.success());
 
         std::fs::create_dir_all(&self.path_log).unwrap();
         File::create(format!("{}/{}", self.path_log, "build.log"))
             .unwrap()
-            .write_all(log.as_bytes())
+            .write_all(&output.stdout)
             .unwrap();
 
-        status
+        output.status.success()
     }
 
     /// Runs `cargo test --verbose` on the repo specified in `self.path_repo`,
@@ -143,7 +115,7 @@ mod tests {
     fn test_ci_build_pass() {
         let path_repo = "tests/libs/build-pass".to_string();
         let log_repo = "tests/logs/build-pass".to_string();
-        let mut ci = CI::new(path_repo.clone(), log_repo.clone());
+        let ci = CI::new(path_repo.clone(), log_repo.clone());
 
         let status = ci.build();
         assert!(std::path::Path::new(&(log_repo.clone())).exists());
@@ -157,7 +129,7 @@ mod tests {
     fn test_ci_build_fail() {
         let path_repo = "tests/libs/build-fail".to_string();
         let log_repo = "tests/logs/build-fail".to_string();
-        let mut ci = CI::new(path_repo.clone(), log_repo.clone());
+        let ci = CI::new(path_repo.clone(), log_repo.clone());
 
         let status = ci.build();
         assert!(std::path::Path::new(&(log_repo.clone())).exists());

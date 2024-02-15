@@ -15,7 +15,7 @@ use axum::{
 use dotenv::dotenv;
 use routes::frontend::{list_all_commits, list_log_files_for_commit, show_file};
 use routes::github_webhook::github_webhook;
-use tower_http::services::{ServeDir, ServeFile};
+use tower_http::services::ServeDir;
 
 /// The path to the directory where the logs are stored.
 const LOGS_PATH: &str = "CI_LOGS";
