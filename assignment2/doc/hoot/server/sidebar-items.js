@@ -1,1 +1,0 @@
-window.SIDEBAR_ITEMS = {"enum":["ResponseVariant"],"struct":["Line","Request","Response","ResumeToken"]};

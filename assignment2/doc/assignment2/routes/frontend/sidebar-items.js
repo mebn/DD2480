@@ -1,1 +1,0 @@
-window.SIDEBAR_ITEMS = {"fn":["list_all_commits","list_files","list_log_files_for_commit","show_docs","show_file"]};

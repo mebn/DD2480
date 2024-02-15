@@ -1,1 +1,0 @@
-window.SIDEBAR_ITEMS = {"constant":["NONCE_LEN"],"fn":["make_tls12_aad","make_tls13_aad"],"struct":["AeadKey","BorrowedPlainMessage","Iv","KeyBlockShape","Nonce","OpaqueMessage","PlainMessage","UnsupportedOperationError"],"trait":["MessageDecrypter","MessageEncrypter","Tls12AeadAlgorithm","Tls13AeadAlgorithm"]};

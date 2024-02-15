@@ -1,1 +1,0 @@
-window.SIDEBAR_ITEMS = {"fn":["ctrl_break","ctrl_c","ctrl_close","ctrl_logoff","ctrl_shutdown"],"struct":["CtrlBreak","CtrlC","CtrlClose","CtrlLogoff","CtrlShutdown"]};

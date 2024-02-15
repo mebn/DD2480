@@ -1,1 +1,0 @@
-window.SIDEBAR_ITEMS = {"mod":["Console","IO","Pipes","SystemServices","Threading","WindowsProgramming"]};

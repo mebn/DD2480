@@ -1,1 +1,0 @@
-window.SIDEBAR_ITEMS = {"struct":["Output","Request","Response","ResumeToken","Status"]};

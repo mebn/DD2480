@@ -1,1 +1,0 @@
-window.SIDEBAR_ITEMS = {"enum":["IpAddr","PrivateKeyDer","ServerName"],"struct":["AddrParseError","AlgorithmIdentifier","CertificateDer","CertificateRevocationListDer","Der","DnsName","InvalidDnsNameError","InvalidSignature","Ipv4Addr","Ipv6Addr","PrivatePkcs1KeyDer","PrivatePkcs8KeyDer","PrivateSec1KeyDer","TrustAnchor","UnixTime"],"trait":["SignatureVerificationAlgorithm"]};

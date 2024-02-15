@@ -1,1 +1,0 @@
-window.SIDEBAR_ITEMS = {"enum":["HootError","HttpVersion","Method","UrlError"],"mod":["client","server","types"],"struct":["BodyPart","Header","Url"]};
